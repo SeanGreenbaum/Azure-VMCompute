@@ -1,0 +1,95 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "vmSize": {
+      "type": "string"
+    },
+    "vmOS": {
+      "type": "string"
+    },
+    "storageType": {
+      "type": "string"
+    },
+    "autoShutdownTime": {
+      "type": "string"
+    },
+    "licensetype": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "AzureAdmin"
+    },
+    "timeZone": {
+      "type": "string",
+      "defaultValue": "Eastern Standard Time"
+    }
+  },
+  "variables": {
+    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "AutoShutDownTime": "[parameters('autoShutdownTime')]"
+      },
+      "dependsOn": [],
+      "properties": {
+        "licenseType": "[parameters('licensetype')]",
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "provisionVmAgent": "true",
+            "timeZone": "[parameters('timeZone')]",
+            "enableAutomaticUpdates": "True"
+          }
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[if(equals(parameters('licensetype'),'Windows_Client'), 'MicrosoftVisualStudio', 'MicrosoftWindowsServer')]",
+            "offer": "[if(equals(parameters('licensetype'),'Windows_Client'), 'Windows', 'WindowsServer')]",
+            "sku": "[parameters('vmOS')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[variables('osDiskName')]",
+            "caching": "ReadWrite",
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "[parameters('storageType')]"
+            }
+          }
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": "false"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

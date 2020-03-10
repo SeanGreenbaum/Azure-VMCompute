@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+	"avSetName": {
+	  "type": "string"
+	  }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+	  "type": "Microsoft.Compute/availabilitySets",
+      "name": "[parameters('avSetName')]",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Aligned"
+      },
+      "properties": {
+        "platformUpdateDomainCount": 10,
+        "platformFaultDomainCount": 2,
+        "virtualMachines": []
+      },
+      "dependsOn": []
+    }
+  ],
+  "outputs": {
+	"avsetID": {
+		"type": "string",
+		"value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]"
+	}
+  }
+}

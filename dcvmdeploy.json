@@ -1,0 +1,162 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "vmSize": {
+      "type": "string"
+    },
+    "vmOS": {
+      "type": "string"
+    },
+    "storageType": {
+      "type": "string"
+    },
+    "autoShutdownTime": {
+      "type": "string"
+    },
+    "licensetype": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "AzureAdmin"
+    },
+    "timeZone": {
+      "type": "string",
+      "defaultValue": "Eastern Standard Time"
+    },
+    "artifacts": {
+      "type": "string"
+    },
+    "domainDNSName": {
+      "type": "string"
+    },
+    "domainNetBIOSName": {
+      "type": "string"
+    },
+    "DomainDN": {
+      "type": "string"
+    },
+    "RootOUName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
+    "dataDiskName": "[concat(parameters('vmName'), '_DataDisk0')]",
+    "ADConfigScript": "dc-build.ps1",
+    "ADConfigScriptZIP": "[concat(variables('ADConfigScript'), '.zip')]",
+    "ADConfigScriptURL": "[concat(parameters('artifacts'), variables('ADConfigScriptZIP'))]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "AutoShutDownTime": "[parameters('autoShutdownTime')]"
+      },
+      "dependsOn": [],
+      "properties": {
+        "licenseType": "[parameters('licensetype')]",
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "provisionVmAgent": true,
+            "timeZone": "[parameters('timeZone')]",
+            "enableAutomaticUpdates": true
+          }
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[if(equals(parameters('licensetype'),'Windows_Client'), 'MicrosoftVisualStudio', 'MicrosoftWindowsServer')]",
+            "offer": "[if(equals(parameters('licensetype'),'Windows_Client'), 'Windows', 'WindowsServer')]",
+            "sku": "[parameters('vmOS')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[variables('osDiskName')]",
+            "caching": "ReadWrite",
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "[parameters('storageType')]"
+            }
+          },
+          "dataDisks": [
+              {
+                  "name": "[variables('dataDiskName')]",
+                  "lun": 0,
+                  "caching": "None",
+                  "diskSizeGB": 31,
+                  "createOption": "Empty",
+                  "managedDisk": {
+                      "storageAccountType": "[parameters('storageType')]"
+                  }
+              }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": false
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "name": "AD-DSC",
+          "type":"extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2019-07-01",
+          "dependsOn":  [
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "configuration": {
+                "url": "[variables('ADConfigScriptURL')]",
+                "script": "[variables('ADConfigScript')]",
+                "function": "AD"
+              },
+              "configurationArguments": {
+                "DomainCred": {
+                  "UserName": "[parameters('AdminUsername')]",
+                  "Password": "[parameters('AdminPassword')]"
+                },
+                "DomainName": "[parameters('DomainDNSName')]",
+                "DomainDN": "[parameters('DomainDN')]",
+                "CompanyName": "[parameters('RootOUName')]",
+                "DomainNetBIOSName": "[parameters('DomainNetBIOSName')]"
+              }
+            },
+            "protectedSettings": {}
+          }
+        }
+      ]
+
+    }
+  ],
+  "outputs": {}
+}
