@@ -14,24 +14,30 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_D2_v3",
+      "defaultValue": "Standard_E2_v3",
       "allowedValues": [
         "Standard_D2_v3",
         "Standard_D4_v3",
         "Standard_D8_v3",
+        "Standard_E2_v3",
+        "Standard_E4_v3",
+        "Standard_E8_v3",
         "Standard_F1",
         "Standard_F2",
         "Standard_F4",
         "Standard_DS1_v2",
         "Standard_DS2_v2",
         "Standard_DS3_v2",
+        "Standard_E2s_v3",
+        "Standard_E4s_v3",
+        "Standard_E8s_v3",
         "Standard_F1s",
         "Standard_F2s"
       ]
     },
     "vmOS": {
       "type": "string",
-      "defaultValue": "2019-Datacenter-smalldisk",
+      "defaultValue": "2019-Datacenter-smalldisk-g2",
       "allowedValues": [
         "2008-R2-SP1",
         "2008-R2-SP1-smalldisk",
@@ -41,10 +47,12 @@
         "2012-R2-Datacenter-smalldisk",
         "2016-Datacenter",
         "2016-Datacenter-smalldisk",
+        "2016-datacenter-smalldisk-g2",
         "2016-Datacenter-Server-Core",
         "2016-Datacenter-Server-Core-smalldisk",
         "2019-Datacenter",
         "2019-Datacenter-smalldisk",
+        "2019-Datacenter-smalldisk-g2",
         "2019-Datacenter-Core",
         "2019-Datacenter-Core-smalldisk"
       ]
@@ -66,6 +74,7 @@
       "defaultValue": "Standard_LRS",
       "allowedValues": [
         "Standard_LRS",
+        "StandardSSD_LRS",
         "Premium_LRS"
       ]
     },
@@ -129,7 +138,6 @@
     "dcvmavstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/dcvmavsdeploy.json",
     "avsettemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/avsetdeploy.json",
     "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json",
-    "nicwdnstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicwdns.json",
     "artifactsLocation": "https://seagreclouddrive.blob.core.windows.net/artifacts/",
     "License": "Windows_Server"
   },
