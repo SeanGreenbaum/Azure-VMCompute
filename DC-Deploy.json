@@ -37,7 +37,7 @@
     },
     "vmOS": {
       "type": "string",
-      "defaultValue": "2019-Datacenter-smalldisk-g2",
+      "defaultValue": "2019-Datacenter-smalldisk",
       "allowedValues": [
         "2008-R2-SP1",
         "2008-R2-SP1-smalldisk",
