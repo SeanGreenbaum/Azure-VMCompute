@@ -28,7 +28,8 @@ When running the deployment by clicking the Deploy button below, you will be pro
 - VNet Name: Name of the vNet you want the NIC attached to.  
 - VNet Subnet Name: Name of the Subnet that exists in the above vNet.  
 - Accelerated Networking: If the selected VM Size supports Accelerated Networking, and if you want to enable it, select True.  
-- Auto Shutdown Time: This creates a tag on the VM with the value from the drop down. If using Azure Automation for auto VM shutdown, it will use this tag and shut down the VM.  *(For this to work, it does require you to build Azure Automation and scripting to use this tag.)*
+- Auto Shutdown Time: This creates a tag on the VM with the value from the drop down. If using Azure Automation for auto VM shutdown, it will use this tag and shut down the VM.  
+*(For this to work, it does require you to build Azure Automation and scripting to use this tag.)*
 - Needs AV Set: Dropdown options "No", "Existing", "New". If an Availability Set is not needed, select No.  
 *If an Availability Set is needed, and there is already an Existing one available, select Existing.  
 If an Availability Set is needed, and there is not already one, select New.*
