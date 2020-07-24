@@ -88,7 +88,7 @@
     },
     "storageType": {
       "type": "string",
-      "defaultValue": "Standard_LRS",
+      "defaultValue": "StandardSSD_LRS",
       "allowedValues": [
         "Standard_LRS",
         "StandardSSD_LRS",
