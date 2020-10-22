@@ -20,30 +20,22 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_E2s_v3",
+      "defaultValue": "Standard_E2s_v4",
       "allowedValues": [
-        "Standard_D2_v3",
-        "Standard_D4_v3",
-        "Standard_D8_v3",
-        "Standard_E2_v3",
-        "Standard_E4_v3",
-        "Standard_E8_v3",
-        "Standard_F1",
-        "Standard_F2",
-        "Standard_F4",
-        "Standard_DS1_v2",
         "Standard_DS2_v2",
         "Standard_DS3_v2",
-        "Standard_E2s_v3",
-        "Standard_E4s_v3",
-        "Standard_E8s_v3",
-        "Standard_F1s",
+        "Standard_E2s_v4",
+        "Standard_E4s_v4",
+        "Standard_E8s_v4",
+        "Standard_E2as_v4",
+        "Standard_E4as_v4",
+        "Standard_E8as_v4",
         "Standard_F2s"
       ]
     },
     "vmOS": {
       "type": "string",
-      "defaultValue": "2019-Datacenter-smalldisk",
+      "defaultValue": "2019-Datacenter-smalldisk-g2",
       "allowedValues": [
         "2008-R2-SP1",
         "2008-R2-SP1-smalldisk",
