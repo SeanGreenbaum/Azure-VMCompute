@@ -63,7 +63,7 @@
         "storageProfile": {
           "imageReference": {
             "publisher": "MicrosoftWindowsDesktop",
-            "offer": "[if(contains(parameters('vmOS'),'Windows-10'), 'Windows-19', 'Windows-7')]",
+            "offer": "[if(contains(parameters('vmOS'),'win7'), 'Windows-7', 'Windows-10')]",
             "sku": "[parameters('vmOS')]",
             "version": "latest"
           },
