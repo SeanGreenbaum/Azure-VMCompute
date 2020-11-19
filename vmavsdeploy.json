@@ -66,8 +66,8 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[if(equals(parameters('licensetype'),'Windows_Client'), 'MicrosoftVisualStudio', 'MicrosoftWindowsServer')]",
-            "offer": "[if(equals(parameters('licensetype'),'Windows_Client'), 'Windows', 'WindowsServer')]",
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
             "sku": "[parameters('vmOS')]",
             "version": "latest"
           },
