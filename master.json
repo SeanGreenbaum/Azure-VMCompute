@@ -99,7 +99,11 @@
     },
     "acceleratedNetworking": {
       "type": "bool",
-      "defaultValue": false
+      "defaultValue": false,
+      "allowedValues": [
+        "false",
+        "true"
+      ]
     },
     "autoShutdownTime": {
       "type": "string",
