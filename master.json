@@ -59,7 +59,9 @@
         "20h1-ent-g2",
         "20h1-ent",
         "19h2-ent-g2",
-        "19h2-ent"
+        "19h2-ent",
+        "rs5-enterprise-g2",
+        "rs3-pro"
       ]
     },
     "TimeZone": {
