@@ -64,7 +64,7 @@
         "rs3-pro"
       ]
     },
-      "vmOSversion":{
+    "vmOSversion":{
       "type": "string",
       "defaultValue": "latest"
     },
