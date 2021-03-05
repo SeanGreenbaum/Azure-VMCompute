@@ -64,6 +64,10 @@
         "rs3-pro"
       ]
     },
+      "vmOSversion":{
+      "type": "string",
+      "defaultValue": "latest"
+    },
     "TimeZone": {
       "type": "string",
       "defaultValue": "Eastern Standard Time",
@@ -187,6 +191,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
           "vmOS": { "value": "[parameters('vmOS')]" },
+          "vmOSversion": { "value": "[parameters('vmOSversion')]" },
           "storageType": { "value": "[parameters('storageType')]" },
           "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
           "licensetype": { "value": "[parameters('License')]" },
@@ -218,6 +223,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
           "vmOS": { "value": "[parameters('vmOS')]" },
+          "vmOSversion": { "value": "[parameters('vmOSversion')]" },
           "storageType": { "value": "[parameters('storageType')]" },
           "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
           "avSetID": { "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]" },
@@ -251,6 +257,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
           "vmOS": { "value": "[parameters('vmOS')]" },
+          "vmOSversion": { "value": "[parameters('vmOSversion')]" },
           "storageType": { "value": "[parameters('storageType')]" },
           "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
           "avSetID": { "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]" },

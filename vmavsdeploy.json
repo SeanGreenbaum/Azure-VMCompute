@@ -14,6 +14,10 @@
     "vmOS": {
       "type": "string"
     },
+    "vmOSversion":{
+      "type": "string",
+      "defaultValue": "latest"
+    },
     "storageType": {
       "type": "string"
     },
@@ -69,7 +73,7 @@
             "publisher": "MicrosoftWindowsServer",
             "offer": "WindowsServer",
             "sku": "[parameters('vmOS')]",
-            "version": "latest"
+            "version": "[parameters('vmOSversion')]"
           },
           "osDisk": {
             "name": "[variables('osDiskName')]",

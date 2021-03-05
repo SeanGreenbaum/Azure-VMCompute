@@ -14,6 +14,10 @@
     "vmOS": {
       "type": "string"
     },
+    "vmOSversion":{
+      "type": "string",
+      "defaultValue": "latest"
+    },
     "storageType": {
       "type": "string"
     },
@@ -65,7 +69,7 @@
             "publisher": "MicrosoftWindowsDesktop",
             "offer": "[if(equals(parameters('vmOS'),'win7-enterprise'), 'Windows-7', 'Windows-10')]",
             "sku": "[parameters('vmOS')]",
-            "version": "latest"
+            "version": "[parameters('vmOSversion')]"
           },
           "osDisk": {
             "name": "[variables('osDiskName')]",
