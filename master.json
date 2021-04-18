@@ -137,6 +137,32 @@
       "metadata": {
         "description": "Only needed if NeedsAVSet is Yes"
       }
+    },
+    "DomainJoin": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+        "No",
+        "Yes"
+      ]
+    },
+    "DomainToJoin": {
+      "type": "string",
+      "defaultValue": "None"
+    },
+    "DomainJoinUserName": {
+      "type": "string",
+      "defaultValue": "None",
+      "metadata": {
+        "description": "Only needed if DomainJoin is Yes"
+      }
+    },
+    "DomainJoinPassword": {
+      "type": "securestring",
+      "defaultValue": "None",
+      "metadata": {
+        "description": "Only needed if DomainJoin is Yes"
+      }
     }
   },
   "variables": {
@@ -196,7 +222,11 @@
           "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
           "licensetype": { "value": "[parameters('License')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "timeZone": { "value": "[parameters('timeZone')]" }
+          "timeZone": { "value": "[parameters('timeZone')]" },
+          "DomainJoin": { "value": "[parameters('DomainJoin')]" },
+          "DomainToJoin": { "value": "[parameters('DomainToJoin')]" },
+          "DomainJoinUserName": { "value": "[parameters('DomainJoinUserName')]" },
+          "DomainJoinPassword": { "value": "[parameters('DomainJoinPassword')]" }
         }
       },
       "dependsOn": [
@@ -229,7 +259,11 @@
           "avSetID": { "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]" },
           "licensetype": { "value": "[parameters('License')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "timeZone": { "value": "[parameters('timeZone')]" }
+          "timeZone": { "value": "[parameters('timeZone')]" },
+          "DomainJoin": { "value": "[parameters('DomainJoin')]" },
+          "DomainToJoin": { "value": "[parameters('DomainToJoin')]" },
+          "DomainJoinUserName": { "value": "[parameters('DomainJoinUserName')]" },
+          "DomainJoinPassword": { "value": "[parameters('DomainJoinPassword')]" }
         }
       },
       "dependsOn": [
@@ -263,14 +297,17 @@
           "avSetID": { "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]" },
           "licensetype": { "value": "[parameters('License')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "timeZone": { "value": "[parameters('timeZone')]" }
+          "timeZone": { "value": "[parameters('timeZone')]" },
+          "DomainJoin": { "value": "[parameters('DomainJoin')]" },
+          "DomainToJoin": { "value": "[parameters('DomainToJoin')]" },
+          "DomainJoinUserName": { "value": "[parameters('DomainJoinUserName')]" },
+          "DomainJoinPassword": { "value": "[parameters('DomainJoinPassword')]" }
         }
       },
       "dependsOn": [
         "nicloop"
       ]
     },
-
     {
       "condition": "[equals(parameters('NeedsAVSet'), 'New')]",
       "apiVersion": "2019-10-01",
