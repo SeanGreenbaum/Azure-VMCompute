@@ -48,7 +48,7 @@
       "defaultValue": "None"
     },
     "DomainJoinPassword": {
-      "type": "string",
+      "type": "securestring",
       "defaultValue": "None"
     }
   },
@@ -126,7 +126,8 @@
         "settings": {
           "Name": "[parameters('domainToJoin')]",
           "User": "[parameters('DomainJoinUserName')]",
-          "Restart": "true"
+          "Restart": "true",
+          "Options": 3
         },
         "protectedSettings": {
           "Password": "[parameters('DomainJoinPassword')]"
