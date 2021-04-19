@@ -111,11 +111,11 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
             }
           ]
-        },
-        "zones": [
-          "[parameters('AzZone')]"
-        ]
-      }
+        }
+      },
+      "zones": [
+        "[parameters('AzZone')]"
+      ]
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
