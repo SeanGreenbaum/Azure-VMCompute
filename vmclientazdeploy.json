@@ -24,9 +24,6 @@
     "autoShutdownTime": {
       "type": "string"
     },
-    "avSetID": {
-      "type": "string"
-    },
     "licensetype": {
       "type": "string"
     },
@@ -39,8 +36,8 @@
       "defaultValue": "Eastern Standard Time"
     },
     "AzZone": {
-      "type": "int",
-      "defaultValue": 1
+      "type": "string",
+      "defaultValue": "1"
     },
     "DomainJoin": {
       "type": "string",
