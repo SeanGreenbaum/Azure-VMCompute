@@ -1,0 +1,149 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "vmSize": {
+      "type": "string"
+    },
+    "vmOS": {
+      "type": "string"
+    },
+      "vmOSversion":{
+      "type": "string",
+      "defaultValue": "latest"
+    },
+    "storageType": {
+      "type": "string"
+    },
+    "autoShutdownTime": {
+      "type": "string"
+    },
+    "avSetID": {
+      "type": "string"
+    },
+    "licensetype": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "AzureAdmin"
+    },
+    "timeZone": {
+      "type": "string",
+      "defaultValue": "Eastern Standard Time"
+    },
+    "AzZone": {
+      "type": "int",
+      "defaultValue": 1
+    },
+    "DomainJoin": {
+      "type": "string",
+      "defaultValue": "No"
+    },
+    "DomainToJoin": {
+      "type": "string",
+      "defaultValue": "No"
+    },
+    "DomainJoinUserName": {
+      "type": "string",
+      "defaultValue": "None"
+    },
+    "DomainJoinPassword": {
+      "type": "securestring",
+      "defaultValue": "None"
+    }
+  },
+  "variables": {
+    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2020-06-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "AutoShutDownTime": "[parameters('autoShutdownTime')]"
+      },
+      "dependsOn": [],
+      "properties": {
+        "licenseType": "[parameters('licensetype')]",
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "provisionVmAgent": true,
+            "timeZone": "[parameters('timeZone')]",
+            "enableAutomaticUpdates": true
+          }
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsDesktop",
+            "offer": "[if(equals(parameters('vmOS'),'win7-enterprise'), 'Windows-7', 'Windows-10')]",
+            "sku": "[parameters('vmOS')]",
+            "version": "[parameters('vmOSversion')]"
+          },
+          "osDisk": {
+            "name": "[variables('osDiskName')]",
+            "caching": "ReadWrite",
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "[parameters('storageType')]"
+            }
+          }
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
+            }
+          ]
+        },
+        "zones": [
+          "[parameters('AzZone')]"
+        ]
+      }
+    },
+    {
+      "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
+      "apiVersion": "2020-12-01",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('vmName'),'/joindomain')]",
+      "location": "[resourceGroup().location]",      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[parameters('DomainJoinUserName')]",
+          "Restart": "true",
+          "Options": 3
+        },
+        "protectedSettings": {
+          "Password": "[parameters('DomainJoinPassword')]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

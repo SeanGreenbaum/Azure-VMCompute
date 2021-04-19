@@ -122,22 +122,21 @@
         "2330"
       ]
     },
-    "NeedsAZ": {
+    "NeedsAVSet": {
       "type": "string",
       "defaultValue": "No",
       "allowedValues": [
         "No",
-        "Yes"
+        "New",
+        "Existing"
       ]
     },
-    "AvailabilityZone": {
-      "type": "int",
-      "defaultValue": 1,
-      "allowedValues": [
-        1,
-        2,
-        3
-      ]
+    "AVSetName": {
+      "type": "string",
+      "defaultValue": "None",
+      "metadata": {
+        "description": "Only needed if NeedsAVSet is Yes"
+      }
     },
     "DomainJoin": {
       "type": "string",
@@ -149,10 +148,7 @@
     },
     "DomainToJoin": {
       "type": "string",
-      "defaultValue": "None",
-      "metadata": {
-        "description": "Only needed if DomainJoin is Yes"
-      }
+      "defaultValue": "None"
     },
     "DomainJoinUserName": {
       "type": "string",
@@ -172,10 +168,11 @@
   "variables": {
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
     "vmtemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmdeploy.json",
-    "vmaztemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmazdeploy.json",
+    "vmavstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmavsdeploy.json",
+    "avsettemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/avsetdeploy.json",
     "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json",
     "vmclienttemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmclientdeploy.json",
-    "vmclientaztemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmclientazdeploy.json"
+    "vmclientavstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmclientavsdeploy.json"
   },
   "resources": [
     {
@@ -201,7 +198,7 @@
       "dependsOn": []
     },
     {
-      "condition": "[equals(parameters('NeedsAZ'), 'No')]",
+      "condition": "[equals(parameters('NeedsAVSet'), 'No')]",
       "apiVersion": "2019-10-01",
       "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
       "type": "Microsoft.Resources/deployments",
@@ -237,18 +234,18 @@
       ]
     },
     {
-      "condition": "[equals(parameters('NeedsAZ'), 'Yes')]",
+      "condition": "[equals(parameters('NeedsAVSet'), 'New')]",
       "apiVersion": "2019-10-01",
-      "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
+      "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-newavset-', parameters('vmName')), concat('linked-vm-newavset-', parameters('vmName'), copyIndex(1)))]",
       "type": "Microsoft.Resources/deployments",
       "copy": {
-        "name": "vmloop",
+        "name": "avsvmloop",
         "count": "[parameters('vmCount')]"
       },
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[if(equals(parameters('License'), 'Windows_Server'), variables('vmaztemplateURI'), variables('vmclientaztemplateURI'))]",
+          "uri": "[if(equals(parameters('License'), 'Windows_Server'), variables('vmavstemplateURI'), variables('vmclientavstemplateURI'))]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -259,10 +256,48 @@
           "vmOSversion": { "value": "[parameters('vmOSversion')]" },
           "storageType": { "value": "[parameters('storageType')]" },
           "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
+          "avSetID": { "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]" },
           "licensetype": { "value": "[parameters('License')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "timeZone": { "value": "[parameters('timeZone')]" },
-          "AzZone": { "value": "[parameters('AvailabilityZone')]" },
+          "DomainJoin": { "value": "[parameters('DomainJoin')]" },
+          "DomainToJoin": { "value": "[parameters('DomainToJoin')]" },
+          "DomainJoinUserName": { "value": "[parameters('DomainJoinUserName')]" },
+          "DomainJoinPassword": { "value": "[parameters('DomainJoinPassword')]" }
+        }
+      },
+      "dependsOn": [
+        "nicloop",
+        "linked-avset"
+      ]
+    },
+    {
+      "condition": "[equals(parameters('NeedsAVSet'), 'Existing')]",
+      "apiVersion": "2019-10-01",
+      "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-existingavset', parameters('vmName')), concat('linked-vm-existingavset', parameters('vmName'), copyIndex(1)))]",
+      "type": "Microsoft.Resources/deployments",
+      "copy": {
+        "name": "avsexistvmloop",
+        "count": "[parameters('vmCount')]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[if(equals(parameters('License'), 'Windows_Server'), variables('vmavstemplateURI'), variables('vmclientavstemplateURI'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": { "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "vmSize": { "value": "[parameters('vmSize')]" },
+          "vmOS": { "value": "[parameters('vmOS')]" },
+          "vmOSversion": { "value": "[parameters('vmOSversion')]" },
+          "storageType": { "value": "[parameters('storageType')]" },
+          "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
+          "avSetID": { "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]" },
+          "licensetype": { "value": "[parameters('License')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "timeZone": { "value": "[parameters('timeZone')]" },
           "DomainJoin": { "value": "[parameters('DomainJoin')]" },
           "DomainToJoin": { "value": "[parameters('DomainToJoin')]" },
           "DomainJoinUserName": { "value": "[parameters('DomainJoinUserName')]" },
@@ -272,6 +307,23 @@
       "dependsOn": [
         "nicloop"
       ]
+    },
+    {
+      "condition": "[equals(parameters('NeedsAVSet'), 'New')]",
+      "apiVersion": "2019-10-01",
+      "name": "linked-avset",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('avsettemplateURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "avSetName": { "value": "[parameters('avSetName')]" }
+        }
+      },
+      "dependsOn": []
     }
   ],
   "outputs": {}
