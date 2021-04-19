@@ -124,9 +124,8 @@
     },
     "NeedsAVSet": {
       "type": "string",
-      "defaultValue": "No",
+      "defaultValue": "New",
       "allowedValues": [
-        "No",
         "New",
         "Existing"
       ]
@@ -167,11 +166,9 @@
   },
   "variables": {
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
-    "vmtemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmdeploy.json",
     "vmavstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmavsdeploy.json",
     "avsettemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/avsetdeploy.json",
     "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json",
-    "vmclienttemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmclientdeploy.json",
     "vmclientavstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmclientavsdeploy.json"
   },
   "resources": [
@@ -196,42 +193,6 @@
         }
       },
       "dependsOn": []
-    },
-    {
-      "condition": "[equals(parameters('NeedsAVSet'), 'No')]",
-      "apiVersion": "2019-10-01",
-      "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
-      "type": "Microsoft.Resources/deployments",
-      "copy": {
-        "name": "vmloop",
-        "count": "[parameters('vmCount')]"
-      },
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[if(equals(parameters('License'), 'Windows_Server'), variables('vmtemplateURI'), variables('vmclienttemplateURI'))]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "vmName": { "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "vmSize": { "value": "[parameters('vmSize')]" },
-          "vmOS": { "value": "[parameters('vmOS')]" },
-          "vmOSversion": { "value": "[parameters('vmOSversion')]" },
-          "storageType": { "value": "[parameters('storageType')]" },
-          "autoShutdownTime": { "value": "[parameters('autoShutdownTime')]" },
-          "licensetype": { "value": "[parameters('License')]" },
-          "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "timeZone": { "value": "[parameters('timeZone')]" },
-          "DomainJoin": { "value": "[parameters('DomainJoin')]" },
-          "DomainToJoin": { "value": "[parameters('DomainToJoin')]" },
-          "DomainJoinUserName": { "value": "[parameters('DomainJoinUserName')]" },
-          "DomainJoinPassword": { "value": "[parameters('DomainJoinPassword')]" }
-        }
-      },
-      "dependsOn": [
-        "nicloop"
-      ]
     },
     {
       "condition": "[equals(parameters('NeedsAVSet'), 'New')]",
