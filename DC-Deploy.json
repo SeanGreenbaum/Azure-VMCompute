@@ -130,7 +130,7 @@
     "dcvmavstemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/dcvmavsdeploy.json",
     "avsettemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/avsetdeploy.json",
     "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json",
-    "artifactsLocation": "https://seagreclouddrive.blob.core.windows.net/artifacts/",
+    "artifactsLocation": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/artifacts/",
     "License": "Windows_Server"
   },
   "resources": [
