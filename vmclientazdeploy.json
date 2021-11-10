@@ -18,6 +18,9 @@
       "type": "string",
       "defaultValue": "latest"
     },
+    "vmOffer": {
+      "type": "string"
+    },
     "storageType": {
       "type": "string"
     },
@@ -87,7 +90,7 @@
         "storageProfile": {
           "imageReference": {
             "publisher": "MicrosoftWindowsDesktop",
-            "offer": "[if(equals(parameters('vmOS'),'win7-enterprise'), 'Windows-7', 'Windows-10')]",
+            "offer": "[parameters('vmOffer')]",
             "sku": "[parameters('vmOS')]",
             "version": "[parameters('vmOSversion')]"
           },
