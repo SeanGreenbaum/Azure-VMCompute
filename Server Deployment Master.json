@@ -80,10 +80,6 @@
                 true
             ]
         },
-        "TrustedLaunch": {
-            "type": "bool",
-            "defaultValue": true
-        },
         "autoShutdownTime": {
             "type": "string",
             "defaultValue": "2300",
@@ -219,9 +215,6 @@
                     "licensetype": {
                         "value": "[variables('LicenseType')]"
                     },
-                    "TrustedLaunch": {
-                        "value": "[parameters('TrustedLaunch')]"
-                    },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
                     },
@@ -285,9 +278,6 @@
                     },
                     "licensetype": {
                         "value": "[variables('LicenseType')]"
-                    },
-                    "TrustedLaunch": {
-                        "value": "[parameters('TrustedLaunch')]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"

@@ -35,9 +35,6 @@
       "type": "string",
       "defaultValue": "Eastern Standard Time"
     },
-    "TrustedLaunch": {
-      "type": "bool"
-    },
     "DomainJoin": {
       "type": "string",
       "defaultValue": "No"
@@ -60,69 +57,6 @@
   },
   "resources": [
     {
-      "condition": "[parameters('TrustedLaunch')]",
-      "name": "[concat(parameters('vmName'),'-tl')]",
-      "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2021-03-01",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "AutoShutDownTime": "[parameters('autoShutdownTime')]"
-      },
-      "dependsOn": [],
-      "properties": {
-        "licenseType": "[parameters('licensetype')]",
-        "osProfile": {
-          "computerName": "[parameters('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]",
-          "windowsConfiguration": {
-            "provisionVmAgent": "true",
-            "timeZone": "[parameters('timeZone')]",
-            "enableAutomaticUpdates": "True"
-          }
-        },
-        "hardwareProfile": {
-          "vmSize": "[parameters('vmSize')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "MicrosoftWindowsServer",
-            "offer": "WindowsServer",
-            "sku": "[parameters('vmOS')]",
-            "version": "[parameters('vmOSversion')]"
-          },
-          "osDisk": {
-            "name": "[variables('osDiskName')]",
-            "caching": "ReadWrite",
-            "createOption": "FromImage",
-            "managedDisk": {
-              "storageAccountType": "[parameters('storageType')]"
-            }
-          }
-        },
-        "securityProfile": {
-          "securityType": "TrustedLaunch",
-          "uefiSettings": {
-            "secureBootEnabled": true,
-            "vTpmEnabled": true
-          }
-        },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-            "enabled": true
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "condition": "[not(parameters('TrustedLaunch'))]",
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2021-03-01",
