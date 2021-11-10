@@ -59,7 +59,7 @@
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2021-03-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -112,7 +112,7 @@
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
-      "apiVersion": "2020-12-01",
+      "apiVersion": "2021-03-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
       "location": "[resourceGroup().location]",      "dependsOn": [

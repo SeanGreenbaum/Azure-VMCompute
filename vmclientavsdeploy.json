@@ -14,7 +14,10 @@
     "vmOS": {
       "type": "string"
     },
-      "vmOSversion":{
+    "vmOffer": {
+      "type": "string"
+    },
+    "vmOSversion":{
       "type": "string",
       "defaultValue": "latest"
     },
@@ -62,7 +65,7 @@
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2021-03-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -86,7 +89,7 @@
         "storageProfile": {
           "imageReference": {
             "publisher": "MicrosoftWindowsDesktop",
-            "offer": "[if(equals(parameters('vmOS'),'win7-enterprise'), 'Windows-7', 'Windows-10')]",
+            "offer": "[parameters('vmOffer')]",
             "sku": "[parameters('vmOS')]",
             "version": "[parameters('vmOSversion')]"
           },
