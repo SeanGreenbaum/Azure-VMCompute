@@ -100,7 +100,7 @@
           }
         },
         "securityProfile": {
-          "securityType": "[if(parameters('TrustedLaunch'), 'TrustedLaunch', 'None')]",
+          "securityType": "[if(parameters('TrustedLaunch'), 'TrustedLaunch', '')]",
           "uefiSettings": {
             "secureBootEnabled": "[parameters('TrustedLaunch')]",
             "vTpmEnabled": "[parameters('TrustedLaunch')]"
