@@ -35,6 +35,9 @@
       "type": "string",
       "defaultValue": "Eastern Standard Time"
     },
+    "TrustedLaunch": {
+      "type": "bool"
+    },
     "DomainJoin": {
       "type": "string",
       "defaultValue": "No"
@@ -94,6 +97,13 @@
             "managedDisk": {
               "storageAccountType": "[parameters('storageType')]"
             }
+          }
+        },
+        "securityProfile": {
+          "securityType": "[if(parameters('TrustedLaunch'), 'TrustedLaunch', 'None')]",
+          "uefiSettings": {
+            "secureBootEnabled": "[parameters('TrustedLaunch')]",
+            "vTpmEnabled": "[parameters('TrustedLaunch')]"
           }
         },
         "diagnosticsProfile": {

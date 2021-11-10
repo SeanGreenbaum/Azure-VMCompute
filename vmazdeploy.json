@@ -35,6 +35,9 @@
       "type": "string",
       "defaultValue": "Eastern Standard Time"
     },
+    "TrustedLaunch": {
+      "type": "bool"
+    },
     "AzZone": {
       "type": "string",
       "defaultValue": "1"
@@ -98,6 +101,13 @@
             "managedDisk": {
               "storageAccountType": "[parameters('storageType')]"
             }
+          }
+        },
+        "securityProfile": {
+          "securityType": "[if(parameters('TrustedLaunch'), 'TrustedLaunch', 'None')]",
+          "uefiSettings": {
+            "secureBootEnabled": "[parameters('TrustedLaunch')]",
+            "vTpmEnabled": "[parameters('TrustedLaunch')]"
           }
         },
         "diagnosticsProfile": {

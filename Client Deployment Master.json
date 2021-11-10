@@ -87,7 +87,8 @@
             "type": "string"
         },
         "VNetSubnetName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Subnet1"
         },
         "acceleratedNetworking": {
             "type": "bool",

@@ -56,18 +56,6 @@
             "type": "string",
             "defaultValue": "latest"
         },
-        "TimeZone": {
-            "type": "string",
-            "defaultValue": "Eastern Standard Time",
-            "allowedValues": [
-                "Eastern Standard Time",
-                "Central Standard Time",
-                "Mountain Standard Time",
-                "Pacific Standard Time",
-                "Alaskan Standard Time",
-                "Hawaiian Standard Time"
-            ]
-        },
         "storageType": {
             "type": "string",
             "defaultValue": "StandardSSD_LRS",
@@ -91,6 +79,10 @@
                 false,
                 true
             ]
+        },
+        "TrustedLaunch": {
+            "type": "bool",
+            "defaultValue": true
         },
         "autoShutdownTime": {
             "type": "string",
@@ -155,7 +147,8 @@
         "vmtemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmdeploy.json",
         "vmaztemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmazdeploy.json",
         "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json",
-        "LicenseType": "Windows_Server"
+        "LicenseType": "Windows_Server",
+        "TimeZone": "Eastern Standard Time"
     },
     "resources": [
         {
@@ -226,11 +219,14 @@
                     "licensetype": {
                         "value": "[variables('LicenseType')]"
                     },
+                    "TrustedLaunch": {
+                        "value": "[parameters('TrustedLaunch')]"
+                    },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
                     },
                     "timeZone": {
-                        "value": "[parameters('timeZone')]"
+                        "value": "[variables('timeZone')]"
                     },
                     "DomainJoin": {
                         "value": "[parameters('DomainJoin')]"
@@ -290,11 +286,14 @@
                     "licensetype": {
                         "value": "[variables('LicenseType')]"
                     },
+                    "TrustedLaunch": {
+                        "value": "[parameters('TrustedLaunch')]"
+                    },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
                     },
                     "timeZone": {
-                        "value": "[parameters('timeZone')]"
+                        "value": "[variables('timeZone')]"
                     },
                     "AzZone": {
                         "value": "[parameters('AvailabilityZone')]"
