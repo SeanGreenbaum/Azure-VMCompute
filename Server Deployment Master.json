@@ -7,7 +7,7 @@
         },
         "x_vmCount": {
             "type": "string",
-            "defaultValue": "1",
+            "defaultValue": "1"
         },
         "adminUsername": {
             "type": "string",
