@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
     "view": {
         "kind": "Form",
         "properties": {
@@ -432,35 +432,32 @@
                         }
                     ]
                 }
-            ],
-            "deployment": {
-                "parameters": {
-                    "vmName": "[steps('basics').vmName]",
-                    "x_vmCount": "[steps('basics').vmCount]",
-                    "adminUsername": "[steps('basics').adminUsername]",
-                    "adminPassword": "[steps('basics').adminPassword]",
-                    "vmSize": "[steps('basics').vmSize]",
-                    "vmOS": "[steps('basics').vmOS]",
-                    "vmOSversion": "[steps('basics').vmOSversion]",
-                    "storageType": "[steps('basics').storageType]",
-                    "vNetName": "[steps('basics').vNetName]",
-                    "VNetSubnetName": "[steps('basics').VNetSubnetName]",
-                    "acceleratedNetworking": "[steps('basics').acceleratedNetworking]",
-                    "autoShutdownTime": "[steps('basics').autoShutdownTime]",
-                    "NeedsAZ": "[steps('uiAvailability').NeedsAZ]",
-                    "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
-                    "DomainJoin": "[steps('uiDomainJoin').DomainJoin]",
-                    "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
-                    "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
-                    "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]"
-                },
-                "kind": "ResourceGroup",
-                "location": "[steps('basics').resourceScope.location.name]",
-                "resourceGroupId": "[steps('basics').resourceScope.resourceGroup.id]",
-                "template": {
-                    "uri": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/Server%20Deployment%20Master.json"
-                }
-            }
+            ]
+        },
+        "outputs": {
+            "parameters": {
+                "vmName": "[steps('basics').vmName]",
+                "x_vmCount": "[steps('basics').vmCount]",
+                "adminUsername": "[steps('basics').adminUsername]",
+                "adminPassword": "[steps('basics').adminPassword]",
+                "vmSize": "[steps('basics').vmSize]",
+                "vmOS": "[steps('basics').vmOS]",
+                "vmOSversion": "[steps('basics').vmOSversion]",
+                "storageType": "[steps('basics').storageType]",
+                "vNetName": "[steps('basics').vNetName]",
+                "VNetSubnetName": "[steps('basics').VNetSubnetName]",
+                "acceleratedNetworking": "[steps('basics').acceleratedNetworking]",
+                "autoShutdownTime": "[steps('basics').autoShutdownTime]",
+                "NeedsAZ": "[steps('uiAvailability').NeedsAZ]",
+                "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
+                "DomainJoin": "[steps('uiDomainJoin').DomainJoin]",
+                "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
+                "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
+                "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]"
+            },
+            "kind": "ResourceGroup",
+            "location": "[steps('basics').resourceScope.location.name]",
+            "resourceGroupId": "[steps('basics').resourceScope.resourceGroup.id]"
         }
     }
 }
