@@ -108,7 +108,9 @@
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
       },
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', concat('linked-nic-', parameters('vmName')))]"
+      ],
       "properties": {
         "licenseType": "[parameters('licensetype')]",
         "osProfile": {
