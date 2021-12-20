@@ -5,11 +5,9 @@
         "vmName": {
             "type": "string"
         },
-        "vmCount": {
-            "type": "int",
-            "defaultValue": 1,
-            "minValue": 1,
-            "maxValue": 10
+        "x_vmCount": {
+            "type": "string",
+            "defaultValue": "1",
         },
         "adminUsername": {
             "type": "string",
@@ -144,16 +142,17 @@
         "vmaztemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/vmazdeploy.json",
         "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json",
         "LicenseType": "Windows_Server",
-        "TimeZone": "Eastern Standard Time"
+        "TimeZone": "Eastern Standard Time",
+        "vmCount": "[int(parameters('x_vmCount'))]"
     },
     "resources": [
         {
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-nic-', parameters('vmName')), concat('linked-nic-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[if(equals(variables('vmCount'), 1), concat('linked-nic-', parameters('vmName')), concat('linked-nic-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
                 "name": "nicloop",
-                "count": "[parameters('vmCount')]"
+                "count": "[variables('vmCount')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -163,7 +162,7 @@
                 },
                 "parameters": {
                     "nicName": {
-                        "value": "[if(equals(parameters('vmCount'), 1), concat(parameters('vmName'), '_Nic'), concat(parameters('vmName'), copyIndex(1), '_Nic'))]"
+                        "value": "[if(equals(variables('vmCount'), 1), concat(parameters('vmName'), '_Nic'), concat(parameters('vmName'), copyIndex(1), '_Nic'))]"
                     },
                     "subnetRef": {
                         "value": "[variables('subnetRef')]"
@@ -178,11 +177,11 @@
         {
             "condition": "[equals(parameters('NeedsAZ'), 'No')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[if(equals(variables('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
                 "name": "vmloop",
-                "count": "[parameters('vmCount')]"
+                "count": "[variables('vmCount')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -192,7 +191,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[if(equals(variables('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
                     },
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
@@ -242,11 +241,11 @@
         {
             "condition": "[equals(parameters('NeedsAZ'), 'Yes')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmaz-', parameters('vmName')), concat('linked-vmaz-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[if(equals(variables('vmCount'), 1), concat('linked-vmaz-', parameters('vmName')), concat('linked-vmaz-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
                 "name": "vmloop",
-                "count": "[parameters('vmCount')]"
+                "count": "[variables('vmCount')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -256,7 +255,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[if(equals(variables('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
                     },
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
