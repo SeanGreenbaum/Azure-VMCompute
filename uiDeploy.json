@@ -437,7 +437,7 @@
         "outputs": {
             "parameters": {
                 "vmName": "[steps('basics').vmName]",
-                "x_vmCount": "[steps('basics').vmCount]",
+                "vmCount_str": "[steps('basics').vmCount]",
                 "adminUsername": "[steps('basics').adminUsername]",
                 "adminPassword": "[steps('basics').adminPassword]",
                 "vmSize": "[steps('basics').vmSize]",
