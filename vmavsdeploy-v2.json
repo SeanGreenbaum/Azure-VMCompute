@@ -5,10 +5,6 @@
     "vmName": {
       "type": "string"
     },
-    "adminUsername": {
-      "type": "string",
-      "defaultValue": "AzureAdmin"
-    },
     "adminPassword": {
       "type": "securestring"
     },
@@ -42,16 +38,19 @@
     "autoShutdownTime": {
       "type": "string"
     },
+    "avSetID": {
+      "type": "string"
+    },
     "licensetype": {
       "type": "string"
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "AzureAdmin"
     },
     "timeZone": {
       "type": "string",
       "defaultValue": "Eastern Standard Time"
-    },
-    "AzZone": {
-      "type": "string",
-      "defaultValue": "1"
     },
     "DomainJoin": {
       "type": "string",
@@ -98,12 +97,14 @@
               }
           }
       },
-      "dependsOn": []
+      "dependsOn": [
+        "[parameters('avSetID')]"
+      ]
     },
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2021-07-01",
+      "apiVersion": "2021-03-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -118,9 +119,9 @@
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
-            "provisionVmAgent": true,
+            "provisionVmAgent": "true",
             "timeZone": "[parameters('timeZone')]",
-            "enableAutomaticUpdates": true
+            "enableAutomaticUpdates": "True"
           }
         },
         "hardwareProfile": {
@@ -153,15 +154,15 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
+        },
+		"availabilitySet": {
+          "id": "[parameters('avSetID')]"
         }
-      },
-      "zones": [
-        "[parameters('AzZone')]"
-      ]
+      }
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2020-12-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
       "location": "[resourceGroup().location]",      "dependsOn": [

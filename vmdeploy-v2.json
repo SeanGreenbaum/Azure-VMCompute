@@ -14,15 +14,15 @@
     "vmOS": {
       "type": "string"
     },
-     "vmOSversion":{
+    "vmOSversion":{
       "type": "string",
       "defaultValue": "latest"
     },
-     "vmPublisher":{
+    "vmPublisher":{
       "type": "string",
       "defaultValue": "MicrosoftWindowsServer"
     },
-     "vmOffer":{
+    "vmOffer":{
       "type": "string",
       "defaultValue": "WindowsServer"
     },
