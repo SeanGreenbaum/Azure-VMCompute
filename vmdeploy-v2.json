@@ -69,7 +69,7 @@
   "variables": {
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
-    "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newui/nicdeploy.json"
+    "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/nicdeploy.json"
   },
   "resources": [
     {

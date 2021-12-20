@@ -170,10 +170,10 @@
     "variables": {
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
         "templates": {
-            "serverURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newui/vmdeploy-v2.json",
-            "azserverURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newui/vmazdeploy-v2.json",
-            "azclientURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newui/vmclientazdeploy-v2.json",
-            "clientURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newui/vmclientdeploy-v2.json"
+            "serverURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmdeploy-v2.json",
+            "azserverURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmazdeploy-v2.json",
+            "azclientURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmclientazdeploy-v2.json",
+            "clientURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmclientdeploy-v2.json"
         },
         "TimeZone": "Eastern Standard Time",
         "vmCount": "[int(parameters('vmCount_str'))]",
