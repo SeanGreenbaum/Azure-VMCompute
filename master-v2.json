@@ -398,8 +398,8 @@
                     "autoShutdownTime": {
                         "value": "[parameters('autoShutdownTime')]"
                     },
-                    "avSetID": {
-                        "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]"
+                    "avSetName": {
+                        "value": "[parameters('AVSetName')]"
                     },
                     "licensetype": {
                         "value": "[parameters('license')]"
@@ -421,9 +421,7 @@
                     }
                 }
             },
-            "dependsOn": [
-                "[reference(resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName')), '2021-07-01')]"
-            ]
+            "dependsOn": []
         },
         {
             "condition": "[equals(parameters('AVSetAction'), 'New')]",

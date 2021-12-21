@@ -38,7 +38,7 @@
     "autoShutdownTime": {
       "type": "string"
     },
-    "avSetID": {
+    "avSetName": {
       "type": "string"
     },
     "licensetype": {
@@ -72,7 +72,8 @@
   "variables": {
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
-    "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/nicdeploy.json"
+    "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/nicdeploy.json",
+    "avSetID": "[resourceId('Microsoft.Compute/AvailabilitySet', parameters('avSetName'))]"
   },
   "resources": [
     {
@@ -98,7 +99,7 @@
           }
       },
       "dependsOn": [
-        "[parameters('avSetID')]"
+        "[variables('avSetID')]"
       ]
     },
     {
@@ -156,7 +157,7 @@
           ]
         },
 		"availabilitySet": {
-          "id": "[parameters('avSetID')]"
+          "id": "[variables('avSetID')]"
         }
       }
     },
