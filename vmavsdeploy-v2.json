@@ -98,9 +98,7 @@
               }
           }
       },
-      "dependsOn": [
-        "[variables('avSetID')]"
-      ]
+      "dependsOn": []
     },
     {
       "name": "[parameters('vmName')]",
