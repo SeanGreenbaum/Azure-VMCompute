@@ -422,7 +422,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName'))]"
+                "[reference(resourceId('Microsoft.Compute/availabilitySets', parameters('AVSetName')), '2021-07-01')]"
             ]
         },
         {
@@ -437,8 +437,8 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "avSetName": {
-                        "value": "[parameters('avSetName')]"
+                    "localavSetName": {
+                        "value": "[parameters('AVSetName')]"
                     }
                 }
             },
