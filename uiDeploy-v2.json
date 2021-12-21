@@ -1,0 +1,574 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
+    "view": {
+        "kind": "Form",
+        "properties": {
+            "title": "Seans Server Master Deployment template",
+            "steps": [
+                {
+                    "name": "basics",
+                    "label": "Basics",
+                    "elements": [
+                        {
+                            "name": "resourceScope",
+                            "type": "Microsoft.Common.ResourceScope",
+                            "location": {
+                                "resourceTypes": [
+                                    "microsoft.resources/resourcegroups"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vmName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "VM Name",
+                            "defaultValue": "",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "vmCount",
+                            "type": "Microsoft.Common.TextBox",                            
+                            "label": "Qty",
+                            "defaultValue": "1",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "adminUsername",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Admin Username",
+                            "defaultValue": "sAdmin",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "adminPassword",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "Admin Password",
+                                "confirmPassword": "Confirm password"
+                            },
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "options": {
+                                "hideConfirmation": true
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "vmSize",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "VM SKU",
+                            "defaultValue": "Standard_E2as_v4 (2 cores AMD, 16GB)",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "Standard_D2s_v4 (2 cores, 8GB)",
+                                        "value": "Standard_D2s_v4"
+                                    },
+                                    {
+                                        "label": "Standard_D4s_v4 (4 cores, 16GB)",
+                                        "value": "Standard_D4s_v4"
+                                    },
+                                    {
+                                        "label": "Standard_D2as_v4 (2 cores AMD, 8GB)",
+                                        "value": "Standard_D2as_v4"
+                                    },
+                                    {
+                                        "label": "Standard_D4as_v4 (4 cores AMD, 16GB)",
+                                        "value": "Standard_D4as_v4"
+                                    },
+                                    {
+                                        "label": "Standard_E2s_v4 (2 cores, 16GB)",
+                                        "value": "Standard_E2s_v4"
+                                    },
+                                    {
+                                        "label": "Standard_E4s_v4 (4 cores, 32GB)",
+                                        "value": "Standard_E4s_v4"
+                                    },
+                                    {
+                                        "label": "Standard_E8s_v4 (8 cores, 64GB)",
+                                        "value": "Standard_E8s_v4"
+                                    },
+                                    {
+                                        "label": "Standard_E2as_v4 (2 cores AMD, 16GB)",
+                                        "value": "Standard_E2as_v4"
+                                    },
+                                    {
+                                        "label": "Standard_E4as_v4 (4 cores AMD, 32GB)",
+                                        "value": "Standard_E4as_v4"
+                                    },
+                                    {
+                                        "label": "Standard_E8as_v4 (8 cores AMD, 32GB)",
+                                        "value": "Standard_E8as_v4"
+                                    },
+                                    {
+                                        "label": "Standard_B2s (2 cores, 4GB)",
+                                        "value": "Standard_B2s"
+                                    },
+                                    {
+                                        "label": "Standard_B2ms (2 cores, 8GB)",
+                                        "value": "Standard_B2ms"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "vmOffer",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "OS Family",
+                            "defaultValue": "Windows Server",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Windows Server",
+                                        "value": "WindowsServer"
+                                    },
+                                    {
+                                        "label": "Windows 11",
+                                        "value": "Windows-11"
+                                    },
+                                    {
+                                        "label": "Windows 10",
+                                        "value": "Windows-10"
+                                    },
+                                    {
+                                        "label": "Windows 7",
+                                        "value": "Windows-7"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "vmServerOS",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Vm OS",
+                            "defaultValue": "Server 2019 Datacenter Gen2",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "Server 2008 R2 SP1",
+                                        "value": "2008-R2-SP1-smalldisk"
+                                    },
+                                    {
+                                        "label": "Server 2012 Datacenter",
+                                        "value": "2012-Datacenter-smalldisk"
+                                    },
+                                    {
+                                        "label": "Server 2012 R2 Datacenter Gen2",
+                                        "value": "2012-R2-Datacenter-smalldisk-g2"
+                                    },
+                                    {
+                                        "label": "Server 2016 Datacenter",
+                                        "value": "2016-Datacenter-smalldisk"
+                                    },
+                                    {
+                                        "label": "Server 2016 Datacenter Gen2",
+                                        "value": "2016-datacenter-smalldisk-g2"
+                                    },
+                                    {
+                                        "label": "Server 2016 Datacenter CORE Gen2",
+                                        "value": "2016-Datacenter-Server-Core-smalldisk-g2"
+                                    },
+                                    {
+                                        "label": "Server 2019 Datacenter",
+                                        "value": "2019-Datacenter-smalldisk"
+                                    },
+                                    {
+                                        "label": "Server 2019 Datacenter Gen2",
+                                        "value": "2019-Datacenter-smalldisk-g2"
+                                    },
+                                    {
+                                        "label": "Server 2019 Datacenter CORE Gen2",
+                                        "value": "2019-Datacenter-Core-smalldisk-g2"
+                                    },
+                                    {
+                                        "label": "Server 2022 Datacenter Gen2",
+                                        "value": "2022-datacenter-smalldisk-g2"
+                                    }
+                                ]
+                            },
+                            "visible": "[equals(steps('basics').vmOffer, 'WindowsServer')]"
+                        },
+                        {
+                            "name": "vmClientOS",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Vm OS",
+                            "defaultValue": "Windows 11 21h2",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "Windows 11 21h2",
+                                        "value": "win11-21h2-ent"
+                                    },
+                                    {
+                                        "label": "Windows 10 20h2",
+                                        "value": "20h2-ent-g2"
+                                    },
+                                    {
+                                        "label": "Windows 10 20h1",
+                                        "value": "20h1-ent-g2"
+                                    },
+                                    {
+                                        "label": "Windows 10 19h2",
+                                        "value": "19h2-ent-g2"
+                                    },
+                                    {
+                                        "label": "Windows 10 v1809",
+                                        "value": "rs5-enterprise-g2"
+                                    },
+                                    {
+                                        "label": "Windows 10 v1709",
+                                        "value": "rs3-pro"
+                                    },
+                                    {
+                                        "label": "Windows 7 Enterprise",
+                                        "value": "win7-enterprise"
+                                    }
+                                ]
+                            },
+                            "visible": "[not(equals(steps('basics').vmOffer, 'WindowsServer'))]"
+                        },                        
+                        {
+                            "name": "vmOSversion",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "VM OS build",
+                            "defaultValue": "latest",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "storageType",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Storage Type",
+                            "defaultValue": "Standard SSD",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "Standard HDD",
+                                        "value": "Standard_LRS"
+                                    },
+                                    {
+                                        "label": "Standard SSD",
+                                        "value": "StandardSSD_LRS"
+                                    },
+                                    {
+                                        "label": "Premium SSD",
+                                        "value": "Premium_LRS"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "vNetName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "VNet Name",
+                            "defaultValue": "",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "VNetSubnetName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "VNet Subnet Name",
+                            "defaultValue": "Subnet1",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "acceleratedNetworking",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Accelerated Networking",
+                            "defaultValue": "false",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "true",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "false",
+                                        "value": false
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "autoShutdownTime",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Auto Shutdown Time",
+                            "defaultValue": "2300",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "None",
+                                        "value": "None"
+                                    },
+                                    {
+                                        "label": "1730",
+                                        "value": "1730"
+                                    },
+                                    {
+                                        "label": "2200",
+                                        "value": "2200"
+                                    },
+                                    {
+                                        "label": "2300",
+                                        "value": "2300"
+                                    },
+                                    {
+                                        "label": "2330",
+                                        "value": "2330"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        }
+                    ]
+                },
+                {
+                    "name": "uiAvailability",
+                    "label": "High Availability Options",
+                    "elements": [
+                        {
+                            "name": "NeedsHA",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Needs High Availability",
+                            "defaultValue": "No",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    },
+                                    {
+                                        "label": "Yes - Availability Zones",
+                                        "value": "AvailabilityZone"
+                                    },
+                                    {
+                                        "label": "Yes - Availability Sets",
+                                        "value": "AvailabilitySet"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "AvailabilityZone",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Availability Zone",
+                            "defaultValue": "1",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "1",
+                                        "value": "1"
+                                    },
+                                    {
+                                        "label": "2",
+                                        "value": "2"
+                                    },
+                                    {
+                                        "label": "3",
+                                        "value": "3"
+                                    }
+                                ]
+                            },
+                            "visible": "[equals(steps('uiAvailability').NeedsHA, 'AvailabilityZone')]"
+                        },
+                        {
+                            "name": "AvSetAction",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Availability Set Action",
+                            "defaultValue": "Existing",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "New",
+                                        "value": "New"
+                                    },
+                                    {
+                                        "label": "Existing",
+                                        "value": "Existing"
+                                    }
+                                ]
+                            },
+                            "visible": "[equals(steps('uiAvailability').NeedsHA, 'AvailabilitySet')]"
+                        },
+                        {
+                            "name": "AvSetName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Availability Set Name",
+                            "defaultValue": "",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": "[equals(steps('uiAvailability').NeedsHA, 'AvailabilitySet')]"
+                        }
+                    ]
+                },
+                {
+                    "name": "uiDomainJoin",
+                    "label": "Domain Join Options",
+                    "elements": [
+                        {
+                            "name": "DomainJoin",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Domain Join",
+                            "defaultValue": "No",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    },
+                                    {
+                                        "label": "Yes",
+                                        "value": "Yes"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "DomainToJoin",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Domain To Join",
+                            "defaultValue": "None",
+                            "toolTip": "Only needed if DomainJoin is Yes",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
+                        },
+                        {
+                            "name": "DomainJoinUserName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Domain Join User Name",
+                            "defaultValue": "None",
+                            "toolTip": "Only needed if DomainJoin is Yes",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
+                        },
+                        {
+                            "name": "DomainJoinPassword",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "Domain Join Password",
+                                "confirmPassword": "Confirm password"
+                            },
+                            "toolTip": "Only needed if DomainJoin is Yes",
+                            "constraints": {
+                                "required": false,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "options": {
+                                "hideConfirmation": true
+                            },
+                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
+                        }
+                    ]
+                }
+            ]
+        },
+        "outputs": {
+            "parameters": {
+                "vmName": "[steps('basics').vmName]",
+                "vmCount_str": "[steps('basics').vmCount]",
+                "adminUsername": "[steps('basics').adminUsername]",
+                "adminPassword": "[steps('basics').adminPassword]",
+                "vmSize": "[steps('basics').vmSize]",
+                "vmSRVOS": "[steps('basics').vmServerOS]",
+                "vmClientOS": "[steps('basics').vmClientOS]",
+                "license": "[if(equals(steps('basics').vmOffer, 'WindowsServer'), 'Windows_Server', 'Windows_Client')]",
+                "vmOffer": "[steps('basics').vmOffer]",
+                "vmOSversion": "[steps('basics').vmOSversion]",
+                "storageType": "[steps('basics').storageType]",
+                "vNetName": "[steps('basics').vNetName]",
+                "VNetSubnetName": "[steps('basics').VNetSubnetName]",
+                "acceleratedNetworking": "[steps('basics').acceleratedNetworking]",
+                "autoShutdownTime": "[steps('basics').autoShutdownTime]",
+                "NeedsHA": "[steps('uiAvailability').NeedsHA]",
+                "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
+                "AVSetName": "[steps('uiAvailability').AvSetName]",
+                "AVSetAction": "[steps('uiAvailability').AvSetAction]",
+                "DomainJoin": "[steps('uiDomainJoin').DomainJoin]",
+                "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
+                "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
+                "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]"
+            },
+            "kind": "ResourceGroup",
+            "location": "[steps('basics').resourceScope.location.name]",
+            "resourceGroupId": "[steps('basics').resourceScope.resourceGroup.id]"
+        }
+    }
+}
