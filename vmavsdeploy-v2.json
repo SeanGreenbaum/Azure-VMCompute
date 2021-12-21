@@ -73,7 +73,7 @@
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
     "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/nicdeploy.json",
-    "avSetID": "[resourceId('Microsoft.Compute/AvailabilitySet', parameters('avSetName'))]"
+    "avSetID": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]"
   },
   "resources": [
     {

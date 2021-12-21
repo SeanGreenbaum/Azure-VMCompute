@@ -421,7 +421,9 @@
                     }
                 }
             },
-            "dependsOn": []
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'linked-avset')]"
+            ]
         },
         {
             "condition": "[equals(parameters('AVSetAction'), 'New')]",
