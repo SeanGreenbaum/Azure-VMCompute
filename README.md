@@ -60,5 +60,6 @@ This section is for dev purposes. Default is No. Leave it at No unless instructe
 ## Review + Create
 Here, review the settings and deploy the VM(s) as configured. Enjoy!
 
-| Type | Deploy |
-| Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fmaster-v2.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fuimaster-v2.json) |
+| Type | Deploy | 
+|:-------|:-------| 
+| Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fmaster-v2.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fuimaster-v2.json) | 
