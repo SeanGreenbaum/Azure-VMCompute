@@ -1,9 +1,9 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
+    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json#",
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "Seans Server Master Deployment template",
+            "title": "Seans VM Deployment template",
             "steps": [
                 {
                     "name": "basics",
@@ -537,6 +537,63 @@
                             "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
                         }
                     ]
+                },
+                {
+                    "name": "uiAdvanced",
+                    "label": "Advanced options",
+                    "elements": [
+                        {
+                            "name": "advText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "These are advanced options for changing the branch for deployment. "
+                            }
+                        },
+                        {
+                            "name": "advOption",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Do you wish to configure advanced options",
+                            "visible": true,
+                            "defaultValue": "No",
+                            "contraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "No",
+                                        "value": "None"
+                                    },
+                                    {
+                                        "label": "Yes",
+                                        "value": "Yes"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "customBranchSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Custom Branch to deploy from",
+                            "visible": "[equals(steps('uiAdvanced').adv.Option, 'Yes')]",
+                            "elements": [
+                                {
+                                    "name": "branchWarning",
+                                    "type": "Microsoft.Common.Infobox",
+                                    "visible": true,
+                                    "options": {
+                                        "icon": "Warning",
+                                        "text": "Only use this option when changing from the master/main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
+                                        "uri": "https://github.com/SeanGreenbaum/Azure-VMCompute"
+                                    }
+                                },
+                                {
+                                    "name": "customBranch",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Custom Branch",
+                                    "defaultValue": "master"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -564,7 +621,8 @@
                 "DomainJoin": "[steps('uiDomainJoin').DomainJoin]",
                 "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
                 "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
-                "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]"
+                "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]",
+                "CustomBranch": "[steps('uiAdvanced').customBranch]"
             },
             "kind": "ResourceGroup",
             "location": "[steps('basics').resourceScope.location.name]",

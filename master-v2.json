@@ -178,15 +178,23 @@
             "metadata": {
                 "description": "Only needed if DomainJoin is Yes"
             }
+        },
+        "CustomBranch": {
+            "type": "string",
+            "defaultValue": "master",
+            "metadata": {
+                "description": "Advanced option. Do not change unless intentional."
+            }
         }
     },
     "variables": {
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
+        "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
         "templates": {
-            "vmURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmdeploy-v2.json",
-            "azvmURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmazdeploy-v2.json",
-            "avsvmURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/vmavsdeploy-v2.json",
-            "avsURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/avsetdeploy-v2.json"
+            "vmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmdeploy-v2.json')]",
+            "azvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmazdeploy-v2.json')]",
+            "avsvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmavsdeploy-v2.json')]",
+            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]"
         },
         "TimeZone": "Eastern Standard Time",
         "vmCount": "[int(parameters('vmCount_str'))]",

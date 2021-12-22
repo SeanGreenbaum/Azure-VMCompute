@@ -64,12 +64,20 @@
     "DomainJoinPassword": {
       "type": "securestring",
       "defaultValue": "None"
+    },
+    "CustomBranch": {
+      "type": "string",
+      "defaultValue": "master",
+      "metadata": {
+        "description": "Advanced option. Do not change unless intentional."
+      }
     }
   },
   "variables": {
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
-    "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/newUI/nicdeploy.json"
+    "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",    
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/nicdeploy.json')]"
   },
   "resources": [
     {
