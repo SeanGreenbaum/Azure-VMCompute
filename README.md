@@ -32,8 +32,10 @@ When running the deployment by clicking the Deploy button below, you will be pro
 
 ## In the High Availability Options section:
 This section covers the High Availability options for the VM(s) being deployed  
-- Needs High Availability: Default is No. If changed any other value, then more options are exposed.  
-    - Other options: Yes - Availability Zones, Yes - Availability Sets  
+
+- Needs High Availability: Default option is No. Other options are Yes - Availability Zones, Yes - Availability Sets  
+### No
+The current deployment does not have any HA requirements of the Azure Platform. No other questions asked  
 
 ### Yes - Availability Zones
 If set to Yes - Availability Zones, another drop down is exposed  
@@ -49,7 +51,7 @@ This section covers running a post build extension which will cause the VMs to j
 - Domain Join: Default is No. If changed to Yes, the additional prompts will be displayed  
 
     - Domain to Join: This is the FQDN of the AD domain to join
-    - Domain Join Username: This is the username to be used to complete the domain join. Username must be in the format domain\username or username@domainFQDN
+    - Domain Join Username: This is the username to be used to complete the domain join. Username must be in the format **domain\username** or **username@domainFQDN**
     - Domain Join Password: This is the password for the above user account  
 
 ## Advanced Options
@@ -58,4 +60,5 @@ This section is for dev purposes. Default is No. Leave it at No unless instructe
 ## Review + Create
 Here, review the settings and deploy the VM(s) as configured. Enjoy!
 
-Deploy a VM [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fmaster-v2.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fuimaster-v2.json)
+| Type | Deploy |
+| Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fmaster-v2.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2FnewUI%2Fuimaster-v2.json) |
