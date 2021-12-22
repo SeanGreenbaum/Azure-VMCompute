@@ -79,57 +79,69 @@
                             "name": "vmSize",
                             "type": "Microsoft.Common.DropDown",
                             "label": "VM SKU",
-                            "defaultValue": "Standard_E2as_v4 (2 cores AMD, 16GB)",
+                            "defaultValue": "Standard_E2as_v4",
                             "toolTip": "",
                             "constraints": {
                                 "required": false,
                                 "allowedValues": [
                                     {
-                                        "label": "Standard_D2s_v4 (2 cores, 8GB)",
+                                        "label": "Standard_D2s_v4",
+                                        "description": "2 cores, Intel, 8 GB RAM",
                                         "value": "Standard_D2s_v4"
                                     },
                                     {
-                                        "label": "Standard_D4s_v4 (4 cores, 16GB)",
+                                        "label": "Standard_D4s_v4",
+                                        "description": "4 cores, Intel, 16 GB RAM",
                                         "value": "Standard_D4s_v4"
                                     },
                                     {
-                                        "label": "Standard_D2as_v4 (2 cores AMD, 8GB)",
+                                        "label": "Standard_D2as_v4",
+                                        "description": "2 cores, AMD, 8 GB RAM",
                                         "value": "Standard_D2as_v4"
                                     },
                                     {
-                                        "label": "Standard_D4as_v4 (4 cores AMD, 16GB)",
+                                        "label": "Standard_D4as_v4",
+                                        "description": "4 cores, AMD, 16 GB RAM",
                                         "value": "Standard_D4as_v4"
                                     },
                                     {
-                                        "label": "Standard_E2s_v4 (2 cores, 16GB)",
+                                        "label": "Standard_E2s_v4",
+                                        "description": "2 cores, Intel, 16 GB RAM",
                                         "value": "Standard_E2s_v4"
                                     },
                                     {
-                                        "label": "Standard_E4s_v4 (4 cores, 32GB)",
+                                        "label": "Standard_E4s_v4",
+                                        "description": "4 cores, Intel, 32 GB RAM",
                                         "value": "Standard_E4s_v4"
                                     },
                                     {
-                                        "label": "Standard_E8s_v4 (8 cores, 64GB)",
+                                        "label": "Standard_E8s_v4",
+                                        "description": "8 cores, Intel, 64 GB RAM",
                                         "value": "Standard_E8s_v4"
                                     },
                                     {
-                                        "label": "Standard_E2as_v4 (2 cores AMD, 16GB)",
+                                        "label": "Standard_E2as_v4",
+                                        "description": "2 cores, AMD, 16 GB RAM",
                                         "value": "Standard_E2as_v4"
                                     },
                                     {
-                                        "label": "Standard_E4as_v4 (4 cores AMD, 32GB)",
+                                        "label": "Standard_E4as_v4",
+                                        "description": "4 cores, AMD, 32 GB RAM",
                                         "value": "Standard_E4as_v4"
                                     },
                                     {
-                                        "label": "Standard_E8as_v4 (8 cores AMD, 32GB)",
+                                        "label": "Standard_E8as_v4",
+                                        "description": "8 cores, AMD, 64 GB RAM",
                                         "value": "Standard_E8as_v4"
                                     },
                                     {
-                                        "label": "Standard_B2s (2 cores, 4GB)",
+                                        "label": "Standard_B2s",
+                                        "description": "2 burstable cores, Intel, 4 GB RAM",
                                         "value": "Standard_B2s"
                                     },
                                     {
-                                        "label": "Standard_B2ms (2 cores, 8GB)",
+                                        "label": "Standard_B2ms",
+                                        "description": "2 burstable cores, Intel, 8 GB RAM",
                                         "value": "Standard_B2ms"
                                     }
                                 ]
@@ -556,7 +568,7 @@
                             "label": "Do you wish to configure advanced options",
                             "visible": true,
                             "defaultValue": "No",
-                            "contraints": {
+                            "constraints": {
                                 "allowedValues": [
                                     {
                                         "label": "No",
@@ -573,11 +585,11 @@
                             "name": "customBranchSection",
                             "type": "Microsoft.Common.Section",
                             "label": "Custom Branch to deploy from",
-                            "visible": "[equals(steps('uiAdvanced').adv.Option, 'Yes')]",
+                            "visible": "[equals(steps('uiAdvanced').advOption, 'Yes')]",
                             "elements": [
                                 {
                                     "name": "branchWarning",
-                                    "type": "Microsoft.Common.Infobox",
+                                    "type": "Microsoft.Common.InfoBox",
                                     "visible": true,
                                     "options": {
                                         "icon": "Warning",
@@ -589,6 +601,7 @@
                                     "name": "customBranch",
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Custom Branch",
+                                    "toolTip": "Must be Case Sensitive",
                                     "defaultValue": "master"
                                 }
                             ]
@@ -622,7 +635,7 @@
                 "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
                 "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
                 "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]",
-                "CustomBranch": "[steps('uiAdvanced').customBranch]"
+                "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]"
             },
             "kind": "ResourceGroup",
             "location": "[steps('basics').resourceScope.location.name]",
