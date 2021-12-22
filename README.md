@@ -1,9 +1,9 @@
-# Azure-Master-VMBuild
+# Master-v2 VMBuild
 These JSON templates use linked templates to create multiple resources. It assumes you already have a vNet and a Subnet created in the Azure Resource Group. All objects are being located in the same Resource Group.  
 - This is using managed disks.
-- The licenses are all using Azure Hybrid Benefit licensing. This requires you to license your OS per your existing Enterprise Agreement.  
+- The licenses are all using Azure Hybrid Benefit licensing. This ==requires you to license your OS per your existing Enterprise Agreement==.  
 
-When running the deployment by clicking the Deploy button below, you will be prompted to answer several questions.
+When running the deployment by clicking the Deploy button below, you will be prompted to answer several questions. The below button uses the uimaster-v2.json for a custom UI in the Azure Portal. The parameters are then passed to master-v2.json for actual build. master-v2.json depends on several of the other json files present in this repo to complete its tasks.  
 
 ## In the Basics section:  
 - Subscription: This is the subscription you will deploy to.  
@@ -11,24 +11,24 @@ When running the deployment by clicking the Deploy button below, you will be pro
 - Region: This is the deploy to location in Azure. The vNet and Subnet must already exist in that location  
 - VM Name: This is the name of the VM, both inside the OS and in the Azure Portal  
 - Qty: If building more than 1 VM, the VM Name above will have an interation number added to the end. Ie. vm1, vm2, vm3...  
-    All numbers starts at 1  
+> All numbers starts at 1  
 - Admin Username: This is the username of the built in admin account  
 - Admin Password: This is the password of the built in admin account. This must be complex.  
 - VM SKU: Select the SKU of the VMs from the drop down  
 - OS Family: For a Windows Server, Select Windows Server. For a Windows client OS, select the appropriate family  
-    For Windows clients, be sure the OS Family match the OS selected in the next drop down  
+> For Windows clients, be sure the OS Family match the OS selected in the next drop down  
 - VM OS: Select the VM OS  
-    If using OS Family Windows Server, then only Server OS will be displayed  
-    If using OS Family not Windows Server, then all Windows client OS will be displayed. Be sure to select the correct OS based on the OS Family above  
+> If using OS Family Windows Server, then only Server OS will be displayed  
+> If using OS Family not Windows Server, then all Windows client OS will be displayed. Be sure to select the correct OS based on the OS Family above  
 -VM OS Build: Use "latest" by default. If need a prior version, use PowerShell to determine the correct build value based on available option in Azure  
-    Get-AzVMImage -Location <location> -PublisherName <PublisherName> -Offer <OfferName> -Skus <sku>  
-    ex. Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2  
+`Get-AzVMImage -Location <location> -PublisherName <PublisherName> -Offer <OfferName> -Skus <sku>`
+`Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
 - Storage Type: StandardHDD, StandardSSD, PremiumSSD  
 - VNet Name: Name of the Virtual Network. Virtual Network must already exist in the selected Resource Group  
 - VNet Subnet Name: Name of the Subnet for the above Virtual Network. Virtual Network must already exist  
 - Accelerated Networking: Enable if VM sku supports. Disabled by default  
 - Auto Shutdown Time: Based on an Azure Automation script which must already exist. Creates a Tag on the VM object with specfied value  
-    Accepted values: 1700, 2200, 2300, 2330, None  
+> Accepted values: 1700, 2200, 2300, 2330, None  
 
 ## In the High Availability Options section:
 This section covers the High Availability options for the VM(s) being deployed  
