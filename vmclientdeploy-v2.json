@@ -14,20 +14,23 @@
     "vmOS": {
       "type": "string"
     },
-    "vmOffer": {
-      "type": "string"
-    },
     "vmOSversion":{
       "type": "string",
       "defaultValue": "latest"
     },
+    "vmOffer": {
+      "type": "string"
+    },
+  	"subnetRef": {
+	  "type": "string"
+  	},
+    "acceleratedNetworking": {
+	    "type": "bool"
+	  },
     "storageType": {
       "type": "string"
     },
     "autoShutdownTime": {
-      "type": "string"
-    },
-    "avSetID": {
       "type": "string"
     },
     "licensetype": {
@@ -59,13 +62,38 @@
     }
   },
   "variables": {
-    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]"
+    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
+    "nictemplateURI": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/nicdeploy.json"
   },
   "resources": [
+  {
+    "apiVersion": "2021-04-01",
+    "name": "[concat('linked-nic-', parameters('vmName'))]",
+    "type": "Microsoft.Resources/deployments",
+    "properties": {
+      "mode": "Incremental",
+      "templateLink": {
+        "uri": "[variables('nictemplateURI')]",
+        "contentVersion": "1.0.0.0"
+      },
+      "parameters": {
+        "nicName": {
+          "value": "[concat(parameters('vmName'), '_Nic')]"
+        },
+        "subnetRef": {
+          "value": "[parameters('subnetRef')]"
+        },
+          "acceleratedNetworking": {
+            "value": "[parameters('acceleratedNetworking')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-07-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -78,9 +106,9 @@
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
-            "provisionVmAgent": "true",
+            "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
-            "enableAutomaticUpdates": "True"
+            "enableAutomaticUpdates": true
           }
         },
         "hardwareProfile": {
@@ -113,16 +141,12 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
             }
           ]
-        },
-		"availabilitySet": {
-          "id": "[parameters('avSetID')]"
         }
-
       }
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
-      "apiVersion": "2020-12-01",
+      "apiVersion": "2021-03-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
       "location": "[resourceGroup().location]",      "dependsOn": [

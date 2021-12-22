@@ -14,17 +14,31 @@
     "vmOS": {
       "type": "string"
     },
-      "vmOSversion":{
+    "vmOSversion":{
       "type": "string",
       "defaultValue": "latest"
     },
-    "vmOffer": {
-      "type": "string"
+    "vmPublisher":{
+      "type": "string",
+      "defaultValue": "MicrosoftWindowsServer"
     },
+    "vmOffer":{
+      "type": "string",
+      "defaultValue": "WindowsServer"
+    },
+   	"subnetRef": {
+  	  "type": "string"
+  	},
+    "acceleratedNetworking": {
+	    "type": "bool"
+	  },
     "storageType": {
       "type": "string"
     },
     "autoShutdownTime": {
+      "type": "string"
+    },
+    "avSetName": {
       "type": "string"
     },
     "licensetype": {
@@ -37,10 +51,6 @@
     "timeZone": {
       "type": "string",
       "defaultValue": "Eastern Standard Time"
-    },
-    "AzZone": {
-      "type": "string",
-      "defaultValue": "1"
     },
     "DomainJoin": {
       "type": "string",
@@ -57,12 +67,47 @@
     "DomainJoinPassword": {
       "type": "securestring",
       "defaultValue": "None"
+    },
+    "CustomBranch": {
+      "type": "string",
+      "defaultValue": "master",
+      "metadata": {
+        "description": "Advanced option. Do not change unless intentional."
+      }
     }
   },
   "variables": {
-    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]"
+    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
+    "nicName": "[concat(parameters('vmName'), '_Nic')]",
+    "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/nicdeploy.json')]",
+    "avSetID": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]"
   },
   "resources": [
+    {
+      "apiVersion": "2021-04-01",
+      "name": "[concat('linked-nic-', parameters('vmName'))]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+              "uri": "[variables('nictemplateURI')]",
+              "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+              "nicName": {
+                  "value": "[variables('nicName')]"
+              },
+              "subnetRef": {
+                  "value": "[parameters('subnetRef')]"
+              },
+              "acceleratedNetworking": {
+                  "value": "[parameters('acceleratedNetworking')]"
+              }
+          }
+      },
+      "dependsOn": []
+    },
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
@@ -71,7 +116,9 @@
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
       },
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', concat('linked-nic-', parameters('vmName')))]"
+      ],
       "properties": {
         "licenseType": "[parameters('licensetype')]",
         "osProfile": {
@@ -79,9 +126,9 @@
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
-            "provisionVmAgent": true,
+            "provisionVmAgent": "true",
             "timeZone": "[parameters('timeZone')]",
-            "enableAutomaticUpdates": true
+            "enableAutomaticUpdates": "True"
           }
         },
         "hardwareProfile": {
@@ -89,7 +136,7 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "MicrosoftWindowsDesktop",
+            "publisher": "[parameters('vmPublisher')]",
             "offer": "[parameters('vmOffer')]",
             "sku": "[parameters('vmOS')]",
             "version": "[parameters('vmOSversion')]"
@@ -111,21 +158,22 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
+        },
+		"availabilitySet": {
+          "id": "[variables('avSetID')]"
         }
-      },
-      "zones": [
-        "[parameters('AzZone')]"
-      ]
+      }
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2020-12-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
-      "location": "[resourceGroup().location]",      "dependsOn": [
+      "location": "[resourceGroup().location]",      
+      "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
       ],
       "properties": {

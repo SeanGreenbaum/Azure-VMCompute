@@ -18,9 +18,20 @@
       "type": "string",
       "defaultValue": "latest"
     },
-    "vmOffer": {
-      "type": "string"
+    "vmPublisher":{
+      "type": "string",
+      "defaultValue": "MicrosoftWindowsServer"
     },
+    "vmOffer":{
+      "type": "string",
+      "defaultValue": "WindowsServer"
+    },
+   	"subnetRef": {
+  	  "type": "string"
+  	},
+    "acceleratedNetworking": {
+	    "type": "bool"
+	  },
     "storageType": {
       "type": "string"
     },
@@ -53,21 +64,57 @@
     "DomainJoinPassword": {
       "type": "securestring",
       "defaultValue": "None"
+    },
+    "CustomBranch": {
+      "type": "string",
+      "defaultValue": "master",
+      "metadata": {
+        "description": "Advanced option. Do not change unless intentional."
+      }
     }
   },
   "variables": {
-    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]"
+    "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
+    "nicName": "[concat(parameters('vmName'), '_Nic')]",
+    "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",    
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/nicdeploy.json')]"
   },
   "resources": [
     {
+      "apiVersion": "2021-04-01",
+      "name": "[concat('linked-nic-', parameters('vmName'))]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+              "uri": "[variables('nictemplateURI')]",
+              "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+              "nicName": {
+                  "value": "[variables('nicName')]"
+              },
+              "subnetRef": {
+                  "value": "[parameters('subnetRef')]"
+              },
+              "acceleratedNetworking": {
+                  "value": "[parameters('acceleratedNetworking')]"
+              }
+          }
+      },
+      "dependsOn": []
+    },
+    {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2021-03-01",
+      "apiVersion": "2021-07-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
       },
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', concat('linked-nic-', parameters('vmName')))]"
+      ],
       "properties": {
         "licenseType": "[parameters('licensetype')]",
         "osProfile": {
@@ -75,9 +122,9 @@
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
-            "provisionVmAgent": "true",
+            "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
-            "enableAutomaticUpdates": "True"
+            "enableAutomaticUpdates": true
           }
         },
         "hardwareProfile": {
@@ -85,7 +132,7 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "MicrosoftWindowsDesktop",
+            "publisher": "[parameters('vmPublisher')]",
             "offer": "[parameters('vmOffer')]",
             "sku": "[parameters('vmOS')]",
             "version": "[parameters('vmOSversion')]"
@@ -107,7 +154,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('vmName'), '_Nic'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
         }
@@ -118,7 +165,8 @@
       "apiVersion": "2021-03-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
-      "location": "[resourceGroup().location]",      "dependsOn": [
+      "location": "[resourceGroup().location]",      
+      "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
       ],
       "properties": {

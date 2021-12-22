@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-	"avSetName": {
+	"localavSetName": {
 	  "type": "string"
 	  }
   },
@@ -11,8 +11,8 @@
   "resources": [
     {
 	  "type": "Microsoft.Compute/availabilitySets",
-      "name": "[parameters('avSetName')]",
-      "apiVersion": "2019-07-01",
+      "name": "[parameters('localavSetName')]",
+      "apiVersion": "2021-07-01",
       "location": "[resourceGroup().location]",
       "sku": {
         "name": "Aligned"
@@ -26,9 +26,9 @@
     }
   ],
   "outputs": {
-	"avsetID": {
-		"type": "string",
-		"value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]"
-	}
+    "avsetID": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Compute/availabilitySets', parameters('localavSetName'))]"
+    }
   }
 }
