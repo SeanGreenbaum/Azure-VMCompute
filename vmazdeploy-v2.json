@@ -167,13 +167,13 @@
             }
           },
           "copy": {
-            "name": "DataDisks",
+            "name": "dataDisks",
             "count": "[parameters('datadiskcount')]",
             "input": {
               "caching": "[parameters('datadiskcaching')]",
               "diskSizeGB": "[parameters('datadisksize')]",
-              "lun": "[copyIndex()]",
-              "name": "[concat(parameters('vmName'), '-datadisk', copyIndex())]",
+              "lun": "[copyIndex('dataDisks')]",
+              "name": "[concat(parameters('vmName'), '-datadisk', copyIndex('dataDisks'))]",
               "createOption": "Empty"
             }
           }

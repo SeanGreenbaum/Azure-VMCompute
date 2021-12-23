@@ -5,9 +5,9 @@
         "vmName": {
             "type": "string"
         },
-        "vmCount_str": {
-            "type": "string",
-            "defaultValue": "1"
+        "vmCount": {
+            "type": "int",
+            "defaultValue": 1
         },
         "adminUsername": {
             "type": "string",
@@ -190,7 +190,6 @@
             "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]"
         },
         "TimeZone": "Eastern Standard Time",
-        "vmCount": "[int(parameters('vmCount_str'))]",
         "OperatingSystems":
         {
             "2008-R2-SP1-smalldisk": {
@@ -284,11 +283,11 @@
         {
             "condition": "[equals(parameters('NeedsHA'), 'No')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(variables('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
                 "name": "vmloop",
-                "count": "[variables('vmCount')]"
+                "count": "[parameters('vmCount')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -298,7 +297,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(variables('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
@@ -367,11 +366,11 @@
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(variables('vmCount'), 1), concat('linked-vmaz-', parameters('vmName')), concat('linked-vmaz-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmaz-', parameters('vmName')), concat('linked-vmaz-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
                 "name": "vmloop",
-                "count": "[variables('vmCount')]"
+                "count": "[parameters('vmCount')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -381,7 +380,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(variables('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
@@ -453,11 +452,11 @@
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(variables('vmCount'), 1), concat('linked-vmavs-', parameters('vmName')), concat('linked-vmavs-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmavs-', parameters('vmName')), concat('linked-vmavs-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
                 "name": "vmloop",
-                "count": "[variables('vmCount')]"
+                "count": "[parameters('vmCount')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -467,7 +466,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(variables('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
