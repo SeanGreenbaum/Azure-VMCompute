@@ -16,7 +16,7 @@ When running the deployment by clicking the Deploy button below, you will be pro
 - Admin Password: This is the password of the built in admin account. This must be complex.  
 - VM SKU: Select the SKU of the VMs from the drop down  
 - VM OS: Select the VM OS  
--VM OS Build: Use "latest" by default. If need a prior version, use PowerShell to determine the correct build value based on available option in Azure  
+- VM OS Build: Use "latest" by default. If need a prior version, use PowerShell to determine the correct build value based on available option in Azure  
 `Get-AzVMImage -Location <location> -PublisherName <PublisherName> -Offer <OfferName> -Skus <sku>`  
 `Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
 - Storage Type: StandardHDD, StandardSSD, PremiumSSD  
