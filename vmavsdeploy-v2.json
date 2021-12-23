@@ -166,17 +166,19 @@
               "storageAccountType": "[parameters('storageType')]"
             }
           },
-          "copy": {
-            "name": "dataDisks",
-            "count": "[parameters('datadiskcount')]",
-            "input": {
-              "caching": "[parameters('datadiskcaching')]",
-              "diskSizeGB": "[parameters('datadisksize')]",
-              "lun": "[copyIndex('dataDisks')]",
-              "name": "[concat(parameters('vmName'), '-datadisk', copyIndex('dataDisks'))]",
-              "createOption": "Empty"
+          "copy": [
+            {
+              "name": "dataDisks",
+              "count": "[parameters('datadiskcount')]",
+              "input": {
+                "caching": "[parameters('datadiskcaching')]",
+                "diskSizeGB": "[parameters('datadisksize')]",
+                "lun": "[copyIndex('dataDisks')]",
+                "name": "[concat(parameters('vmName'), '-datadisk', copyIndex('dataDisks'))]",
+                "createOption": "Empty"
+              }
             }
-          }
+          ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
