@@ -218,7 +218,7 @@
                                     "name": "datadiskcount",
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Number of data disks",
-                                    "defaultValue": "1",
+                                    "defaultValue": "0",
                                     "toolTip": "",
                                     "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
                                 },
