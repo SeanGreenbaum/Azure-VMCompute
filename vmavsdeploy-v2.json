@@ -11,6 +11,23 @@
     "vmSize": {
       "type": "string"
     },
+    "datadiskcount": {
+      "type": "int",
+      "defaultValue": 0
+    },
+    "datadiskcaching": {
+      "type": "string",
+      "defaultValue" : "None",
+      "allowedValues": [
+        "None",
+        "ReadWrite",
+        "ReadOnly"
+      ]
+    },
+    "datadisksize": {
+      "type": "int",
+      "defaultValue": 31
+    },
     "vmOS": {
       "type": "string"
     },
@@ -147,6 +164,17 @@
             "createOption": "FromImage",
             "managedDisk": {
               "storageAccountType": "[parameters('storageType')]"
+            }
+          },
+          "copy": {
+            "name": "DataDisks",
+            "count": "[parameters('datadiskcount')]",
+            "input": {
+              "caching": "[parameters('datadiskcaching')]",
+              "diskSizeGB": "[parameters('datadisksize')]",
+              "lun": "[copyIndex()]",
+              "name": "[concat(parameters('vmName'), '-datadisk', copyIndex())]",
+              "createOption": "Empty"
             }
           }
         },

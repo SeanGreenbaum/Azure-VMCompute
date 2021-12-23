@@ -34,6 +34,23 @@
                 "Standard_B2ms"
             ]
         },
+        "datadiskcount": {
+            "type": "int",
+            "defaultValue": 0
+        },
+        "datadiskcaching": {
+            "type": "string",
+            "defaultValue" : "None",
+            "allowedValues": [
+                "None",
+                "ReadWrite",
+                "ReadOnly"
+            ]
+        },
+        "datadisksize": {
+            "type": "int",
+            "defaultValue": 31
+        },
         "vmOS": {
             "type": "string",
             "defaultValue": "2019-Datacenter-smalldisk-g2",
@@ -292,6 +309,15 @@
                     "vmSize": {
                         "value": "[parameters('vmSize')]"
                     },
+                    "datadiskcount": {
+                        "value": "[parameters('datadiskcount')]"
+                    },
+                    "datadiskcaching": {
+                        "value": "[parameters('datadiskcaching')]"
+                    },
+                    "datadisksize": {
+                        "value": "[parameters('datadisksize')]"
+                    },
                     "vmOS": {
                         "value": "[parameters('vmOS')]"
                     },
@@ -365,6 +391,15 @@
                     },
                     "vmSize": {
                         "value": "[parameters('vmSize')]"
+                    },
+                    "datadiskcount": {
+                        "value": "[parameters('datadiskcount')]"
+                    },
+                    "datadiskcaching": {
+                        "value": "[parameters('datadiskcaching')]"
+                    },
+                    "datadisksize": {
+                        "value": "[parameters('datadisksize')]"
                     },
                     "vmOS": {
                         "value": "[parameters('vmOS')]"
@@ -442,6 +477,15 @@
                     },
                     "vmSize": {
                         "value": "[parameters('vmSize')]"
+                    },
+                    "datadiskcount": {
+                        "value": "[parameters('datadiskcount')]"
+                    },
+                    "datadiskcaching": {
+                        "value": "[parameters('datadiskcaching')]"
+                    },
+                    "datadisksize": {
+                        "value": "[parameters('datadisksize')]"
                     },
                     "vmOS": {
                         "value": "[parameters('vmOS')]"

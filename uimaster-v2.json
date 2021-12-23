@@ -75,78 +75,172 @@
                             },
                             "visible": true
                         },
+
                         {
-                            "name": "vmSize",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "VM SKU",
-                            "defaultValue": "Standard_E2as_v4",
-                            "toolTip": "",
-                            "multiLine": true,
-                            "constraints": {
-                                "allowedValues": [
-                                    {
-                                        "label": "Standard_D2s_v4",
-                                        "description": "2 cores, Intel, 8 GB RAM",
-                                        "value": "Standard_D2s_v4"
+                            "name": "vmHardwareSelection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "VM Hardware",
+                            "visible": true,
+                            "elements": [
+                                {
+                                    "name": "vmSize",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "VM SKU",
+                                    "defaultValue": "Standard_E2as_v4",
+                                    "toolTip": "",
+                                    "multiLine": true,
+                                    "constraints": {
+                                        "allowedValues": [
+                                            {
+                                                "label": "Standard_D2s_v4",
+                                                "description": "2 cores, Intel, 8 GB RAM",
+                                                "value": "Standard_D2s_v4"
+                                            },
+                                            {
+                                                "label": "Standard_D4s_v4",
+                                                "description": "4 cores, Intel, 16 GB RAM",
+                                                "value": "Standard_D4s_v4"
+                                            },
+                                            {
+                                                "label": "Standard_D2as_v4",
+                                                "description": "2 cores, AMD, 8 GB RAM",
+                                                "value": "Standard_D2as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_D4as_v4",
+                                                "description": "4 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_D4as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E2s_v4",
+                                                "description": "2 cores, Intel, 16 GB RAM",
+                                                "value": "Standard_E2s_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E4s_v4",
+                                                "description": "4 cores, Intel, 32 GB RAM",
+                                                "value": "Standard_E4s_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E8s_v4",
+                                                "description": "8 cores, Intel, 64 GB RAM",
+                                                "value": "Standard_E8s_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E2as_v4",
+                                                "description": "2 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_E2as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E4as_v4",
+                                                "description": "4 cores, AMD, 32 GB RAM",
+                                                "value": "Standard_E4as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E8as_v4",
+                                                "description": "8 cores, AMD, 64 GB RAM",
+                                                "value": "Standard_E8as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_B2s",
+                                                "description": "2 burstable cores, Intel, 4 GB RAM",
+                                                "value": "Standard_B2s"
+                                            },
+                                            {
+                                                "label": "Standard_B2ms",
+                                                "description": "2 burstable cores, Intel, 8 GB RAM",
+                                                "value": "Standard_B2ms"
+                                            }
+                                        ]
                                     },
-                                    {
-                                        "label": "Standard_D4s_v4",
-                                        "description": "4 cores, Intel, 16 GB RAM",
-                                        "value": "Standard_D4s_v4"
+                                    "visible": true
+                                },
+                                {
+                                    "name": "storageType",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Storage Type",
+                                    "defaultValue": "Standard SSD",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Standard HDD",
+                                                "value": "Standard_LRS"
+                                            },
+                                            {
+                                                "label": "Standard SSD",
+                                                "value": "StandardSSD_LRS"
+                                            },
+                                            {
+                                                "label": "Premium SSD",
+                                                "value": "Premium_LRS"
+                                            }
+                                        ]
                                     },
-                                    {
-                                        "label": "Standard_D2as_v4",
-                                        "description": "2 cores, AMD, 8 GB RAM",
-                                        "value": "Standard_D2as_v4"
-                                    },
-                                    {
-                                        "label": "Standard_D4as_v4",
-                                        "description": "4 cores, AMD, 16 GB RAM",
-                                        "value": "Standard_D4as_v4"
-                                    },
-                                    {
-                                        "label": "Standard_E2s_v4",
-                                        "description": "2 cores, Intel, 16 GB RAM",
-                                        "value": "Standard_E2s_v4"
-                                    },
-                                    {
-                                        "label": "Standard_E4s_v4",
-                                        "description": "4 cores, Intel, 32 GB RAM",
-                                        "value": "Standard_E4s_v4"
-                                    },
-                                    {
-                                        "label": "Standard_E8s_v4",
-                                        "description": "8 cores, Intel, 64 GB RAM",
-                                        "value": "Standard_E8s_v4"
-                                    },
-                                    {
-                                        "label": "Standard_E2as_v4",
-                                        "description": "2 cores, AMD, 16 GB RAM",
-                                        "value": "Standard_E2as_v4"
-                                    },
-                                    {
-                                        "label": "Standard_E4as_v4",
-                                        "description": "4 cores, AMD, 32 GB RAM",
-                                        "value": "Standard_E4as_v4"
-                                    },
-                                    {
-                                        "label": "Standard_E8as_v4",
-                                        "description": "8 cores, AMD, 64 GB RAM",
-                                        "value": "Standard_E8as_v4"
-                                    },
-                                    {
-                                        "label": "Standard_B2s",
-                                        "description": "2 burstable cores, Intel, 4 GB RAM",
-                                        "value": "Standard_B2s"
-                                    },
-                                    {
-                                        "label": "Standard_B2ms",
-                                        "description": "2 burstable cores, Intel, 8 GB RAM",
-                                        "value": "Standard_B2ms"
+                                    "visible": true
+                                },
+                                {
+                                    "name": "dataDiskOption",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "label": "Do you wish to configure data disks",
+                                    "visible": true,
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "allowedValues": [
+                                            {
+                                                "label": "No",
+                                                "value": "No"
+                                            },
+                                            {
+                                                "label": "Yes",
+                                                "value": "Yes"
+                                            }
+                                        ]
                                     }
-                                ]
-                            },
-                            "visible": true
+                                },
+                                {
+                                    "name": "datadiskcount",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Number of data disks",
+                                    "defaultValue": "0",
+                                    "toolTip": "",
+                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
+                                },
+                                {
+                                    "name": "datadiskcaching",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Data Disk host caching",
+                                    "defaultValue": "None",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "None",
+                                                "value": "None"
+                                            },
+                                            {
+                                                "label": "Read/Write",
+                                                "value": "ReadWrite"
+                                            },
+                                            {
+                                                "label": "Read Only",
+                                                "value": "ReadOnly"
+                                            }
+                                        ]
+                                    },
+                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
+                                },
+                                {
+                                    "name": "datadisksize",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Size of data disks",
+                                    "defaultValue": "0",
+                                    "toolTip": "",
+                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
+                                }
+                            ]
                         },
                         {
                             "name": "vmOSOptions",
@@ -239,31 +333,6 @@
                                 "required": false,
                                 "regex": "",
                                 "validationMessage": ""
-                            },
-                            "visible": true
-                        },
-                        {
-                            "name": "storageType",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "Storage Type",
-                            "defaultValue": "Standard SSD",
-                            "toolTip": "",
-                            "constraints": {
-                                "required": false,
-                                "allowedValues": [
-                                    {
-                                        "label": "Standard HDD",
-                                        "value": "Standard_LRS"
-                                    },
-                                    {
-                                        "label": "Standard SSD",
-                                        "value": "StandardSSD_LRS"
-                                    },
-                                    {
-                                        "label": "Premium SSD",
-                                        "value": "Premium_LRS"
-                                    }
-                                ]
                             },
                             "visible": true
                         },
@@ -577,7 +646,10 @@
                 "vmSize": "[steps('basics').vmSize]",
                 "vmOS": "[steps('basics').vmOSOptions]",
                 "vmOSversion": "[steps('basics').vmOSversion]",
-                "storageType": "[steps('basics').storageType]",
+                "storageType": "[steps('basics').vmHardwareSelection.storageType]",
+                "datadiskcount": "[(int)steps('basics').vmHardwareSelection.datadiskcount]",
+                "datadisksize": "[(int)steps('basics').vmHardwareSelection.datadisksize]",
+                "datadiskcaching": "[steps('basics').vmHardwareSelection.datadiskcaching]",
                 "vNetName": "[steps('basics').vNetName]",
                 "VNetSubnetName": "[steps('basics').VNetSubnetName]",
                 "acceleratedNetworking": "[steps('basics').acceleratedNetworking]",
