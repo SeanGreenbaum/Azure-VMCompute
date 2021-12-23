@@ -170,7 +170,7 @@
                 "caching": "[parameters('datadiskcaching')]",
                 "diskSizeGB": "[parameters('datadisksize')]",
                 "lun": "[copyIndex('dataDisks')]",
-                "name": "[concat(parameters('vmName'), '-datadisk', copyIndex('dataDisks'))]",
+                "name": "[concat(parameters('vmName'), '_datadisk', copyIndex('dataDisks'))]",
                 "createOption": "Empty",
                 "managedDisk": {
                   "storageAccountType": "[parameters('storageType')]"
