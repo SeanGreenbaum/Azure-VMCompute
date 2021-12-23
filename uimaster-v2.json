@@ -149,36 +149,7 @@
                             "visible": true
                         },
                         {
-                            "name": "vmOffer",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "OS Family",
-                            "defaultValue": "Windows Server",
-                            "toolTip": "",
-                            "constraints": {
-                                "required": true,
-                                "allowedValues": [
-                                    {
-                                        "label": "Windows Server",
-                                        "value": "WindowsServer"
-                                    },
-                                    {
-                                        "label": "Windows 11",
-                                        "value": "Windows-11"
-                                    },
-                                    {
-                                        "label": "Windows 10",
-                                        "value": "Windows-10"
-                                    },
-                                    {
-                                        "label": "Windows 7",
-                                        "value": "Windows-7"
-                                    }
-                                ]
-                            },
-                            "visible": true
-                        },
-                        {
-                            "name": "vmServerOS",
+                            "name": "vmOSOptions",
                             "type": "Microsoft.Common.DropDown",
                             "label": "VM OS",
                             "defaultValue": "Server 2019 Datacenter Gen2",
@@ -225,20 +196,7 @@
                                     {
                                         "label": "Server 2016 Datacenter CORE Gen2",
                                         "value": "2016-Datacenter-Server-Core-smalldisk-g2"
-                                    }
-                                ]
-                            },
-                            "visible": "[equals(steps('basics').vmOffer, 'WindowsServer')]"
-                        },
-                        {
-                            "name": "vmClientOS",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "VM OS",
-                            "defaultValue": "Windows 11 v21h2",
-                            "toolTip": "",
-                            "constraints": {
-                                "required": false,
-                                "allowedValues": [
+                                    },
                                     {
                                         "label": "Windows 11 v21h2",
                                         "value": "win11-21h2-ent"
@@ -269,8 +227,8 @@
                                     }
                                 ]
                             },
-                            "visible": "[not(equals(steps('basics').vmOffer, 'WindowsServer'))]"
-                        },                        
+                            "visible": true
+                        },
                         {
                             "name": "vmOSversion",
                             "type": "Microsoft.Common.TextBox",
@@ -617,10 +575,7 @@
                 "adminUsername": "[steps('basics').adminUsername]",
                 "adminPassword": "[steps('basics').adminPassword]",
                 "vmSize": "[steps('basics').vmSize]",
-                "vmSRVOS": "[steps('basics').vmServerOS]",
-                "vmClientOS": "[steps('basics').vmClientOS]",
-                "license": "[if(equals(steps('basics').vmOffer, 'WindowsServer'), 'Windows_Server', 'Windows_Client')]",
-                "vmOffer": "[steps('basics').vmOffer]",
+                "vmOS": "[steps('basics').vmOSOptions]",
                 "vmOSversion": "[steps('basics').vmOSversion]",
                 "storageType": "[steps('basics').storageType]",
                 "vNetName": "[steps('basics').vNetName]",
