@@ -2,17 +2,41 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-	"nicName": {
-	  "type": "string"
-	},
-	"subnetRef": {
-	  "type": "string"
-	},
-	"acceleratedNetworking": {
-	  "type": "bool"
-	}
+    "nicName": {
+      "type": "string"
+    },
+    "subnetRef": {
+      "type": "string"
+    },
+    "acceleratedNetworking": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "DHCPType": {
+      "type": "string",
+      "defaultValue": "Dynamic",
+      "allowedValues": [
+        "Dynamic",
+        "Static"
+      ]
+    },
+    "StaticIPAddress": {
+      "type": "string",
+      "defaultValue": "192.168.255.10"
+    },
+    "CustomDNS": {
+      "type": "array",
+      "defaultValue": [
+        "AzureProvided"
+      ],
+      "metadata":{
+        "description": "If using custom, must be in the format [\"ipaddress1\", \"ipaddress2\"]"
+      }
+    }
   },
-  "variables": {},
+  "variables": {
+    "CustomDNSSettings": "[if(contains(parameters('CustomDNS'), 'AzureProvided'), '', parameters('CustomDNS'))]"
+  },
   "resources": [
     {
       "name": "[parameters('nicName')]",
@@ -29,10 +53,15 @@
               "subnet": {
                 "id": "[parameters('subnetRef')]"
               },
-              "privateIPAllocationMethod": "Dynamic"
+              "privateIPAllocationMethod": "[parameters('DHCPType')]",
+              "privateIpAddressVersion": "IPv4",
+              "privateIPAddress": "[parameters('StaticIPAddress')]"
             }
           }
-        ]
+        ],
+        "dnsSettings": {
+          "dnsServers": "[variables('CustomDNSSettings')]"
+        }
       }
     }
   ],
