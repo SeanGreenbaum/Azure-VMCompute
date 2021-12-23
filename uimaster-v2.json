@@ -593,7 +593,7 @@
                             "type": "Microsoft.Common.TextBlock",
                             "visible": true,
                             "options": {
-                                "text": "These are advanced options for changing the branch for deployment. "
+                                "text": "These are advanced options. "
                             }
                         },
                         {
@@ -654,8 +654,8 @@
                 "vmOS": "[steps('basics').vmSoftwareSelection.vmOSOptions]",
                 "vmOSversion": "[steps('basics').vmSoftwareSelection.vmOSversion]",
                 "storageType": "[steps('basics').vmHardwareSelection.storageType]",
-                "datadiskcount": "[int(steps('basics').vmHardwareSelection.datadiskcount)]",
-                "datadisksize": "[int(steps('basics').vmHardwareSelection.datadisksize)]",
+                "datadiskcount": "[if(equals(steps('basics').vmHardwareSelection.dataDiskOption, 'No'), 0, int(steps('basics').vmHardwareSelection.datadiskcount))]",
+                "datadisksize": "[if(equals(steps('basics').vmHardwareSelection.dataDiskOption, 'No'), 0, int(steps('basics').vmHardwareSelection.datadisksize))]",
                 "datadiskcaching": "[steps('basics').vmHardwareSelection.datadiskcaching]",
                 "vNetName": "[steps('basics').vmHardwareSelection.vNetName]",
                 "VNetSubnetName": "[steps('basics').vmHardwareSelection.VNetSubnetName]",
