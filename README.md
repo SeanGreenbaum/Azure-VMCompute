@@ -15,12 +15,8 @@ When running the deployment by clicking the Deploy button below, you will be pro
 - Admin Username: This is the username of the built in admin account  
 - Admin Password: This is the password of the built in admin account. This must be complex.  
 - VM SKU: Select the SKU of the VMs from the drop down  
-- OS Family: For a Windows Server, Select Windows Server. For a Windows client OS, select the appropriate family  
-    - For Windows clients, be sure the OS Family match the OS selected in the next drop down  
 - VM OS: Select the VM OS  
-    - If using OS Family Windows Server, then only Server OS will be displayed  
-    - If using OS Family not Windows Server, then all Windows client OS will be displayed. Be sure to select the correct OS based on the OS Family above  
--VM OS Build: Use "latest" by default. If need a prior version, use PowerShell to determine the correct build value based on available option in Azure  
+- VM OS Build: Use "latest" by default. If need a prior version, use PowerShell to determine the correct build value based on available option in Azure  
 `Get-AzVMImage -Location <location> -PublisherName <PublisherName> -Offer <OfferName> -Skus <sku>`  
 `Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
 - Storage Type: StandardHDD, StandardSSD, PremiumSSD  
