@@ -15,6 +15,23 @@
     "vmSize": {
       "type": "string"
     },
+    "datadiskcount": {
+      "type": "int",
+      "defaultValue": 0
+    },
+    "datadiskcaching": {
+      "type": "string",
+      "defaultValue" : "None",
+      "allowedValues": [
+        "None",
+        "ReadWrite",
+        "ReadOnly"
+      ]
+    },
+    "datadisksize": {
+      "type": "int",
+      "defaultValue": 31
+    },
     "vmOS": {
       "type": "string"
     },
@@ -148,7 +165,23 @@
             "managedDisk": {
               "storageAccountType": "[parameters('storageType')]"
             }
-          }
+          },
+          "copy": [
+            {
+              "name": "dataDisks",
+              "count": "[parameters('datadiskcount')]",
+              "input": {
+                "caching": "[parameters('datadiskcaching')]",
+                "diskSizeGB": "[parameters('datadisksize')]",
+                "lun": "[copyIndex('dataDisks')]",
+                "name": "[concat(parameters('vmName'), '_datadisk', copyIndex('dataDisks'))]",
+                "createOption": "Empty",
+                "managedDisk": {
+                  "storageAccountType": "[parameters('storageType')]"
+                }
+              }
+            }
+          ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
