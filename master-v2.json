@@ -358,6 +358,9 @@
                     },
                     "DomainJoinPassword": {
                         "value": "[parameters('DomainJoinPassword')]"
+                    },
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
@@ -444,6 +447,9 @@
                     },
                     "DomainJoinPassword": {
                         "value": "[parameters('DomainJoinPassword')]"
+                    },
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
@@ -530,6 +536,9 @@
                     },
                     "DomainJoinPassword": {
                         "value": "[parameters('DomainJoinPassword')]"
+                    },
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },

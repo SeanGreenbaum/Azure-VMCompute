@@ -152,10 +152,6 @@
         "datadiskcount": 1,
         "datadiskcaching": "None",
         "datadisksize": 4,
-        "DomainJoin": "No",
-        "DomainToJoin": "None",
-        "DomainJoinUserName": "None",
-        "DomainJoinPassword": "None",
         "ADForestPS1uri": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
         "OperatingSystems":
         {
@@ -261,17 +257,8 @@
                     "timeZone": {
                         "value": "[variables('timeZone')]"
                     },
-                    "DomainJoin": {
-                        "value": "[variables('DomainJoin')]"
-                    },
-                    "DomainToJoin": {
-                        "value": "[variables('DomainToJoin')]"
-                    },
-                    "DomainJoinUserName": {
-                        "value": "[variables('DomainJoinUserName')]"
-                    },
-                    "DomainJoinPassword": {
-                        "value": "[variables('DomainJoinPassword')]"
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
@@ -343,17 +330,8 @@
                     "AzZone": {
                         "value": "[parameters('AvailabilityZone')]"
                     },
-                    "DomainJoin": {
-                        "value": "[variables('DomainJoin')]"
-                    },
-                    "DomainToJoin": {
-                        "value": "[variables('DomainToJoin')]"
-                    },
-                    "DomainJoinUserName": {
-                        "value": "[variables('DomainJoinUserName')]"
-                    },
-                    "DomainJoinPassword": {
-                        "value": "[variables('DomainJoinPassword')]"
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
@@ -425,17 +403,8 @@
                     "timeZone": {
                         "value": "[variables('timeZone')]"
                     },
-                    "DomainJoin": {
-                        "value": "[variables('DomainJoin')]"
-                    },
-                    "DomainToJoin": {
-                        "value": "[variables('DomainToJoin')]"
-                    },
-                    "DomainJoinUserName": {
-                        "value": "[variables('DomainJoinUserName')]"
-                    },
-                    "DomainJoinPassword": {
-                        "value": "[variables('DomainJoinPassword')]"
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
