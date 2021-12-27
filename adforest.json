@@ -158,9 +158,6 @@
         "DomainJoinPassword": "None",
         "ADConfigScript": "dc-build.ps1",
         "ADConfigScriptURL": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/', variables('ADConfigScript'), '.zip')]",
-        "DCLocalDNS": [
-            "[parameters('DCIPAddress')]"
-        ],
         "OperatingSystems":
         {
             "2012-R2-Datacenter-smalldisk-g2": {
@@ -249,9 +246,6 @@
                     },
                     "StaticIPAddress": {
                         "value": "[parameters('DCIPAddress')]"
-                    },
-                    "CustomDNS": {
-                        "value": "[variables('DCLocalDNS')]"
                     },
                     "acceleratedNetworking": {
                         "value": "[parameters('acceleratedNetworking')]"
@@ -475,7 +469,9 @@
           "location": "[resourceGroup().location]",
           "apiVersion": "2021-07-01",
           "dependsOn":  [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+            "[concat('linked-vm-', parameters('vmName'))]",
+            "[concat('linked-vmavs-', parameters('vmName'))]",
+            "[concat('linked-vmaz-', parameters('vmName'))]"
           ],
           "properties": {
             "publisher": "Microsoft.Powershell",
