@@ -9,7 +9,7 @@ Add-Content -Path "C:\Windows\Temp\ADForestLog.txt" "Domain NetBIOS Name $Domain
 Add-Content -Path "C:\Windows\Temp\ADForestLog.txt" "SafeModeAdminPassword $SafeModeAdminPassword"
 
 #Format data disk
-$rawdisks = get-disk | ? {$_.PartitionStyle -eq "RAW"}
+$rawdisks = get-disk | Where-Object {$_.PartitionStyle -eq "RAW"}
 Initialize-Disk $rawdisks.DiskNumber
 get-disk $rawdisks.Number | New-Partition -UseMaximumSize -AssignDriveLetter | Format-Volume -FileSystem NTFS -NewFileSystemLabel "AD Data"
 $datadriveletter = (Get-Partition -DiskNumber $rawdisks.DiskNumber -PartitionNumber 2).DriveLetter
