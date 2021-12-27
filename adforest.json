@@ -158,6 +158,9 @@
         "DomainJoinPassword": "None",
         "ADConfigScript": "dc-build.ps1",
         "ADConfigScriptURL": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/', variables('ADConfigScript'), '.zip')]",
+        "DCLocalDNS": [
+            "[parameters('DCIPAddress')]"
+        ],
         "OperatingSystems":
         {
             "2012-R2-Datacenter-smalldisk-g2": {
@@ -248,7 +251,7 @@
                         "value": "[parameters('DCIPAddress')]"
                     },
                     "CustomDNS": {
-                        "value": "[parameters('DCIPAddress')]"
+                        "value": "[variables('DCLocalDNS')]"
                     },
                     "acceleratedNetworking": {
                         "value": "[parameters('acceleratedNetworking')]"
@@ -467,7 +470,7 @@
             "dependsOn": []
         },
         {
-          "name": "AD-DSC",
+          "name": "[concat(parameters('vmName'), '/AD-DSC')]",
           "type":"Microsoft.Compute/virtualMachines/extensions",
           "location": "[resourceGroup().location]",
           "apiVersion": "2021-07-01",
