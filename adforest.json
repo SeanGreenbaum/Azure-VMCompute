@@ -62,6 +62,10 @@
             "type": "string",
             "defaultValue": "Subnet1"
         },
+        "DCIPAddress": {
+            "type": "string",
+            "defaultValue": "EnterIPAddressHere"
+        },
         "acceleratedNetworking": {
             "type": "bool",
             "defaultValue": false,
@@ -236,6 +240,15 @@
                     },
                     "subnetRef": {
                         "value": "[variables('subnetRef')]"
+                    },
+                    "DHCPType": {
+                        "value": "Static"
+                    },
+                    "StaticIPAddress": {
+                        "value": "[parameters('DCIPAddress')]"
+                    },
+                    "CustomDNS": {
+                        "value": "[parameters('DCIPAddress')]"
                     },
                     "acceleratedNetworking": {
                         "value": "[parameters('acceleratedNetworking')]"

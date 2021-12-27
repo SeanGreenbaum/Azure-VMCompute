@@ -22,7 +22,7 @@
     },
     "StaticIPAddress": {
       "type": "string",
-      "defaultValue": "192.168.255.10"
+      "defaultValue": "10.0.0.1"
     },
     "CustomDNS": {
       "type": "array",
