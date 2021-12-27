@@ -123,14 +123,6 @@
         "type": "string",
         "defaultValue": "contoso"
         },
-        "DomainDN": {
-        "type": "string",
-        "defaultValue": "dc=contoso,dc=com"
-        },
-        "RootOUName": {
-        "type": "string",
-        "defaultValue": "Contoso"
-        },
         "CustomBranch": {
             "type": "string",
             "defaultValue": "master",
@@ -152,7 +144,7 @@
         "datadiskcount": 1,
         "datadiskcaching": "None",
         "datadisksize": 4,
-        "ADForestPS1uri": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
+        "artifactsuri": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
         "OperatingSystems":
         {
             "2012-R2-Datacenter-smalldisk-g2": {
@@ -444,15 +436,16 @@
           "properties": {
             "publisher": "Microsoft.Compute",
             "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.4",
+            "typeHandlerVersion": "1.9.5",
             "autoUpgradeMinorVersion": true,
             "settings": {
                 "fileUris": [
-                    "[uri(variables('ADForestPS1uri'), 'BuildADForest.ps1')]"
-                ],
-                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File BuildADForest.ps1 -DomainName ', parameters('DomainDNSName'), ' -DomainNetBIOSName ', parameters('DomainNetBIOSName'), ' -SafeModeAdminPassword ', parameters('adminPassword'))]"
+                    "[uri(variables('artifactsuri'), 'BuildADForest.ps1')]"
+                ]                
             },
-            "protectedSettings": {}
+            "protectedSettings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File BuildADForest.ps1 -DomainName ', parameters('DomainDNSName'), ' -DomainNetBIOSName ', parameters('DomainNetBIOSName'), ' -SafeModeAdminPassword ', parameters('adminPassword'), ' -artifactslocation ', variables('artifactsuri'))]"
+            }
           }
         }
     ],
