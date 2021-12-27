@@ -35,4 +35,7 @@ if ($thisserver)
     Set-DnsServerForwarder -IPAddress 168.63.129.16
 }
 
-Restart-Computer -Force
+#Need to test adding OUs before reboot or does this need to be a one time scheduled task and another ps1 script to complete OU builds
+
+cmd.exe /c "shutdown /r /t 60"
+#Cant use Restart-Computer due to no countdown timer

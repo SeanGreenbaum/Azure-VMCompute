@@ -156,8 +156,7 @@
         "DomainToJoin": "None",
         "DomainJoinUserName": "None",
         "DomainJoinPassword": "None",
-        "ADConfigScript": "dc-build.ps1",
-        "ADConfigScriptURL": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/', variables('ADConfigScript'), '.zip')]",
+        "ADForestPS1uri": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
         "OperatingSystems":
         {
             "2012-R2-Datacenter-smalldisk-g2": {
@@ -464,7 +463,7 @@
             "dependsOn": []
         },
         {
-          "name": "[concat(parameters('vmName'), '/AD-DSC')]",
+          "name": "[concat(parameters('vmName'), '/AD-Forest')]",
           "type":"Microsoft.Compute/virtualMachines/extensions",
           "location": "[resourceGroup().location]",
           "apiVersion": "2021-07-01",
@@ -474,26 +473,15 @@
             "[concat('linked-vmaz-', parameters('vmName'))]"
           ],
           "properties": {
-            "publisher": "Microsoft.Powershell",
-            "type": "DSC",
-            "typeHandlerVersion": "2.0",
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.4",
             "autoUpgradeMinorVersion": true,
             "settings": {
-              "configuration": {
-                "url": "[variables('ADConfigScriptURL')]",
-                "script": "[variables('ADConfigScript')]",
-                "function": "AD"
-              },
-              "configurationArguments": {
-                "DomainCred": {
-                  "UserName": "[parameters('adminUsername')]",
-                  "Password": "[parameters('adminPassword')]"
-                },
-                "DomainName": "[parameters('DomainDNSName')]",
-                "DomainDN": "[parameters('DomainDN')]",
-                "CompanyName": "[parameters('RootOUName')]",
-                "DomainNetBIOSName": "[parameters('DomainNetBIOSName')]"
-              }
+                "fileUris": [
+                    "[uri(variables('ADForestPS1uri'), 'BuildADForest.ps1')]"
+                ],
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File BuildADForest.ps1 -DomainName ', parameters('DomainDNSName'), ' -DomainNetBIOSName ', parameters('DomainNetBIOSName'), ' -SafeModeAdminPassword ', parameters('adminPassword'))]"
             },
             "protectedSettings": {}
           }
