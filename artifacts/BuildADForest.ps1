@@ -1,7 +1,7 @@
 param (
     [Parameter(Mandatory=$false)][string]$DomainName = "contoso.com",
     [Parameter(Mandatory=$false)][string]$DomainNetBIOSName = "contoso",
-    [Parameter(Mandatory=$false)][string]$SafeModeAdminPassword = "P@ssword1",
+    [Parameter(Mandatory=$false)][string]$Password = "P@ssword1",
     [Parameter(Mandatory=$false)][string]$artifactslocation = "None"
 )
 
@@ -11,11 +11,28 @@ Add-Content -Path $LogFile "Domain Name $DomainName"
 Add-Content -Path $LogFile "Domain NetBIOS Name $DomainNetBIOSName"
 Add-Content -Path $LogFile "SafeModeAdminPassword $SafeModeAdminPassword"
 
+#Download files needed for later steps
 if ($artifactslocation -ne "None")
 {
     New-Item -Path C:\ -Name "ADForest Build" -ItemType Directory
-    
+    $downloadpath = "C:\ADForest Build\"
+    $files = @()
+    $files += ($artifactslocation + "BuildADForestOUStructure.ps1")
+    $files += ($artifactslocation + "ADForest-oustructure.txt")
+
+    $files | ForEach-Object {
+        Start-BitsTransfer -Source $_ -Destination $downloadpath
+    }
 }
+
+#Create scheduled task for after reboot
+$scriptpath = "C:\ADForest Build\BuildADForestOUStructure.ps1"
+$taskname = "AD Forest Build post-reboot"
+$taskAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Unrestricted -File `"$scriptpath`""
+$tasktrigger = New-ScheduledTaskTrigger -AtLogOn
+$tasksettings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes 5) -IdleDuration (New-TimeSpan -Seconds 60) -IdleWaitTimeout (New-TimeSpan -Minutes 5)  -DontStopOnIdleEnd -RestartInterval (New-TimeSpan -Minutes 1) -RestartCount 5
+Register-ScheduledTask -TaskName $taskname -Action $taskAction -Trigger $tasktrigger -Settings $tasksettings -User (Get-LocalUser | Where-Object {$_.SID -like "*-500"}).name -Password $Password -RunLevel Highest
+
 
 #Format data disk
 Add-Content -Path $LogFile "Preparing data disk"
@@ -33,7 +50,7 @@ Add-Content -Path $LogFile "Starting AD Forest install"
 $ADDBPath = $datadriveletter + ":\Windows\NTDS"
 $ADLogPath = $datadriveletter + ":\Windows\NTDS"
 $ADSysVolPath = $datadriveletter + ":\Windows\SYSVOL"
-$ADSafeModePasswordSecure = ConvertTo-SecureString $SafeModeAdminPassword -AsPlainText -Force
+$ADSafeModePasswordSecure = ConvertTo-SecureString $Password -AsPlainText -Force
 Install-ADDSForest -CreateDnsDelegation:$false -DatabasePath $ADDBPath -DomainName $DomainName -DomainNetbiosName $DomainNetBIOSName -InstallDns:$true -LogPath $ADLogPath -NoRebootOnCompletion:$true -SysvolPath $ADSysVolPath -Force:$true -SafeModeAdministratorPassword $ADSafeModePasswordSecure
 
 #Configure the local DNS Server service to forward to the Azure DNS service if VM is in Azure

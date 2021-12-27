@@ -2,9 +2,9 @@ ou=Admin
 ou=Tier 0,ou=Admin
 ou=Tier 1,ou=Admin
 ou=Tier 2,ou=Admin
-ou=$domainshortname
-ou=Workstations,ou=$domainshortname
-ou=Staff,ou=$domainshortname
-ou=Service Accounts,ou=$domainshortname
-ou=Groups,ou=$domainshortname
-ou=Servers,ou=$domainshortname
+ou=Contoso
+ou=Workstations,ou=Contoso
+ou=Staff,ou=Contoso
+ou=Service Accounts,ou=Contoso
+ou=Groups,ou=Contoso
+ou=Servers,ou=Contoso
