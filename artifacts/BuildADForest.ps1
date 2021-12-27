@@ -4,6 +4,10 @@ param (
     [Parameter(Mandatory=$false)][string]$SafeModeAdminPassword = "P@ssword1"
 )
 
+Add-Content -Path "C:\Windows\Temp\ADForestLog.txt" "Domain Name $DomainName"
+Add-Content -Path "C:\Windows\Temp\ADForestLog.txt" "Domain NetBIOS Name $DomainNetBIOSName"
+Add-Content -Path "C:\Windows\Temp\ADForestLog.txt" "SafeModeAdminPassword $SafeModeAdminPassword"
+
 #Format data disk
 $rawdisks = get-disk | ? {$_.PartitionStyle -eq "RAW"}
 Initialize-Disk $rawdisks.DiskNumber
