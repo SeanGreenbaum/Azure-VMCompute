@@ -5,10 +5,6 @@
         "vmName": {
             "type": "string"
         },
-        "vmCount": {
-            "type": "int",
-            "defaultValue": 1
-        },
         "adminUsername": {
             "type": "string",
             "defaultValue": "sAdmin"
@@ -34,44 +30,16 @@
                 "Standard_B2ms"
             ]
         },
-        "datadiskcount": {
-            "type": "int",
-            "defaultValue": 0
-        },
-        "datadiskcaching": {
-            "type": "string",
-            "defaultValue" : "None",
-            "allowedValues": [
-                "None",
-                "ReadWrite",
-                "ReadOnly"
-            ]
-        },
-        "datadisksize": {
-            "type": "int",
-            "defaultValue": 31
-        },
         "vmOS": {
             "type": "string",
             "defaultValue": "2019-Datacenter-smalldisk-g2",
             "allowedValues": [
-                "2008-R2-SP1-smalldisk",
-                "2012-Datacenter-smalldisk",
                 "2012-R2-Datacenter-smalldisk-g2",
-                "2016-Datacenter-smalldisk",
                 "2016-datacenter-smalldisk-g2",
                 "2016-Datacenter-Server-Core-smalldisk-g2",
-                "2019-Datacenter-smalldisk",
                 "2019-Datacenter-smalldisk-g2",
                 "2019-Datacenter-Core-smalldisk-g2",
-                "2022-datacenter-smalldisk-g2",
-                "win11-21h2-ent",
-                "20h2-ent-g2",
-                "20h1-ent-g2",
-                "19h2-ent-g2",
-                "rs5-enterprise-g2",
-                "rs3-pro",
-                "win7-enterprise"
+                "2022-datacenter-smalldisk-g2"
             ]
         },
         "vmOSversion": {
@@ -93,6 +61,10 @@
         "VNetSubnetName": {
             "type": "string",
             "defaultValue": "Subnet1"
+        },
+        "DCIPAddress": {
+            "type": "string",
+            "defaultValue": "EnterIPAddressHere"
         },
         "acceleratedNetworking": {
             "type": "bool",
@@ -143,34 +115,13 @@
                 "3"
             ]
         },
-        "DomainJoin": {
-            "type": "string",
-            "defaultValue": "No",
-            "allowedValues": [
-                "No",
-                "Yes"
-            ]
+        "DomainDNSName": {
+        "type": "string",
+        "defaultValue": "contoso.com"
         },
-        "DomainToJoin": {
-            "type": "string",
-            "defaultValue": "None",
-            "metadata": {
-                "description": "Only needed if DomainJoin is Yes"
-            }
-        },
-        "DomainJoinUserName": {
-            "type": "string",
-            "defaultValue": "None",
-            "metadata": {
-                "description": "Only needed if DomainJoin is Yes"
-            }
-        },
-        "DomainJoinPassword": {
-            "type": "securestring",
-            "defaultValue": "None",
-            "metadata": {
-                "description": "Only needed if DomainJoin is Yes"
-            }
+        "DomainNetBIOSName": {
+        "type": "string",
+        "defaultValue": "contoso"
         },
         "CustomBranch": {
             "type": "string",
@@ -190,24 +141,13 @@
             "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]"
         },
         "TimeZone": "Eastern Standard Time",
+        "datadiskcount": 1,
+        "datadiskcaching": "None",
+        "datadisksize": 4,
+        "artifactsuri": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
         "OperatingSystems":
         {
-            "2008-R2-SP1-smalldisk": {
-                "vmPublisher": "MicrosoftWindowsServer",
-                "vmOffer": "WindowsServer",
-                "vmLicense": "Windows_Server"
-            },
-            "2012-Datacenter-smalldisk": {
-                "vmPublisher": "MicrosoftWindowsServer",
-                "vmOffer": "WindowsServer",
-                "vmLicense": "Windows_Server"
-            },
             "2012-R2-Datacenter-smalldisk-g2": {
-                "vmPublisher": "MicrosoftWindowsServer",
-                "vmOffer": "WindowsServer",
-                "vmLicense": "Windows_Server"
-            },
-            "2016-Datacenter-smalldisk": {
                 "vmPublisher": "MicrosoftWindowsServer",
                 "vmOffer": "WindowsServer",
                 "vmLicense": "Windows_Server"
@@ -218,11 +158,6 @@
                 "vmLicense": "Windows_Server"
             },
             "2016-Datacenter-Server-Core-smalldisk-g2": {
-                "vmPublisher": "MicrosoftWindowsServer",
-                "vmOffer": "WindowsServer",
-                "vmLicense": "Windows_Server"
-            },
-            "2019-Datacenter-smalldisk": {
                 "vmPublisher": "MicrosoftWindowsServer",
                 "vmOffer": "WindowsServer",
                 "vmLicense": "Windows_Server"
@@ -241,41 +176,6 @@
                 "vmPublisher": "MicrosoftWindowsServer",
                 "vmOffer": "WindowsServer",
                 "vmLicense": "Windows_Server"
-            },
-            "win11-21h2-ent": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-11",
-                "vmLicense": "Windows_Client"
-            },
-            "20h2-ent-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "20h1-ent-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "19h2-ent-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "rs5-enterprise-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "rs3-pro": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "win7-enterprise": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-7",
-                "vmLicense": "Windows_Client"
             }
         }
     },
@@ -283,12 +183,8 @@
         {
             "condition": "[equals(parameters('NeedsHA'), 'No')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[concat('linked-vm-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
-            "copy": {
-                "name": "vmloop",
-                "count": "[parameters('vmCount')]"
-            },
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -297,7 +193,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[parameters('vmName')]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
@@ -309,13 +205,13 @@
                         "value": "[parameters('vmSize')]"
                     },
                     "datadiskcount": {
-                        "value": "[parameters('datadiskcount')]"
+                        "value": "[variables('datadiskcount')]"
                     },
                     "datadiskcaching": {
-                        "value": "[parameters('datadiskcaching')]"
+                        "value": "[variables('datadiskcaching')]"
                     },
                     "datadisksize": {
-                        "value": "[parameters('datadisksize')]"
+                        "value": "[variables('datadisksize')]"
                     },
                     "vmOS": {
                         "value": "[parameters('vmOS')]"
@@ -332,6 +228,12 @@
                     "subnetRef": {
                         "value": "[variables('subnetRef')]"
                     },
+                    "DHCPType": {
+                        "value": "Static"
+                    },
+                    "StaticIPAddress": {
+                        "value": "[parameters('DCIPAddress')]"
+                    },
                     "acceleratedNetworking": {
                         "value": "[parameters('acceleratedNetworking')]"
                     },
@@ -347,18 +249,6 @@
                     "timeZone": {
                         "value": "[variables('timeZone')]"
                     },
-                    "DomainJoin": {
-                        "value": "[parameters('DomainJoin')]"
-                    },
-                    "DomainToJoin": {
-                        "value": "[parameters('DomainToJoin')]"
-                    },
-                    "DomainJoinUserName": {
-                        "value": "[parameters('DomainJoinUserName')]"
-                    },
-                    "DomainJoinPassword": {
-                        "value": "[parameters('DomainJoinPassword')]"
-                    },
                     "CustomBranch": {
                         "value": "[parameters('CustomBranch')]"
                     }
@@ -369,12 +259,8 @@
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmaz-', parameters('vmName')), concat('linked-vmaz-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[concat('linked-vmaz-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
-            "copy": {
-                "name": "vmloop",
-                "count": "[parameters('vmCount')]"
-            },
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -383,7 +269,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[parameters('vmName')]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
@@ -395,13 +281,13 @@
                         "value": "[parameters('vmSize')]"
                     },
                     "datadiskcount": {
-                        "value": "[parameters('datadiskcount')]"
+                        "value": "[variables('datadiskcount')]"
                     },
                     "datadiskcaching": {
-                        "value": "[parameters('datadiskcaching')]"
+                        "value": "[variables('datadiskcaching')]"
                     },
                     "datadisksize": {
-                        "value": "[parameters('datadisksize')]"
+                        "value": "[variables('datadisksize')]"
                     },
                     "vmOS": {
                         "value": "[parameters('vmOS')]"
@@ -436,18 +322,6 @@
                     "AzZone": {
                         "value": "[parameters('AvailabilityZone')]"
                     },
-                    "DomainJoin": {
-                        "value": "[parameters('DomainJoin')]"
-                    },
-                    "DomainToJoin": {
-                        "value": "[parameters('DomainToJoin')]"
-                    },
-                    "DomainJoinUserName": {
-                        "value": "[parameters('DomainJoinUserName')]"
-                    },
-                    "DomainJoinPassword": {
-                        "value": "[parameters('DomainJoinPassword')]"
-                    },
                     "CustomBranch": {
                         "value": "[parameters('CustomBranch')]"
                     }
@@ -458,12 +332,8 @@
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
             "apiVersion": "2021-04-01",
-            "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmavs-', parameters('vmName')), concat('linked-vmavs-', parameters('vmName'), copyIndex(1)))]",
+            "name": "[concat('linked-vmavs-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
-            "copy": {
-                "name": "vmloop",
-                "count": "[parameters('vmCount')]"
-            },
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -472,7 +342,7 @@
                 },
                 "parameters": {
                     "vmName": {
-                        "value": "[if(equals(parameters('vmCount'), 1), parameters('vmName'), concat(parameters('vmName'), copyIndex(1)))]"
+                        "value": "[parameters('vmName')]"
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
@@ -484,13 +354,13 @@
                         "value": "[parameters('vmSize')]"
                     },
                     "datadiskcount": {
-                        "value": "[parameters('datadiskcount')]"
+                        "value": "[variables('datadiskcount')]"
                     },
                     "datadiskcaching": {
-                        "value": "[parameters('datadiskcaching')]"
+                        "value": "[variables('datadiskcaching')]"
                     },
                     "datadisksize": {
-                        "value": "[parameters('datadisksize')]"
+                        "value": "[variables('datadisksize')]"
                     },
                     "vmOS": {
                         "value": "[parameters('vmOS')]"
@@ -525,18 +395,6 @@
                     "timeZone": {
                         "value": "[variables('timeZone')]"
                     },
-                    "DomainJoin": {
-                        "value": "[parameters('DomainJoin')]"
-                    },
-                    "DomainToJoin": {
-                        "value": "[parameters('DomainToJoin')]"
-                    },
-                    "DomainJoinUserName": {
-                        "value": "[parameters('DomainJoinUserName')]"
-                    },
-                    "DomainJoinPassword": {
-                        "value": "[parameters('DomainJoinPassword')]"
-                    },
                     "CustomBranch": {
                         "value": "[parameters('CustomBranch')]"
                     }
@@ -564,6 +422,30 @@
                 }
             },
             "dependsOn": []
+        },
+        {
+          "name": "[concat(parameters('vmName'), '/AD-Forest')]",
+          "type":"Microsoft.Compute/virtualMachines/extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2021-07-01",
+          "dependsOn":  [
+            "[concat('linked-vm-', parameters('vmName'))]",
+            "[concat('linked-vmavs-', parameters('vmName'))]",
+            "[concat('linked-vmaz-', parameters('vmName'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File BuildADForest.ps1 -DomainName ', parameters('DomainDNSName'), ' -DomainNetBIOSName ', parameters('DomainNetBIOSName'), ' -Password ', parameters('adminPassword'))]",
+                "fileUris": [
+                    "[uri(variables('artifactsuri'), 'BuildADForest.ps1')]"
+                ]
+            },
+            "protectedSettings": {}
+          }
         }
     ],
     "outputs": {}
