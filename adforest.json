@@ -436,16 +436,15 @@
           "properties": {
             "publisher": "Microsoft.Compute",
             "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.9.5",
+            "typeHandlerVersion": "1.9",
             "autoUpgradeMinorVersion": true,
             "settings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File BuildADForest.ps1 -DomainName ', parameters('DomainDNSName'), ' -DomainNetBIOSName ', parameters('DomainNetBIOSName'), ' -Password ', parameters('adminPassword'))]",
                 "fileUris": [
                     "[uri(variables('artifactsuri'), 'BuildADForest.ps1')]"
-                ]                
+                ]
             },
-            "protectedSettings": {
-                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File BuildADForest.ps1 -DomainName ', parameters('DomainDNSName'), ' -DomainNetBIOSName ', parameters('DomainNetBIOSName'), ' -SafeModeAdminPassword ', parameters('adminPassword'), ' -artifactslocation ', variables('artifactsuri'))]"
-            }
+            "protectedSettings": {}
           }
         }
     ],
