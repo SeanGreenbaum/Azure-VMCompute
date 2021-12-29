@@ -106,7 +106,7 @@
             "type": "array"
         },
         "vNetSubnetAddressSpace": {
-            "type": "string",
+            "type": "array",
             "defaultValue": ""
         },
         "acceleratedNetworking": {

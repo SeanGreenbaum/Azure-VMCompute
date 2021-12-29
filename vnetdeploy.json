@@ -12,7 +12,7 @@
             "type": "string"
         },
         "subnet1_addressRange": {
-            "type": "string"
+            "type": "array"
         }
     },
     "variables": {},
