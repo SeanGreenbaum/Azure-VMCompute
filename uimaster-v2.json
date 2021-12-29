@@ -232,7 +232,7 @@
                                     },
                                     "subnets": {
                                       "subnet1": {
-                                        "label": "subnet",
+                                        "label": "Subnet",
                                         "defaultValue": {
                                           "name": "Subnet1",
                                           "addressPrefixSize": "/25"

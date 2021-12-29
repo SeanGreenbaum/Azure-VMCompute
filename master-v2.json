@@ -103,8 +103,7 @@
             ]
         },
         "vNetAddressSpace": {
-            "type": "string",
-            "defaultValue": ""
+            "type": "array"
         },
         "vNetSubnetAddressSpace": {
             "type": "string",
