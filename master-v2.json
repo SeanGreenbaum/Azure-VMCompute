@@ -106,8 +106,7 @@
             "type": "array"
         },
         "vNetSubnetAddressSpace": {
-            "type": "array",
-            "defaultValue": ""
+            "type": "array"
         },
         "acceleratedNetworking": {
             "type": "bool",
@@ -603,7 +602,7 @@
                         "value": "[parameters('VNetSubnetName')]"
                     },
                     "subnet1_addressRange": {
-                        "value": "[parameters('vNetSubnetAddressSpace')]"
+                        "value": "10.10.10.0/25"
                     }
                 }
             },
