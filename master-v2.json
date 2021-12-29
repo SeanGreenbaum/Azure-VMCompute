@@ -106,7 +106,7 @@
             "type": "array"
         },
         "vNetSubnetAddressSpace": {
-            "type": "array"
+            "type": "string"
         },
         "acceleratedNetworking": {
             "type": "bool",
@@ -379,7 +379,9 @@
                     }
                 }
             },
-            "dependsOn": []
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
+            ]
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
@@ -468,7 +470,9 @@
                     }
                 }
             },
-            "dependsOn": []
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
+            ]
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
@@ -558,7 +562,8 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linked-avset')]"
+                "[resourceId('Microsoft.Resources/deployments', 'linked-avset')]",
+                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
             ]
         },
         {
@@ -602,7 +607,7 @@
                         "value": "[parameters('VNetSubnetName')]"
                     },
                     "subnet1_addressRange": {
-                        "value": "[parameters('vNetSubnetAddressSpace')[0]]"
+                        "value": "[parameters('vNetSubnetAddressSpace')]"
                     }
                 }
             },
