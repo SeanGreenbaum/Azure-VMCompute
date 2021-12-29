@@ -94,6 +94,22 @@
             "type": "string",
             "defaultValue": "Subnet1"
         },
+        "vNetNeworExisting": {
+            "type": "string",
+            "defaultValue": "existing",
+            "allowedValues": [
+                "existing",
+                "new"
+            ]
+        },
+        "vNetAddressSpace": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "vNetSubnetAddressSpace": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "acceleratedNetworking": {
             "type": "bool",
             "defaultValue": false,
@@ -187,7 +203,8 @@
             "vmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmdeploy-v2.json')]",
             "azvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmazdeploy-v2.json')]",
             "avsvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmavsdeploy-v2.json')]",
-            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]"
+            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]",
+            "vnetURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vnetdeploy.json')]"
         },
         "TimeZone": "Eastern Standard Time",
         "OperatingSystems":
@@ -560,6 +577,34 @@
                 "parameters": {
                     "localavSetName": {
                         "value": "[parameters('AVSetName')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "condition": "[equals(parameters('vNetNeworExisting'), 'new')]",
+            "apiVersion": "2021-04-01",
+            "name": "linked-vnet",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[parameters('vNetName')]"
+                    },
+                    "addressSpaces": {
+                        "value": "[parameters('vNetAddressSpace')]"
+                    },
+                    "subnet1_name": {
+                        "value": "[parameters('VNetSubnetName')]"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[parameters('vNetSubnetAddressSpace')]"
                     }
                 }
             },
