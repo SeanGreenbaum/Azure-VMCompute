@@ -6,7 +6,7 @@
             "type": "string"
         },
         "addressSpaces": {
-            "type": "string"
+            "type": "array"
         },
         "subnet1_name": {
             "type": "string"
