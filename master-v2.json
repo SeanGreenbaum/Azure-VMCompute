@@ -602,7 +602,7 @@
                         "value": "[parameters('VNetSubnetName')]"
                     },
                     "subnet1_addressRange": {
-                        "value": "10.10.10.0/25"
+                        "value": "[parameters('vNetSubnetAddressSpace')[0]]"
                     }
                 }
             },
