@@ -111,30 +111,66 @@
                                     "visible": true
                                 },
                                 {
-                                    "name": "vNetName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "label": "VNet Name",
-                                    "defaultValue": "",
-                                    "toolTip": "",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "",
-                                        "validationMessage": ""
-                                    },
-                                    "visible": true
-                                },
-                                {
-                                    "name": "VNetSubnetName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "label": "VNet Subnet Name",
-                                    "defaultValue": "Subnet1",
+                                    "name": "storageType",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Storage Type",
+                                    "defaultValue": "Standard SSD",
                                     "toolTip": "",
                                     "constraints": {
                                         "required": false,
-                                        "regex": "",
-                                        "validationMessage": ""
+                                        "allowedValues": [
+                                            {
+                                                "label": "Standard HDD",
+                                                "value": "Standard_LRS"
+                                            },
+                                            {
+                                                "label": "Standard SSD",
+                                                "value": "StandardSSD_LRS"
+                                            },
+                                            {
+                                                "label": "Premium SSD",
+                                                "value": "Premium_LRS"
+                                            }
+                                        ]
                                     },
                                     "visible": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "vmNetworkingSelection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "VM Networking",
+                            "visible": true,
+                            "elements": [
+                                {
+                                    "name": "vnet",
+                                    "type": "Microsoft.Network.VirtualNetworkCombo",
+                                    "label": {
+                                      "virtualNetwork": "Virtual Network",
+                                      "subnets": "Subnets"
+                                    },
+                                    "defaultValue": {
+                                      "name": "",
+                                      "addressPrefixSize": "/24"
+                                    },
+                                    "constraints": {
+                                      "minAddressPrefixSize": "/24"
+                                    },
+                                    "subnets": {
+                                      "subnet1": {
+                                        "label": "Subnet",
+                                        "defaultValue": {
+                                          "name": "Subnet1",
+                                          "addressPrefixSize": "/25"
+                                        },
+                                        "constraints": {
+                                          "minAddressPrefixSize": "/29",
+                                          "minAddressCount": 8,
+                                          "requireContiguousAddresses": true
+                                        }
+                                      }
+                                    }
                                 },
                                 {
                                     "name": "DCIPAddress",
@@ -165,31 +201,6 @@
                                             {
                                                 "label": "false",
                                                 "value": false
-                                            }
-                                        ]
-                                    },
-                                    "visible": true
-                                },
-                                {
-                                    "name": "storageType",
-                                    "type": "Microsoft.Common.DropDown",
-                                    "label": "Storage Type",
-                                    "defaultValue": "Standard SSD",
-                                    "toolTip": "",
-                                    "constraints": {
-                                        "required": false,
-                                        "allowedValues": [
-                                            {
-                                                "label": "Standard HDD",
-                                                "value": "Standard_LRS"
-                                            },
-                                            {
-                                                "label": "Standard SSD",
-                                                "value": "StandardSSD_LRS"
-                                            },
-                                            {
-                                                "label": "Premium SSD",
-                                                "value": "Premium_LRS"
                                             }
                                         ]
                                     },
@@ -500,10 +511,13 @@
                 "vmOS": "[steps('basics').vmSoftwareSelection.vmOSOptions]",
                 "vmOSversion": "[steps('basics').vmSoftwareSelection.vmOSversion]",
                 "storageType": "[steps('basics').vmHardwareSelection.storageType]",
-                "vNetName": "[steps('basics').vmHardwareSelection.vNetName]",
-                "VNetSubnetName": "[steps('basics').vmHardwareSelection.VNetSubnetName]",
-                "DCIPAddress": "[steps('basics').vmHardwareSelection.DCIPAddress]",
-                "acceleratedNetworking": "[steps('basics').vmHardwareSelection.acceleratedNetworking]",
+                "vNetNeworExisting": "[steps('basics').vmNetworkingSelection.vnet.newOrExisting]",
+                "vNetName": "[steps('basics').vmNetworkingSelection.vnet.name]",
+                "vNetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.addressPrefixes]",
+                "VNetSubnetName": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.name]",
+                "vNetSubnetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.addressPrefix]",
+                "acceleratedNetworking": "[steps('basics').vmNetworkingSelection.acceleratedNetworking]",
+                "DCIPAddress": "[steps('basics').vmNetworkingSelection.DCIPAddress]",
                 "autoShutdownTime": "[steps('basics').vmSoftwareSelection.autoShutdownTime]",
                 "NeedsHA": "[steps('uiAvailability').NeedsHA]",
                 "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",

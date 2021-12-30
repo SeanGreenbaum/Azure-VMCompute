@@ -1,0 +1,43 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "addressSpaces": {
+            "type": "array"
+        },
+        "subnet1_name": {
+            "type": "string"
+        },
+        "subnet1_addressRange": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/VirtualNetworks",
+            "apiVersion": "2021-01-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [],
+            "tags": {},
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": "[parameters('addressSpaces')]"
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnet1_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet1_addressRange')]"
+                        }
+                    }
+                ],
+                "enableDdosProtection": false
+            }
+        }
+    ]
+}
