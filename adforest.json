@@ -14,20 +14,22 @@
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard_E2as_v4",
+            "defaultValue": "Standard_E2as_v5",
             "allowedValues": [
-                "Standard_D2s_v4",
-                "Standard_D4s_v4",
-                "Standard_D2as_v4",
-                "Standard_D4as_v4",
-                "Standard_E2s_v4",
-                "Standard_E4s_v4",
-                "Standard_E8s_v4",
-                "Standard_E2as_v4",
-                "Standard_E4as_v4",
-                "Standard_E8as_v4",
+                "Standard_D2s_v5",
+                "Standard_D4s_v5",
+                "Standard_D2as_v5",
+                "Standard_D4as_v5",
+                "Standard_E2s_v5",
+                "Standard_E4s_v5",
+                "Standard_E8s_v5",
+                "Standard_E2as_v5",
+                "Standard_E4as_v5",
+                "Standard_E8as_v5",
                 "Standard_B2s",
-                "Standard_B2ms"
+                "Standard_B2ms",
+                "Standard_E2s_v4",
+                "Standard_E4s_v4"
             ]
         },
         "vmOS": {
