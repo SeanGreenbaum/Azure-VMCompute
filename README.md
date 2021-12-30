@@ -27,9 +27,6 @@ When running the deployment by clicking the Deploy button above, you will be pro
 ### VM Hardware subsection
 - Qty: If building more than 1 VM, the VM Name above will have an iteration number added to the end. Ie. vm1, vm2, vm3...  
 - VM SKU: Select the SKU of the VMs from the drop down  
-- VNet Name: Name of the Virtual Network. Virtual Network must already exist in the selected Resource Group  
-- VNet Subnet Name: Name of the Subnet for the above Virtual Network. Virtual Network must already exist  
-- Accelerated Networking: Enable if VM sku supports. Disabled by default  
 - Storage Type: StandardHDD, StandardSSD, PremiumSSD  
 - Do you wish to configure data disks: Yes/No
     - If selecting No, then no additional questions. VM will not have any additional data disk attached at creation.
@@ -37,6 +34,13 @@ When running the deployment by clicking the Deploy button above, you will be pro
         - Number of Data Disks: Enter the number of data disks to be added to the VM
         - Data Disk host Caching: None/ReadOnly/ReadWrite
         - Size of data disks: Enter the size (in GB). All disks will be created of the same size.
+
+### VM Networking subsection
+- Virtual Network Name: Select the Virtual Network from the drop down menu. Click Create New if creating a new Virtual Network.
+    - If creating a new Virtual network it will be added to the Resource Group of the deployment.
+- VNet Subnet Name: Select the Subnet from the drop down menu.
+- Accelerated Networking: Enable if VM sku supports. Disabled by default  
+
 
 ### VM Software subsection
 - Admin Username: This is the username of the built in admin account  
@@ -93,11 +97,14 @@ When running the deployment by clicking the Deploy button above, you will be pro
 - VM Name: This is the name of the VM, both inside the OS and in the Azure Portal  
 ### VM Hardware subsection
 - VM SKU: Select the SKU of the VMs from the drop down  
-- VNet Name: Name of the Virtual Network. Virtual Network must already exist in the selected Resource Group  
-- VNet Subnet Name: Name of the Subnet for the above Virtual Network. Virtual Network must already exist  
+- Storage Type: StandardHDD, StandardSSD, PremiumSSD  
+
+### VM Networking subsection
+- Virtual Network Name: Select the Virtual Network from the drop down menu. Click Create New if creating a new Virtual Network.
+    - If creating a new Virtual network it will be added to the Resource Group of the deployment.
+- VNet Subnet Name: Select the Subnet from the drop down menu.  
 - Static IP Address of the DC: Enter the IP address you wish the new Domain Controller to have. This IP address **must** be a valid IP address for the chosen Virtual Network and Subnet.
 - Accelerated Networking: Enable if VM sku supports. Disabled by default  
-- Storage Type: StandardHDD, StandardSSD, PremiumSSD  
 
 ### VM Software subsection
 - Admin Username: This is the username of the built in admin account  
