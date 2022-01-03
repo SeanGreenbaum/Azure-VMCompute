@@ -260,6 +260,11 @@
                 "vmOffer": "WindowsServer",
                 "vmLicense": "Windows_Server"
             },
+            "2022-datacenter-azure-edition-smalldisk": {
+                "vmPublisher": "MicrosoftWindowsServer",
+                "vmOffer": "WindowsServer",
+                "vmLicense": "Windows_Server"
+            },
             "win11-21h2-ent": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-11",
