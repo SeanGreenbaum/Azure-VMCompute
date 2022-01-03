@@ -41,7 +41,8 @@
                 "2016-Datacenter-Server-Core-smalldisk-g2",
                 "2019-Datacenter-smalldisk-g2",
                 "2019-Datacenter-Core-smalldisk-g2",
-                "2022-datacenter-smalldisk-g2"
+                "2022-datacenter-smalldisk-g2",
+                "2022-datacenter-azure-edition-smalldisk"
             ]
         },
         "vmOSversion": {

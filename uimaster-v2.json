@@ -325,6 +325,10 @@
                                         "required": false,
                                         "allowedValues": [
                                             {
+                                                "label": "Server 2022 Datacenter Azure Edition",
+                                                "value": "2022-datacenter-azure-edition-smalldisk"
+                                            },
+                                            {
                                                 "label": "Server 2022 Datacenter Gen2",
                                                 "value": "2022-datacenter-smalldisk-g2"
                                             },
