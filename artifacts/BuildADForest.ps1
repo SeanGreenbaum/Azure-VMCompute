@@ -12,9 +12,9 @@ Add-Content -Path $LogFile "Domain NetBIOS Name $DomainNetBIOSName"
 #Format data disk
 Add-Content -Path $LogFile "Preparing data disk"
 $rawdisks = get-disk | Where-Object {$_.PartitionStyle -eq "RAW"}
-Initialize-Disk $rawdisks.DiskNumber
-get-disk $rawdisks.Number | New-Partition -UseMaximumSize -AssignDriveLetter | Format-Volume -FileSystem NTFS -NewFileSystemLabel "AD Data"
-$datadriveletter = (Get-Partition -DiskNumber $rawdisks.DiskNumber -PartitionNumber 2).DriveLetter
+Initialize-Disk $rawdisks.Number
+get-disk $rawdisks.Number | New-Partition -UseMaximumSize -AssignDriveLetter | Format-Volume -FileSystem NTFS -NewFileSystemLabel "AD Data" -Confirm:$false
+$datadriveletter = (Get-Partition -DiskNumber $rawdisks.Number -PartitionNumber 2).DriveLetter
 
 #Install AD Role and Features
 Add-Content -Path $LogFile "Installing Windows Features"
