@@ -125,7 +125,6 @@
         }
     },
     "variables": {
-        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
         "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
         "templates": {
             "vmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmdeploy-v2-existingnic.json')]",
@@ -225,18 +224,6 @@
                     "vmOffer": {
                         "value": "[variables('OperatingSystems')[parameters('vmOS')].vmOffer]"
                     },
-                    "subnetRef": {
-                        "value": "[variables('subnetRef')]"
-                    },
-                    "DHCPType": {
-                        "value": "Static"
-                    },
-                    "StaticIPAddress": {
-                        "value": "[parameters('DCIPAddress')]"
-                    },
-                    "acceleratedNetworking": {
-                        "value": "[parameters('acceleratedNetworking')]"
-                    },
                     "storageType": {
                         "value": "[parameters('storageType')]"
                     },
@@ -302,12 +289,6 @@
                     },
                     "vmOffer": {
                         "value": "[variables('OperatingSystems')[parameters('vmOS')].vmOffer]"
-                    },
-                    "subnetRef": {
-                        "value": "[variables('subnetRef')]"
-                    },
-                    "acceleratedNetworking": {
-                        "value": "[parameters('acceleratedNetworking')]"
                     },
                     "storageType": {
                         "value": "[parameters('storageType')]"
@@ -378,12 +359,6 @@
                     "vmOffer": {
                         "value": "[variables('OperatingSystems')[parameters('vmOS')].vmOffer]"
                     },
-                    "subnetRef": {
-                        "value": "[variables('subnetRef')]"
-                    },
-                    "acceleratedNetworking": {
-                        "value": "[parameters('acceleratedNetworking')]"
-                    },
                     "storageType": {
                         "value": "[parameters('storageType')]"
                     },
@@ -423,34 +398,6 @@
                 "parameters": {
                     "localavSetName": {
                         "value": "[parameters('AVSetName')]"
-                    }
-                }
-            },
-            "dependsOn": []
-        },
-        {
-            "condition": "[equals(parameters('vNetNeworExisting'), 'new')]",
-            "apiVersion": "2021-04-01",
-            "name": "linked-vnet",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('templates').vnetURI]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "virtualNetworkName": {
-                        "value": "[parameters('vNetName')]"
-                    },
-                    "addressSpaces": {
-                        "value": "[parameters('vNetAddressSpace')]"
-                    },
-                    "subnet1_name": {
-                        "value": "[parameters('VNetSubnetName')]"
-                    },
-                    "subnet1_addressRange": {
-                        "value": "[parameters('vNetSubnetAddressSpace')]"
                     }
                 }
             },
