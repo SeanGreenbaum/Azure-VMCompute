@@ -241,9 +241,7 @@
                     }
                 }
             },
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
-            ]
+            "dependsOn": []
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
@@ -310,9 +308,7 @@
                     }
                 }
             },
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
-            ]
+            "dependsOn": []
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
@@ -380,8 +376,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linked-avset')]",
-                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
+                "[resourceId('Microsoft.Resources/deployments', 'linked-avset')]"
             ]
         },
         {
