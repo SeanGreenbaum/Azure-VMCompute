@@ -58,39 +58,6 @@
                 "Premium_LRS"
             ]
         },
-        "vNetName": {
-            "type": "string"
-        },
-        "VNetSubnetName": {
-            "type": "string",
-            "defaultValue": "Subnet1"
-        },
-        "vNetNeworExisting": {
-            "type": "string",
-            "defaultValue": "existing",
-            "allowedValues": [
-                "existing",
-                "new"
-            ]
-        },
-        "vNetAddressSpace": {
-            "type": "array"
-        },
-        "vNetSubnetAddressSpace": {
-            "type": "string"
-        },
-        "DCIPAddress": {
-            "type": "string",
-            "defaultValue": "EnterIPAddressHere"
-        },
-        "acceleratedNetworking": {
-            "type": "bool",
-            "defaultValue": false,
-            "allowedValues": [
-                false,
-                true
-            ]
-        },
         "autoShutdownTime": {
             "type": "string",
             "defaultValue": "2300",
