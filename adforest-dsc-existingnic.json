@@ -234,9 +234,6 @@
                     },
                     "timeZone": {
                         "value": "[variables('timeZone')]"
-                    },
-                    "CustomBranch": {
-                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
@@ -301,9 +298,6 @@
                     },
                     "AzZone": {
                         "value": "[parameters('AvailabilityZone')]"
-                    },
-                    "CustomBranch": {
-                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
@@ -368,9 +362,6 @@
                     },
                     "timeZone": {
                         "value": "[variables('timeZone')]"
-                    },
-                    "CustomBranch": {
-                        "value": "[parameters('CustomBranch')]"
                     }
                 }
             },
