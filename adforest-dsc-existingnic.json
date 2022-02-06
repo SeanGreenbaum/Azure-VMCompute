@@ -130,8 +130,7 @@
             "vmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmdeploy-v2-existingnic.json')]",
             "azvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmazdeploy-v2-existingnic.json')]",
             "avsvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmavsdeploy-v2-existingnic.json')]",
-            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]",
-            "vnetURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vnetdeploy.json')]"
+            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]"
         },
         "TimeZone": "Eastern Standard Time",
         "datadiskcount": 1,
