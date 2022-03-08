@@ -373,6 +373,10 @@
                                                 "value": "win11-21h2-ent"
                                             },
                                             {
+                                                "label": "Windows 10 v21h2",
+                                                "value": "win10-21h2-ent-g2"
+                                            },
+                                            {
                                                 "label": "Windows 10 v20h2",
                                                 "value": "20h2-ent-g2"
                                             },
