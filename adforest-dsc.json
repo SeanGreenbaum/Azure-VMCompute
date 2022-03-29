@@ -151,10 +151,12 @@
             }
         },
         "ADScriptNameZIP": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "dc-build.ps1"
         },
         "ADScriptName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "dc-build.ps1.zip"
         }
     },
     "variables": {
