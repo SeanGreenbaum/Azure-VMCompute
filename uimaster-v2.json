@@ -54,7 +54,7 @@
                                     "name": "vmSize",
                                     "type": "Microsoft.Common.DropDown",
                                     "label": "VM SKU",
-                                    "defaultValue": "Standard_E2as_v5",
+                                    "defaultValue": "Standard_D2as_v5",
                                     "toolTip": "",
                                     "multiLine": true,
                                     "constraints": {
@@ -373,12 +373,16 @@
                                                 "value": "win11-21h2-ent"
                                             },
                                             {
-                                                "label": "Windows 10 v20h2",
-                                                "value": "20h2-ent-g2"
+                                                "label": "Windows 10 v21h2",
+                                                "value": "win10-21h2-ent-g2"
                                             },
                                             {
-                                                "label": "Windows 10 v20h1",
-                                                "value": "20h1-ent-g2"
+                                                "label": "Windows 10 v21h2 Pro",
+                                                "value": "win10-21h2-pro-g2"
+                                            },
+                                            {
+                                                "label": "Windows 10 v20h2",
+                                                "value": "20h2-ent-g2"
                                             },
                                             {
                                                 "label": "Windows 10 v19h2",
