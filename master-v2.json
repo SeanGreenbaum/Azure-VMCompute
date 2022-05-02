@@ -69,6 +69,7 @@
                 "2022-datacenter-smalldisk-g2",
                 "2022-datacenter-azure-edition-smalldisk",
                 "win11-21h2-ent",
+                "win11-21h2-pro",
                 "win10-21h2-ent-g2",
                 "win10-21h2-pro-g2",
                 "20h2-ent-g2",
@@ -267,6 +268,11 @@
                 "vmLicense": "Windows_Server"
             },
             "win11-21h2-ent": {
+                "vmPublisher": "MicrosoftWindowsDesktop",
+                "vmOffer": "Windows-11",
+                "vmLicense": "Windows_Client"
+            },
+            "win11-21h2-pro": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-11",
                 "vmLicense": "Windows_Client"
