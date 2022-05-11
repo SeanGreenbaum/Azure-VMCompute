@@ -275,9 +275,7 @@
                     }
                 }
             },
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
-            ]
+            "dependsOn": []
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
