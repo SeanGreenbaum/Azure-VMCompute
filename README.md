@@ -8,7 +8,7 @@ Enjoy!
 | Type | Deploy | Instructions | 
 |:-------|:-------|:-------| 
 | Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fmaster-v2.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuimaster-v2.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-a-vm) |  
-| Deploy an AD Forest | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fadforest.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiadforest.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-an-ad-forest) | 
+| Deploy an AD Forest | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fadforest-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiadforest.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-an-ad-forest) | 
 | Deploy an additional DC | Coming soon! |  Coming Soon! | 
 
 # Deploy a VM
