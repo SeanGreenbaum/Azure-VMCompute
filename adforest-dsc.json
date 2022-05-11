@@ -65,20 +65,6 @@
             "type": "string",
             "defaultValue": "Subnet1"
         },
-        "vNetNeworExisting": {
-            "type": "string",
-            "defaultValue": "existing",
-            "allowedValues": [
-                "existing",
-                "new"
-            ]
-        },
-        "vNetAddressSpace": {
-            "type": "array"
-        },
-        "vNetSubnetAddressSpace": {
-            "type": "string"
-        },
         "DCIPAddress": {
             "type": "string",
             "defaultValue": "EnterIPAddressHere"
@@ -458,34 +444,6 @@
                 "parameters": {
                     "localavSetName": {
                         "value": "[parameters('AVSetName')]"
-                    }
-                }
-            },
-            "dependsOn": []
-        },
-        {
-            "condition": "[equals(parameters('vNetNeworExisting'), 'new')]",
-            "apiVersion": "2021-04-01",
-            "name": "linked-vnet",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('templates').vnetURI]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "virtualNetworkName": {
-                        "value": "[parameters('vNetName')]"
-                    },
-                    "addressSpaces": {
-                        "value": "[parameters('vNetAddressSpace')]"
-                    },
-                    "subnet1_name": {
-                        "value": "[parameters('VNetSubnetName')]"
-                    },
-                    "subnet1_addressRange": {
-                        "value": "[parameters('vNetSubnetAddressSpace')]"
                     }
                 }
             },
