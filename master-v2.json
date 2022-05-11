@@ -18,7 +18,7 @@
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard_E2as_v5",
+            "defaultValue": "Standard_D2as_v5",
             "allowedValues": [
                 "Standard_D2s_v5",
                 "Standard_D4s_v5",
@@ -69,9 +69,10 @@
                 "2022-datacenter-smalldisk-g2",
                 "2022-datacenter-azure-edition-smalldisk",
                 "win11-21h2-ent",
+                "win11-21h2-pro",
                 "win10-21h2-ent-g2",
+                "win10-21h2-pro-g2",
                 "20h2-ent-g2",
-                "20h1-ent-g2",
                 "19h2-ent-g2",
                 "rs5-enterprise-g2",
                 "rs3-pro",
@@ -271,17 +272,22 @@
                 "vmOffer": "Windows-11",
                 "vmLicense": "Windows_Client"
             },
+            "win11-21h2-pro": {
+                "vmPublisher": "MicrosoftWindowsDesktop",
+                "vmOffer": "Windows-11",
+                "vmLicense": "Windows_Client"
+            },
             "win10-21h2-ent-g2": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-10",
                 "vmLicense": "Windows_Client"
             },
-            "20h2-ent-g2": {
+            "win10-21h2-pro-g2": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-10",
                 "vmLicense": "Windows_Client"
             },
-            "20h1-ent-g2": {
+            "20h2-ent-g2": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-10",
                 "vmLicense": "Windows_Client"
