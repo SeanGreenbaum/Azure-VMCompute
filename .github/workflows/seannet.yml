@@ -29,6 +29,6 @@ jobs:
               $region = "EastUS"
               $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uimaster-v2.json
               $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/master-v2.json
-              $date = Get-Date -Format "MMddyy-hhmmss"
+              $date = Get-Date -Format "MMddyy-HHmmss"
               New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"
