@@ -1,0 +1,582 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json#",
+    "view": {
+        "kind": "Form",
+        "properties": {
+            "title": "Seans AD Forest Deployment template",
+            "steps": [
+                {
+                    "name": "basics",
+                    "label": "Basics",
+                    "elements": [
+                        {
+                            "name": "resourceScope",
+                            "type": "Microsoft.Common.ResourceScope",
+                            "location": {
+                                "resourceTypes": [
+                                    "microsoft.resources/resourcegroups"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vmName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "VM Name",
+                            "defaultValue": "",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "vmHardwareSelection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "VM Hardware",
+                            "visible": true,
+                            "elements": [
+                                {
+                                    "name": "vmSize",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "VM SKU",
+                                    "defaultValue": "Standard_E2as_v5",
+                                    "toolTip": "",
+                                    "multiLine": true,
+                                    "constraints": {
+                                        "allowedValues": [
+                                            {
+                                                "label": "Standard_D2s_v5",
+                                                "description": "2 cores, Intel, 8 GB RAM",
+                                                "value": "Standard_D2s_v5"
+                                            },
+                                            {
+                                                "label": "Standard_D4s_v5",
+                                                "description": "4 cores, Intel, 16 GB RAM",
+                                                "value": "Standard_D4s_v5"
+                                            },
+                                            {
+                                                "label": "Standard_D2as_v5",
+                                                "description": "2 cores, AMD, 8 GB RAM",
+                                                "value": "Standard_D2as_v5"
+                                            },
+                                            {
+                                                "label": "Standard_D4as_v5",
+                                                "description": "4 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_D4as_v5"
+                                            },
+                                            {
+                                                "label": "Standard_E2s_v5",
+                                                "description": "2 cores, Intel, 16 GB RAM",
+                                                "value": "Standard_E2s_v5"
+                                            },
+                                            {
+                                                "label": "Standard_E4s_v5",
+                                                "description": "4 cores, Intel, 32 GB RAM",
+                                                "value": "Standard_E4s_v5"
+                                            },
+                                            {
+                                                "label": "Standard_E8s_v5",
+                                                "description": "8 cores, Intel, 64 GB RAM",
+                                                "value": "Standard_E8s_v5"
+                                            },
+                                            {
+                                                "label": "Standard_E2as_v5",
+                                                "description": "2 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_E2as_v5"
+                                            },
+                                            {
+                                                "label": "Standard_E4as_v5",
+                                                "description": "4 cores, AMD, 32 GB RAM",
+                                                "value": "Standard_E4as_v5"
+                                            },
+                                            {
+                                                "label": "Standard_E8as_v5",
+                                                "description": "8 cores, AMD, 64 GB RAM",
+                                                "value": "Standard_E8as_v5"
+                                            },
+                                            {
+                                                "label": "Standard_B2s",
+                                                "description": "2 burstable cores, Intel, 4 GB RAM",
+                                                "value": "Standard_B2s"
+                                            },
+                                            {
+                                                "label": "Standard_B2ms",
+                                                "description": "2 burstable cores, Intel, 8 GB RAM",
+                                                "value": "Standard_B2ms"
+                                            },
+                                            {
+                                                "label": "Standard_E2as_v4",
+                                                "description": "4th Gen - 2 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_E2as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_E2s_v4",
+                                                "description": "4th Gen - 2 cores, Intel, 16 GB RAM",
+                                                "value": "Standard_E2s_v4"
+                                            }
+                                        ]
+                                    },
+                                    "visible": true
+                                },
+                                {
+                                    "name": "storageType",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Storage Type",
+                                    "defaultValue": "Standard SSD",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Standard HDD",
+                                                "value": "Standard_LRS"
+                                            },
+                                            {
+                                                "label": "Standard SSD",
+                                                "value": "StandardSSD_LRS"
+                                            },
+                                            {
+                                                "label": "Premium SSD",
+                                                "value": "Premium_LRS"
+                                            }
+                                        ]
+                                    },
+                                    "visible": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "vmNetworkingSelection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "VM Networking",
+                            "visible": true,
+                            "elements": [
+                                {
+                                    "name": "vnet",
+                                    "type": "Microsoft.Network.VirtualNetworkCombo",
+                                    "label": {
+                                      "virtualNetwork": "Virtual Network",
+                                      "subnets": "Subnets"
+                                    },
+                                    "defaultValue": {
+                                      "name": "",
+                                      "addressPrefixSize": "/24"
+                                    },
+                                    "constraints": {
+                                      "minAddressPrefixSize": "/24"
+                                    },
+                                    "subnets": {
+                                      "subnet1": {
+                                        "label": "Subnet",
+                                        "defaultValue": {
+                                          "name": "Subnet1",
+                                          "addressPrefixSize": "/25"
+                                        },
+                                        "constraints": {
+                                          "minAddressPrefixSize": "/29",
+                                          "minAddressCount": 8,
+                                          "requireContiguousAddresses": true
+                                        }
+                                      }
+                                    }
+                                },
+                                {
+                                    "name": "DCIPAddress",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Static IP Address of the DC",
+                                    "defaultValue": "",
+                                    "toolTip": "This IP address should be within the above entered Virtual Network and Subnet. Ex: 192.168.200.4",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                        "validationMessage": "Enter a valid IP address"
+                                    },
+                                    "visible": true
+                                },
+                                {
+                                    "name": "acceleratedNetworking",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Accelerated Networking",
+                                    "defaultValue": "false",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "true",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "false",
+                                                "value": false
+                                            }
+                                        ]
+                                    },
+                                    "visible": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "vmSoftwareSelection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "VM Software",
+                            "visible": true,
+                            "elements": [
+                                {
+                                    "name": "adminUsername",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Admin Username",
+                                    "defaultValue": "sAdmin",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    },
+                                    "visible": true
+                                },
+                                {
+                                    "name": "adminPassword",
+                                    "type": "Microsoft.Common.PasswordBox",
+                                    "label": {
+                                        "password": "Admin Password",
+                                        "confirmPassword": "Confirm password"
+                                    },
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    },
+                                    "options": {
+                                        "hideConfirmation": true
+                                    },
+                                    "visible": true
+                                },
+                                {
+                                    "name": "vmOSOptions",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "VM OS",
+                                    "defaultValue": "Server 2019 Datacenter Gen2",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Server 2022 Datacenter Azure Edition",
+                                                "value": "2022-datacenter-azure-edition-smalldisk"
+                                            },
+                                            {
+                                                "label": "Server 2022 Datacenter Gen2",
+                                                "value": "2022-datacenter-smalldisk-g2"
+                                            },
+                                            {
+                                                "label": "Server 2019 Datacenter Gen2",
+                                                "value": "2019-Datacenter-smalldisk-g2"
+                                            },
+                                            {
+                                                "label": "Server 2016 Datacenter Gen2",
+                                                "value": "2016-datacenter-smalldisk-g2"
+                                            },
+                                            {
+                                                "label": "Server 2012 R2 Datacenter Gen2",
+                                                "value": "2012-R2-Datacenter-smalldisk-g2"
+                                            },
+                                            {
+                                                "label": "Server 2019 Datacenter CORE Gen2",
+                                                "value": "2019-Datacenter-Core-smalldisk-g2"
+                                            },
+                                            {
+                                                "label": "Server 2016 Datacenter CORE Gen2",
+                                                "value": "2016-Datacenter-Server-Core-smalldisk-g2"
+                                            }
+                                        ]
+                                    },
+                                    "visible": true
+                                },
+                                {
+                                    "name": "vmOSversion",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "VM OS build",
+                                    "defaultValue": "latest",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "",
+                                        "validationMessage": ""
+                                    },
+                                    "visible": true
+                                },
+                                {
+                                    "name": "autoShutdownTime",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Auto Shutdown Time",
+                                    "defaultValue": "2300",
+                                    "toolTip": "",
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "None",
+                                                "value": "None"
+                                            },
+                                            {
+                                                "label": "1730",
+                                                "value": "1730"
+                                            },
+                                            {
+                                                "label": "2200",
+                                                "value": "2200"
+                                            },
+                                            {
+                                                "label": "2300",
+                                                "value": "2300"
+                                            },
+                                            {
+                                                "label": "2330",
+                                                "value": "2330"
+                                            }
+                                        ]
+                                    },
+                                    "visible": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "uiAvailability",
+                    "label": "High Availability Options",
+                    "elements": [
+                        {
+                            "name": "NeedsHA",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Needs High Availability",
+                            "defaultValue": "No",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    },
+                                    {
+                                        "label": "Yes - Availability Zones",
+                                        "value": "AvailabilityZone"
+                                    },
+                                    {
+                                        "label": "Yes - Availability Sets",
+                                        "value": "AvailabilitySet"
+                                    }
+                                ]
+                            },
+                            "visible": true
+                        },
+                        {
+                            "name": "AvailabilityZone",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Availability Zone",
+                            "defaultValue": "1",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "1",
+                                        "value": "1"
+                                    },
+                                    {
+                                        "label": "2",
+                                        "value": "2"
+                                    },
+                                    {
+                                        "label": "3",
+                                        "value": "3"
+                                    }
+                                ]
+                            },
+                            "visible": "[equals(steps('uiAvailability').NeedsHA, 'AvailabilityZone')]"
+                        },
+                        {
+                            "name": "AvSetAction",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Availability Set Action",
+                            "defaultValue": "Existing",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false,
+                                "allowedValues": [
+                                    {
+                                        "label": "New",
+                                        "value": "New"
+                                    },
+                                    {
+                                        "label": "Existing",
+                                        "value": "Existing"
+                                    }
+                                ]
+                            },
+                            "visible": "[equals(steps('uiAvailability').NeedsHA, 'AvailabilitySet')]"
+                        },
+                        {
+                            "name": "AvSetName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Availability Set Name",
+                            "defaultValue": "",
+                            "toolTip": "",
+                            "constraints": {
+                                "required": false
+                            },
+                            "visible": "[equals(steps('uiAvailability').NeedsHA, 'AvailabilitySet')]"
+                        }
+                    ]
+                },
+                {
+                    "name": "uiADDomainPromo",
+                    "label": "Existing AD Domain Config",
+                    "elements": [
+                        {
+                            "name": "DomainDNSName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "FQDN of AD Domain",
+                            "defaultValue": "contoso.com",
+                            "toolTip": "This is the fqdn of the domain. Ex: corp.contoso.com",
+                            "visible": true
+                        },
+                        {
+                            "name": "DomainUsername",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Domain Admin user name",
+                            "defaultValue": "contoso\\admin123",
+                            "toolTip": "This is the username of an existing Domain Admin. Ex: contoso\\Admin123",
+                            "visible": true
+                        },
+                        {
+                            "name": "DomainPassword ",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "Admin Password",
+                                "confirmPassword": "Confirm password"
+                            },
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "options": {
+                                "hideConfirmation": true
+                            },
+                            "visible": true
+                        },
+            ]
+                },
+                {
+                    "name": "uiAdvanced",
+                    "label": "Advanced options",
+                    "elements": [
+                        {
+                            "name": "advText",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": true,
+                            "options": {
+                                "text": "These are advanced options. "
+                            }
+                        },
+                        {
+                            "name": "advOption",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Do you wish to configure advanced options",
+                            "visible": true,
+                            "defaultValue": "No",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "No",
+                                        "value": "None"
+                                    },
+                                    {
+                                        "label": "Yes",
+                                        "value": "Yes"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "customBranchSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Custom Branch to deploy from",
+                            "visible": "[equals(steps('uiAdvanced').advOption, 'Yes')]",
+                            "elements": [
+                                {
+                                    "name": "branchWarning",
+                                    "type": "Microsoft.Common.InfoBox",
+                                    "visible": true,
+                                    "options": {
+                                        "icon": "Warning",
+                                        "text": "Only use this option when changing from the master/main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
+                                        "uri": "https://github.com/SeanGreenbaum/Azure-VMCompute"
+                                    }
+                                },
+                                {
+                                    "name": "customBranch",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Custom Branch",
+                                    "toolTip": "Must be Case Sensitive",
+                                    "defaultValue": "master"
+                                },
+                                {
+                                    "name": "ADScriptName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "AD Script Name",
+                                    "defaultValue": "dc-promo.ps1"
+                                },
+                                {
+                                    "name": "ADScriptNameZIP",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "ZIP file holding the above AD Script",
+                                    "defaultValue": "dc-promo.ps1.zip"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "outputs": {
+            "parameters": {
+                "vmName": "[steps('basics').vmName]",
+                "adminUsername": "[steps('basics').vmSoftwareSelection.adminUsername]",
+                "adminPassword": "[steps('basics').vmSoftwareSelection.adminPassword]",
+                "vmSize": "[steps('basics').vmHardwareSelection.vmSize]",
+                "vmOS": "[steps('basics').vmSoftwareSelection.vmOSOptions]",
+                "vmOSversion": "[steps('basics').vmSoftwareSelection.vmOSversion]",
+                "storageType": "[steps('basics').vmHardwareSelection.storageType]",
+                "vNetNeworExisting": "[steps('basics').vmNetworkingSelection.vnet.newOrExisting]",
+                "vNetName": "[steps('basics').vmNetworkingSelection.vnet.name]",
+                "vNetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.addressPrefixes]",
+                "VNetSubnetName": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.name]",
+                "vNetSubnetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.addressPrefix]",
+                "acceleratedNetworking": "[steps('basics').vmNetworkingSelection.acceleratedNetworking]",
+                "DCIPAddress": "[steps('basics').vmNetworkingSelection.DCIPAddress]",
+                "autoShutdownTime": "[steps('basics').vmSoftwareSelection.autoShutdownTime]",
+                "NeedsHA": "[steps('uiAvailability').NeedsHA]",
+                "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
+                "AVSetName": "[steps('uiAvailability').AvSetName]",
+                "AVSetAction": "[steps('uiAvailability').AvSetAction]",
+                "DomainDNSName": "[steps('uiADDomainPromo').DomainDNSName]",
+                "DomainUsername": "[steps('uiADDomainPromo').DomainUsername]",
+                "DomainPassword": "[steps('uiADDomainPromo').DomainPassword]",
+                "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
+                "ADScriptName": "[steps('uiAdvanced').customBranchSection.ADScriptName]",
+                "ADScriptNameZip": "[steps('uiAdvanced').customBranchSection.ADScriptNameZIP]"
+            },
+            "kind": "ResourceGroup",
+            "location": "[steps('basics').resourceScope.location.name]",
+            "resourceGroupId": "[steps('basics').resourceScope.resourceGroup.id]"
+        }
+    }
+}
