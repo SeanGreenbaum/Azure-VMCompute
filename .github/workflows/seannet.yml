@@ -1,0 +1,34 @@
+# File: .github/workflows/OIDC_workflow.yml
+
+name: Update SeanNet Subscription with TemplateSpec
+on:
+  workflow_dispatch:
+
+permissions:
+      id-token: write
+      contents: read
+      
+jobs: 
+  Windows-latest:
+      runs-on: windows-latest
+      steps:
+        - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+          uses: azure/login@v1
+          with:
+            client-id: ${{ secrets.Azure_SeanNet_Client_ID }}
+            tenant-id: ${{ secrets.Azure_SeanNet_Tenant_ID }}
+            subscription-id: ${{ secrets.Azure_SeanNet_Subscription_ID }} 
+            enable-AzPSSession: true
+
+        - name: 'Update Master templatespec'
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+              $rgname = "E1-Infra"
+              $tempspecName = "Master"
+              $region = "EastUS"
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uimaster-v2.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/master-v2.json
+              $date = Get-Date -Format "MMddyy-hhmmss"
+              New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
+             azPSVersion: "latest"
