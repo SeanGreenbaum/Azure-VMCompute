@@ -455,7 +455,7 @@
                             "visible": true
                         },
                         {
-                            "name": "DomainPassword ",
+                            "name": "DomainPassword",
                             "type": "Microsoft.Common.PasswordBox",
                             "label": {
                                 "password": "Admin Password",
