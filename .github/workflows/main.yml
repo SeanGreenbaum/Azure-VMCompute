@@ -1,6 +1,6 @@
 # File: .github/workflows/OIDC_workflow.yml
 
-name: Run Azure Login with OIDC
+name: Update CustPOC Subscription with TemplateSpec
 on:
   workflow_dispatch:
 
@@ -20,9 +20,17 @@ jobs:
             subscription-id: ${{ secrets.Azure_CustPOC_Subscription_ID }} 
             enable-AzPSSession: true
 
-        - name: 'Get RG with powershell action'
+        - name: 'Update Master templatespec'
           uses: azure/powershell@v1
           with:
              inlineScript: |
-               Get-AzResourceGroup
+              $rgname = "Test-InfraDeploy"
+              $tempspecName = "Test-Master-v2"
+              $region = "EastUS"
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uimaster-v2.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/master-v2.json
+              $existingTemplate = Ge-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName
+              $currentversion = ($existingTemplate.Versions | sort CreationTime -Descending)[0].Name
+              $newversion = $currentversion.Substring(0, $currentversion.LastIndexOf('.')+1) + ([int]$currentversion.Substring($currentversion.LastIndexOf('.')+1)+1)
+              New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version $newversion -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"
