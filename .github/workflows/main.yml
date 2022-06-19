@@ -17,6 +17,6 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
-     
-     - run: |
+    
+    - run: |
         Get-AzVM -ResourceGroupName "ResourceGroup11"
