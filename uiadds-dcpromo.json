@@ -471,8 +471,7 @@
                                 "hideConfirmation": true
                             },
                             "visible": true
-                        },
-            ]
+                        }
                 },
                 {
                     "name": "uiAdvanced",
