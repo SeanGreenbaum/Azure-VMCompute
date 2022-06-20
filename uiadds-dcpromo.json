@@ -449,9 +449,9 @@
                         {
                             "name": "DomainUsername",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "Domain Admin user name",
-                            "defaultValue": "contoso\\admin123",
-                            "toolTip": "This is the username of an existing Domain Admin. Ex: contoso\\Admin123",
+                            "label": "Domain Admin user name (UPN)",
+                            "defaultValue": "admin@contoso.com",
+                            "toolTip": "This is the username of an existing Domain Admin. Must be in UPN format. Ex: admin@contoso.com",
                             "visible": true
                         },
                         {
