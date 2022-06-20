@@ -413,7 +413,7 @@
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "VM OS build",
                                     "defaultValue": "latest",
-                                    "toolTip": "",
+                                    "toolTip": "Get-AzVMImageSku -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer. Then Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Sku <sku-here>",
                                     "constraints": {
                                         "required": false,
                                         "regex": "",
