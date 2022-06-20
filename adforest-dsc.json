@@ -464,7 +464,10 @@
                         "function": "[variables('DSCFunctionName')]"
                     },
                     "configurationArguments": {
-                        "DomainCred": "[parameters('adminPassword')]",
+                        "DomainCred": {
+                            "UserName": "[parameters('AdminUsername')]",
+                            "Password": "[parameters('adminPassword')]"
+                        },
                         "DomainName": "[parameters('DomainDNSName')]",
                         "DomainDN": "[parameters('DomainDN')]",
                         "CompanyName": "[parameters('DomainNetBIOSName')]",
