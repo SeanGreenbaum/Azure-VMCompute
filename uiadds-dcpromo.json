@@ -3,7 +3,7 @@
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "Seans VM Deployment template",
+            "title": "Seans AD Domain Controller Deployment template",
             "steps": [
                 {
                     "name": "basics",
@@ -38,23 +38,10 @@
                             "visible": true,
                             "elements": [
                                 {
-                                    "name": "vmCount",
-                                    "type": "Microsoft.Common.TextBox",                            
-                                    "label": "Qty",
-                                    "defaultValue": "1",
-                                    "toolTip": "",
-                                    "constraints": {
-                                        "required": false,
-                                        "regex": "",
-                                        "validationMessage": ""
-                                    },
-                                    "visible": true
-                                },
-                                {
                                     "name": "vmSize",
                                     "type": "Microsoft.Common.DropDown",
                                     "label": "VM SKU",
-                                    "defaultValue": "Standard_D2as_v5",
+                                    "defaultValue": "Standard_E2as_v5",
                                     "toolTip": "",
                                     "multiLine": true,
                                     "constraints": {
@@ -157,66 +144,6 @@
                                         ]
                                     },
                                     "visible": true
-                                },
-                                {
-                                    "name": "dataDiskOption",
-                                    "type": "Microsoft.Common.OptionsGroup",
-                                    "label": "Do you wish to configure data disks",
-                                    "visible": true,
-                                    "defaultValue": "No",
-                                    "constraints": {
-                                        "allowedValues": [
-                                            {
-                                                "label": "No",
-                                                "value": "No"
-                                            },
-                                            {
-                                                "label": "Yes",
-                                                "value": "Yes"
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "name": "datadiskcount",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "label": "Number of data disks",
-                                    "defaultValue": "0",
-                                    "toolTip": "",
-                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
-                                },
-                                {
-                                    "name": "datadiskcaching",
-                                    "type": "Microsoft.Common.DropDown",
-                                    "label": "Data Disk host caching",
-                                    "defaultValue": "None",
-                                    "toolTip": "",
-                                    "constraints": {
-                                        "required": false,
-                                        "allowedValues": [
-                                            {
-                                                "label": "None",
-                                                "value": "None"
-                                            },
-                                            {
-                                                "label": "Read/Write",
-                                                "value": "ReadWrite"
-                                            },
-                                            {
-                                                "label": "Read Only",
-                                                "value": "ReadOnly"
-                                            }
-                                        ]
-                                    },
-                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
-                                },
-                                {
-                                    "name": "datadisksize",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "label": "Size of data disks",
-                                    "defaultValue": "0",
-                                    "toolTip": "",
-                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
                                 }
                             ]
                         },
@@ -254,6 +181,19 @@
                                         }
                                       }
                                     }
+                                },
+                                {
+                                    "name": "DCIPAddress",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Static IP Address of the DC",
+                                    "defaultValue": "",
+                                    "toolTip": "This IP address should be within the above entered Virtual Network and Subnet. Ex: 192.168.200.4",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                        "validationMessage": "Enter a valid IP address"
+                                    },
+                                    "visible": true
                                 },
                                 {
                                     "name": "acceleratedNetworking",
@@ -337,28 +277,12 @@
                                                 "value": "2019-Datacenter-smalldisk-g2"
                                             },
                                             {
-                                                "label": "Server 2019 Datacenter",
-                                                "value": "2019-Datacenter-smalldisk"
-                                            },
-                                            {
                                                 "label": "Server 2016 Datacenter Gen2",
                                                 "value": "2016-datacenter-smalldisk-g2"
                                             },
                                             {
-                                                "label": "Server 2016 Datacenter",
-                                                "value": "2016-Datacenter-smalldisk"
-                                            },
-                                            {
                                                 "label": "Server 2012 R2 Datacenter Gen2",
                                                 "value": "2012-R2-Datacenter-smalldisk-g2"
-                                            },
-                                            {
-                                                "label": "Server 2012 Datacenter",
-                                                "value": "2012-Datacenter-smalldisk"
-                                            },
-                                            {
-                                                "label": "Server 2008 R2 SP1",
-                                                "value": "2008-R2-SP1-smalldisk"
                                             },
                                             {
                                                 "label": "Server 2019 Datacenter CORE Gen2",
@@ -367,42 +291,6 @@
                                             {
                                                 "label": "Server 2016 Datacenter CORE Gen2",
                                                 "value": "2016-Datacenter-Server-Core-smalldisk-g2"
-                                            },
-                                            {
-                                                "label": "Windows 11 v21h2",
-                                                "value": "win11-21h2-ent"
-                                            },
-                                            {
-                                                "label": "Windows 11 v21h2 Pro",
-                                                "value": "win11-21h2-pro"
-                                            },
-                                            {
-                                                "label": "Windows 10 v21h2",
-                                                "value": "win10-21h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v21h2 Pro",
-                                                "value": "win10-21h2-pro-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v20h2",
-                                                "value": "20h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v19h2",
-                                                "value": "19h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v1809",
-                                                "value": "rs5-enterprise-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v1709",
-                                                "value": "rs3-pro"
-                                            },
-                                            {
-                                                "label": "Windows 7 Enterprise",
-                                                "value": "win7-enterprise"
                                             }
                                         ]
                                     },
@@ -547,73 +435,42 @@
                     ]
                 },
                 {
-                    "name": "uiDomainJoin",
-                    "label": "Domain Join Options",
+                    "name": "uiADDomainPromo",
+                    "label": "Existing AD Domain Config",
                     "elements": [
                         {
-                            "name": "DomainJoin",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "Domain Join",
-                            "defaultValue": "No",
-                            "toolTip": "",
-                            "constraints": {
-                                "required": false,
-                                "allowedValues": [
-                                    {
-                                        "label": "No",
-                                        "value": "No"
-                                    },
-                                    {
-                                        "label": "Yes",
-                                        "value": "Yes"
-                                    }
-                                ]
-                            },
+                            "name": "DomainDNSName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "FQDN of AD Domain",
+                            "defaultValue": "contoso.com",
+                            "toolTip": "This is the fqdn of the domain. Ex: corp.contoso.com",
                             "visible": true
                         },
                         {
-                            "name": "DomainToJoin",
+                            "name": "DomainUsername",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "Domain To Join",
-                            "defaultValue": "None",
-                            "toolTip": "Only needed if DomainJoin is Yes",
-                            "constraints": {
-                                "required": false,
-                                "regex": "",
-                                "validationMessage": ""
-                            },
-                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
+                            "label": "Domain Admin user name (UPN)",
+                            "defaultValue": "admin@contoso.com",
+                            "toolTip": "This is the username of an existing Domain Admin. Must be in UPN format. Ex: admin@contoso.com",
+                            "visible": true
                         },
                         {
-                            "name": "DomainJoinUserName",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Domain Join User Name",
-                            "defaultValue": "None",
-                            "toolTip": "Only needed if DomainJoin is Yes",
-                            "constraints": {
-                                "required": false,
-                                "regex": "",
-                                "validationMessage": ""
-                            },
-                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
-                        },
-                        {
-                            "name": "DomainJoinPassword",
+                            "name": "DomainPassword",
                             "type": "Microsoft.Common.PasswordBox",
                             "label": {
-                                "password": "Domain Join Password",
+                                "password": "Admin Password",
                                 "confirmPassword": "Confirm password"
                             },
-                            "toolTip": "Only needed if DomainJoin is Yes",
+                            "toolTip": "",
                             "constraints": {
-                                "required": false,
+                                "required": true,
                                 "regex": "",
                                 "validationMessage": ""
                             },
                             "options": {
                                 "hideConfirmation": true
                             },
-                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
+                            "visible": true
                         }
                     ]
                 },
@@ -670,6 +527,18 @@
                                     "label": "Custom Branch",
                                     "toolTip": "Must be Case Sensitive",
                                     "defaultValue": "master"
+                                },
+                                {
+                                    "name": "ADScriptName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "AD Script Name",
+                                    "defaultValue": "dc-promo.ps1"
+                                },
+                                {
+                                    "name": "ADScriptNameZIP",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "ZIP file holding the above AD Script",
+                                    "defaultValue": "dc-promo.ps1.zip"
                                 }
                             ]
                         }
@@ -680,32 +549,30 @@
         "outputs": {
             "parameters": {
                 "vmName": "[steps('basics').vmName]",
-                "vmCount": "[int(steps('basics').vmHardwareSelection.vmCount)]",
                 "adminUsername": "[steps('basics').vmSoftwareSelection.adminUsername]",
                 "adminPassword": "[steps('basics').vmSoftwareSelection.adminPassword]",
                 "vmSize": "[steps('basics').vmHardwareSelection.vmSize]",
                 "vmOS": "[steps('basics').vmSoftwareSelection.vmOSOptions]",
                 "vmOSversion": "[steps('basics').vmSoftwareSelection.vmOSversion]",
                 "storageType": "[steps('basics').vmHardwareSelection.storageType]",
-                "datadiskcount": "[if(equals(steps('basics').vmHardwareSelection.dataDiskOption, 'No'), 0, int(steps('basics').vmHardwareSelection.datadiskcount))]",
-                "datadisksize": "[if(equals(steps('basics').vmHardwareSelection.dataDiskOption, 'No'), 0, int(steps('basics').vmHardwareSelection.datadisksize))]",
-                "datadiskcaching": "[steps('basics').vmHardwareSelection.datadiskcaching]",
                 "vNetNeworExisting": "[steps('basics').vmNetworkingSelection.vnet.newOrExisting]",
                 "vNetName": "[steps('basics').vmNetworkingSelection.vnet.name]",
                 "vNetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.addressPrefixes]",
                 "VNetSubnetName": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.name]",
                 "vNetSubnetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.addressPrefix]",
                 "acceleratedNetworking": "[steps('basics').vmNetworkingSelection.acceleratedNetworking]",
+                "DCIPAddress": "[steps('basics').vmNetworkingSelection.DCIPAddress]",
                 "autoShutdownTime": "[steps('basics').vmSoftwareSelection.autoShutdownTime]",
                 "NeedsHA": "[steps('uiAvailability').NeedsHA]",
                 "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
                 "AVSetName": "[steps('uiAvailability').AvSetName]",
                 "AVSetAction": "[steps('uiAvailability').AvSetAction]",
-                "DomainJoin": "[steps('uiDomainJoin').DomainJoin]",
-                "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
-                "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
-                "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]",
-                "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]"
+                "DomainDNSName": "[steps('uiADDomainPromo').DomainDNSName]",
+                "DomainUsername": "[steps('uiADDomainPromo').DomainUsername]",
+                "DomainPassword": "[steps('uiADDomainPromo').DomainPassword]",
+                "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
+                "ADScriptName": "[steps('uiAdvanced').customBranchSection.ADScriptName]",
+                "ADScriptNameZip": "[steps('uiAdvanced').customBranchSection.ADScriptNameZIP]"
             },
             "kind": "ResourceGroup",
             "location": "[steps('basics').resourceScope.location.name]",

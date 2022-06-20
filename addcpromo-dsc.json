@@ -119,12 +119,15 @@
             ]
         },
         "DomainDNSName": {
-           "type": "string",
-         "defaultValue": "contoso.com"
-        },
-        "DomainNetBIOSName": {
             "type": "string",
-         "defaultValue": "contoso"
+            "defaultValue": "contoso.com"
+        },
+        "DomainUsername": {
+            "type": "string",
+            "defaultValue": "contoso"
+        },
+        "DomainPassword": {
+            "type": "securestring"
         },
         "CustomBranch": {
             "type": "string",
@@ -135,11 +138,11 @@
         },
         "ADScriptNameZIP": {
             "type": "string",
-            "defaultValue": "dc-build.ps1.zip"
+            "defaultValue": "dc-promo.ps1.zip"
         },
         "ADScriptName": {
             "type": "string",
-            "defaultValue": "dc-build.ps1"
+            "defaultValue": "dc-promo.ps1"
         }
     },
     "variables": {
@@ -442,7 +445,7 @@
             "dependsOn": []
         },
         {
-            "name": "[concat(parameters('vmName'), '/AD-Forest')]",
+            "name": "[concat(parameters('vmName'), '/AD-DCPromo')]",
             "type":"Microsoft.Compute/virtualMachines/extensions",
             "location": "[resourceGroup().location]",
             "apiVersion": "2021-07-01",
@@ -462,12 +465,10 @@
                     },
                     "configurationArguments": {
                         "DomainCred": {
-                            "UserName": "[parameters('AdminUsername')]",
-                            "Password": "[parameters('adminPassword')]"
+                            "UserName": "[parameters('DomainUsername')]",
+                            "Password": "[parameters('DomainPassword')]"
                         },
-                        "DomainName": "[parameters('DomainDNSName')]",
-                        "CompanyName": "[parameters('DomainNetBIOSName')]",
-                        "DomainNetBIOSName": "[parameters('DomainNetBIOSName')]"
+                        "DomainName": "[parameters('DomainDNSName')]"
                     }
                 },
                 "protectedSettings": {}
