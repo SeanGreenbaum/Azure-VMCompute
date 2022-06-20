@@ -468,6 +468,7 @@
                             "UserName": "[parameters('AdminUsername')]",
                             "Password": "[parameters('adminPassword')]"
                         },
+                        "SafeModePassword": "[parameters('adminPassword')]",
                         "DomainName": "[parameters('DomainDNSName')]",
                         "DomainDN": "[parameters('DomainDN')]",
                         "CompanyName": "[parameters('DomainNetBIOSName')]",
