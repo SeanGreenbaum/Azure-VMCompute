@@ -453,14 +453,6 @@
                             "defaultValue": "contoso",
                             "toolTip": "This is the NetBIOS name of the domain. Ex: corp\\",
                             "visible": true
-                        },
-                        {
-                            "name": "DomainDN",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "DN of domain",
-                            "defaultValue": "DC=contoso,DC=com",
-                            "toolTip": "This is the DN of the domain partition. Ex: DC=contoso,DC=com",
-                            "visible": true
                         }
                     ]
                 },
@@ -559,7 +551,6 @@
                 "AVSetAction": "[steps('uiAvailability').AvSetAction]",
                 "DomainDNSName": "[steps('uiADForestDomainJoin').DomainDNSName]",
                 "DomainNetBIOSName": "[steps('uiADForestDomainJoin').DomainNetBIOSName]",
-                "DomainDN": "[steps('uiADForestDomainJoin').DomainDN]",
                 "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
                 "ADScriptName": "[steps('uiAdvanced').customBranchSection.ADScriptName]",
                 "ADScriptNameZip": "[steps('uiAdvanced').customBranchSection.ADScriptNameZIP]"

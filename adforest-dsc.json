@@ -119,15 +119,12 @@
             ]
         },
         "DomainDNSName": {
-        "type": "string",
-        "defaultValue": "contoso.com"
+           "type": "string",
+         "defaultValue": "contoso.com"
         },
         "DomainNetBIOSName": {
-        "type": "string",
-        "defaultValue": "contoso"
-        },
-        "DomainDN": {
-            "type": "string"
+            "type": "string",
+         "defaultValue": "contoso"
         },
         "CustomBranch": {
             "type": "string",
@@ -469,7 +466,6 @@
                             "Password": "[parameters('adminPassword')]"
                         },
                         "DomainName": "[parameters('DomainDNSName')]",
-                        "DomainDN": "[parameters('DomainDN')]",
                         "CompanyName": "[parameters('DomainNetBIOSName')]",
                         "DomainNetBIOSName": "[parameters('DomainNetBIOSName')]"
                     }
