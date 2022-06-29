@@ -27,8 +27,49 @@ jobs:
               $rgname = "E1-Infra"
               $tempspecName = "Master"
               $region = "EastUS"
-              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uimaster-v2.json
-              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/master-v2.json
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uivm-master.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/master.json
               $date = Get-Date -Format "MMddyy-HHmmss"
               New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"
+
+        - name: 'Update ADForest-DSC templatespec'
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+              $rgname = "E1-Infra"
+              $tempspecName = "ADForest-DSC"
+              $region = "EastUS"
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uiad-forest.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/adforest-dsc.json
+              $date = Get-Date -Format "MMddyy-HHmmss"
+              New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
+             azPSVersion: "latest"
+   
+        - name: 'Update ADForest-script templatespec'
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+              $rgname = "E1-Infra"
+              $tempspecName = "ADForest-script"
+              $region = "EastUS"
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uiad-forest.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/adforest.json
+              $date = Get-Date -Format "MMddyy-HHmmss"
+              New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
+             azPSVersion: "latest"
+
+        - name: 'Update ADDCPromo-DSC templatespec'
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+              $rgname = "E1-Infra"
+              $tempspecName = "ADDCPromo-DSC"
+              $region = "EastUS"
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/uiad-dcpromo.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/addcpromo-dsc.json
+              $date = Get-Date -Format "MMddyy-HHmmss"
+              New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
+             azPSVersion: "latest"
+   
+
