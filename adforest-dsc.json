@@ -146,11 +146,11 @@
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
         "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
         "templates": {
-            "vmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmdeploy-v2.json')]",
-            "azvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmazdeploy-v2.json')]",
-            "avsvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vmavsdeploy-v2.json')]",
-            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/avsetdeploy-v2.json')]",
-            "vnetURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vnetdeploy.json')]"
+            "vmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/VMs/vmdeploy.json')]",
+            "azvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/VMs/vmazdeploy.json')]",
+            "avsvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/VMs/vmavsdeploy.json')]",
+            "avsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/AVSet/avsetdeploy.json')]",
+            "vnetURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vNet/vnetdeploy.json')]"
         },
         "TimeZone": "Eastern Standard Time",
         "datadiskcount": 1,
