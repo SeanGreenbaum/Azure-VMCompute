@@ -265,7 +265,7 @@
       "apiVersion": "2021-07-01",
       "dependsOn":  [
           "[parameters('vmName')]",
-          "[concat(parameters('vmName'),'/joindomain')]"
+          "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'joindomain')]"
       ],
       "properties": {
           "publisher": "Microsoft.Powershell",
