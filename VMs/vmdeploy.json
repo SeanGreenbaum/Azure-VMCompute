@@ -258,7 +258,7 @@
       }
     },
     {
-      "condition": "[equals(parameters('InstallClusteringFeature'), 'true')]",
+      "condition": "[equals(parameters('InstallClusteringFeature'), bool('true'))]",
       "name": "[concat(parameters('vmName'), '/Install-Clustering-Feature')]",
       "type":"Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",

@@ -235,14 +235,14 @@
       }
     },
     {
-      "condition": "[equals(parameters('InstallClusteringFeature'), 'true')]",
+      "condition": "[equals(parameters('InstallClusteringFeature'), bool('true'))]",
       "name": "[concat(parameters('vmName'), '/Install-Clustering-Feature')]",
       "type":"Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
       "apiVersion": "2021-07-01",
       "dependsOn":  [
           "[parameters('vmName')]",
-          "[concat(parameters('vmName'),'/joindomain')]"
+          "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'joindomain')]"
       ],
       "properties": {
           "publisher": "Microsoft.Powershell",
