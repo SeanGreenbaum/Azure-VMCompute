@@ -97,7 +97,7 @@
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
     "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
-    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/nicdeploy.json')]",
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkInterfaces/nicdeploy.json')]",
     "avSetID": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]"
   },
   "resources": [

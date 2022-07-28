@@ -6,19 +6,19 @@ The deployment links for all are conveniently stored here at the top. Before dep
 
 | Type | Deploy | Instructions | 
 |:-------|:-------|:-------| 
-| Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fmaster-v2.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuimaster-v2.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-a-vm) |  
-| Deploy an AD Forest | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fadforest-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiadforest.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-an-ad-forest) | 
-| Deploy an additional DC | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Faddcpromo-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiadds-dcpromo.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#Deploy-an-additional-AD-Domain-Controller) | 
+| Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fmaster.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuivm-master.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-a-vm) |  
+| Deploy an AD Forest | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fadforest-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiad-forest.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-an-ad-forest) | 
+| Deploy an additional DC | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Faddcpromo-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiad-dcpromo.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#Deploy-an-additional-AD-Domain-Controller) | 
 
 ---  
 
 # Deploy a VM
-Primary deploy template files: Master-v2.json, uimaster-v2.json  
+Primary deploy template files: Master.json, uivm-master.json  
 These JSON templates use linked templates to create multiple resources. It assumes you already have a vNet and a Subnet created in the Azure Resource Group. All objects are being located in the same Resource Group.  
 - This is using managed disks.
 - The licenses are all using Azure Hybrid Benefit licensing. This **requires you to license your OS per your existing Enterprise Agreement**.  
 
-When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the uimaster-v2.json file for a custom UI in the Azure Portal. The parameters are then passed to master-v2.json for actual build. master-v2.json depends on several of the other json files present in this repo to complete its tasks.  
+When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the uivm-master.json file for a custom UI in the Azure Portal. The parameters are then passed to master.json for actual build. master.json depends on several of the other json files present in this repo to complete its tasks.  
 
 ## In the Basics section:  
 - Subscription: This is the subscription you will deploy to.  
@@ -84,14 +84,14 @@ Here, review the settings and deploy the VM(s) as configured. Enjoy!
 ---  
 
 # Deploy an AD Forest
-Primary deploy template files: adforest-dsc.json, uiadforest.json  
+Primary deploy template files: adforest-dsc.json, uiad-forest.json  
 These JSON templates use linked templates to create multiple resources. It assumes you already have a vNet and a Subnet created in the Azure Resource Group. All objects will be located in the same Resource Group and Azure Region.
 - These templates are using Managed Disks
 - The VM is being configured with the Azure Hybrid Benefit licensing. This **requires you to license your OS per your existing Enterprise Agreement.**
 - The deployment makes use of Desired State Configuration for Virtual Machines. As part of this deployment, an artifact file (dc-build.ps1.zip file) will be downloaded to the VM to complete the AD Forest build. This means the VM does require access to the internet for initial deployment. Specifically it requires access to https://raw.githubusercontent.com.  
 - Domain Controllers in Azure require a seperate data disk be deployed and the related AD and SYSVOL files be stored on this data disk. This is required due to Active Directory database files need to be stored on disks which have Disk Caching **disabled**. These templates create a 4GB data disk with the correct disk caching settings. You can extend the size of the disk after Forest creation to an appropriate size.
 
-When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the uiadforest.json file for a custom UI in the Azure Portal. The parameters are then passed to adforest-dsc.json for actual build. adforest-dsc.json depends on several of the other json files present in this repo to complete its tasks.  
+When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the uiad-forest.json file for a custom UI in the Azure Portal. The parameters are then passed to adforest-dsc.json for actual build. adforest-dsc.json depends on several of the other json files present in this repo to complete its tasks.  
 
 ## In the Basics Section  
 - Subscription: This is the subscription you will deploy to.  
@@ -147,14 +147,14 @@ Here, review the settings and deploy the VM(s) as configured. Enjoy!
 ---  
 
 # Deploy an additional AD Domain Controller
-Primary deploy template files: addcpromo-dsc.json, uiadds-dcpromo.json  
+Primary deploy template files: addcpromo-dsc.json, uiad-dcpromo.json  
 These JSON templates use linked templates to create multiple resources. It assumes you already have a vNet and a Subnet created in the Azure Resource Group. All objects will be located in the same Resource Group and Azure Region.
 - These templates are using Managed Disks
 - The VM is being configured with the Azure Hybrid Benefit licensing. This **requires you to license your OS per your existing Enterprise Agreement.**
 - The deployment makes use of Desired State Configuration for Virtual Machines. As part of this deployment, an artifact file (dc-promo.ps1.zip) will be downloaded to the VM to complete the AD Domain Controller build. This means the VM does require access to the internet for initial deployment. Specifically it requires access to https://raw.githubusercontent.com.  
 - Domain Controllers in Azure require a seperate data disk be deployed and the related AD and SYSVOL files be stored on this data disk. This is required due to Active Directory database files need to be stored on disks which have Disk Caching **disabled**. These templates create a 4GB data disk with the correct disk caching settings. You can extend the size of the disk after Domain promotionto an appropriate size.
 
-When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the uiadds-dcpromo.json file for a custom UI in the Azure Portal. The parameters are then passed to addcpromo-dsc.json for actual build. addcpromo-dsc.json depends on several of the other json files present in this repo to complete its tasks.  
+When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the uiad-dcpromo.json file for a custom UI in the Azure Portal. The parameters are then passed to addcpromo-dsc.json for actual build. addcpromo-dsc.json depends on several of the other json files present in this repo to complete its tasks.  
   
 ## In the Basics Section  
 - Subscription: This is the subscription you will deploy to.  

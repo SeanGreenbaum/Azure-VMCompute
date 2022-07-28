@@ -5,10 +5,6 @@
     "vmName": {
       "type": "string"
     },
-    "adminUsername": {
-      "type": "string",
-      "defaultValue": "AzureAdmin"
-    },
     "adminPassword": {
       "type": "securestring"
     },
@@ -62,13 +58,13 @@
     "licensetype": {
       "type": "string"
     },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "AzureAdmin"
+    },
     "timeZone": {
       "type": "string",
       "defaultValue": "Eastern Standard Time"
-    },
-    "AzZone": {
-      "type": "string",
-      "defaultValue": "1"
     },
     "DomainJoin": {
       "type": "string",
@@ -86,6 +82,27 @@
       "type": "securestring",
       "defaultValue": "None"
     },
+    "DHCPType": {
+      "type": "string",
+      "defaultValue": "Dynamic",
+      "allowedValues": [
+        "Dynamic",
+        "Static"
+      ]
+    },
+    "StaticIPAddress": {
+      "type": "string",
+      "defaultValue": "10.0.0.1"
+    },
+    "CustomDNS": {
+      "type": "array",
+      "defaultValue": [
+        "AzureProvided"
+      ],
+      "metadata":{
+        "description": "If using custom, must be in the format [\"ipaddress1\", \"ipaddress2\"]"
+      }
+    },
     "CustomBranch": {
       "type": "string",
       "defaultValue": "master",
@@ -98,7 +115,7 @@
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
     "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",    
-    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/nicdeploy.json')]"
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkInterfaces/nicdeploy.json')]"
   },
   "resources": [
     {
@@ -113,13 +130,22 @@
           },
           "parameters": {
               "nicName": {
-                  "value": "[variables('nicName')]"
+                "value": "[variables('nicName')]"
               },
               "subnetRef": {
-                  "value": "[parameters('subnetRef')]"
+                "value": "[parameters('subnetRef')]"
               },
               "acceleratedNetworking": {
-                  "value": "[parameters('acceleratedNetworking')]"
+                "value": "[parameters('acceleratedNetworking')]"
+              },
+              "DHCPType": {
+                "value": "[parameters('DHCPType')]"
+              },
+              "StaticIPAddress": {
+                "value": "[parameters('StaticIPAddress')]"
+              },
+              "CustomDNS": {
+                "value": "[parameters('CustomDNS')]"
               }
           }
       },
@@ -195,10 +221,7 @@
             }
           ]
         }
-      },
-      "zones": [
-        "[parameters('AzZone')]"
-      ]
+      }
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
