@@ -53,16 +53,15 @@ When running the deployment by clicking the Deploy button above, you will be pro
 `Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
 - Auto Shutdown Time: Based on an Azure Automation account which must already exist. Creates a Tag on the VM object with specfied value  
     - Accepted values: 1700, 2200, 2300, 2330, None  
+- Install Failover Cluster Feature. Enable this checkbox to install the FailoverCluster feature and RSAT tools to the server  
 
 ## In the High Availability Options section:
 This section covers the High Availability options for the VM(s) being deployed  
 
 - Needs High Availability: Default option is No. Other options are Yes - Availability Zones, Yes - Availability Sets  
     - No. The current deployment does not have any HA requirements of the Azure Platform. No other questions asked  
-
     - Yes - Availability Zones. If set to Yes - Availability Zones, another drop down is exposed  
         - Availability Zone: 1, 2 or 3. Resources are deployed into the specified Zone  
-
     - Yes - Availability Sets. If set to Yes - Availability Sets, 2 new fields are exposed  
         - Availability Set Action: Existing or New. If Existing, then new VMs are added to an existing Availability Set. If New, then a new Availability Set is created.  
         - Availability Set Name: Name of the Availability Set. Create New or use Existing is determined based on prior input.  
@@ -119,16 +118,15 @@ When running the deployment by clicking the Deploy button above, you will be pro
 `Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
 - Auto Shutdown Time: Based on an Azure Automation account which must already exist. Creates a Tag on the VM object with specfied value  
     - Accepted values: 1700, 2200, 2300, 2330, None  
+- Install Failover Cluster Feature. Enable this checkbox to install the FailoverCluster feature and RSAT tools to the server  
 
 ## In the High Availability Options section:
 This section covers the High Availability options for the VM(s) being deployed  
 
 - Needs High Availability: Default option is No. Other options are Yes - Availability Zones, Yes - Availability Sets  
     - No. The current deployment does not have any HA requirements of the Azure Platform. No other questions asked  
-
     - Yes - Availability Zones. If set to Yes - Availability Zones, another drop down is exposed  
         - Availability Zone: 1, 2 or 3. Resources are deployed into the specified Zone  
-
     - Yes - Availability Sets. If set to Yes - Availability Sets, 2 new fields are exposed  
         - Availability Set Action: Existing or New. If Existing, then new VMs are added to an existing Availability Set. If New, then a new Availability Set is created.  
         - Availability Set Name: Name of the Availability Set. Create New or use Existing is determined based on prior input.  
@@ -184,16 +182,15 @@ When running the deployment by clicking the Deploy button above, you will be pro
 `Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
 - Auto Shutdown Time: Based on an Azure Automation account which must already exist. Creates a Tag on the VM object with specfied value  
     - Accepted values: 1700, 2200, 2300, 2330, None  
+- Install Failover Cluster Feature. Enable this checkbox to install the FailoverCluster feature and RSAT tools to the server  
 
 ## In the High Availability Options section:
 This section covers the High Availability options for the VM(s) being deployed  
 
 - Needs High Availability: Default option is No. Other options are Yes - Availability Zones, Yes - Availability Sets  
     - No. The current deployment does not have any HA requirements of the Azure Platform. No other questions asked  
-
     - Yes - Availability Zones. If set to Yes - Availability Zones, another drop down is exposed  
         - Availability Zone: 1, 2 or 3. Resources are deployed into the specified Zone  
-
     - Yes - Availability Sets. If set to Yes - Availability Sets, 2 new fields are exposed  
         - Availability Set Action: Existing or New. If Existing, then new VMs are added to an existing Availability Set. If New, then a new Availability Set is created.  
         - Availability Set Name: Name of the Availability Set. Create New or use Existing is determined based on prior input.  
