@@ -197,6 +197,14 @@
             "metadata": {
                 "description": "Advanced option. Do not change unless intentional."
             }
+        },
+        "InstallClusteringFeature": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
         }
     },
     "variables": {
@@ -396,6 +404,9 @@
                     },
                     "CustomBranch": {
                         "value": "[parameters('CustomBranch')]"
+                    },
+                    "InstallClusteringFeature": {
+                        "value": "[parameters('InstallClusteringFeature')]"
                     }
                 }
             },
@@ -487,6 +498,9 @@
                     },
                     "CustomBranch": {
                         "value": "[parameters('CustomBranch')]"
+                    },
+                    "InstallClusteringFeature": {
+                        "value": "[parameters('InstallClusteringFeature')]"
                     }
                 }
             },
@@ -578,6 +592,9 @@
                     },
                     "CustomBranch": {
                         "value": "[parameters('CustomBranch')]"
+                    },
+                    "InstallClusteringFeature": {
+                        "value": "[parameters('InstallClusteringFeature')]"
                     }
                 }
             },

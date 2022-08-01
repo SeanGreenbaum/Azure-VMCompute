@@ -92,13 +92,22 @@
       "metadata": {
         "description": "Advanced option. Do not change unless intentional."
       }
+    },
+    "InstallClusteringFeature": {
+      "type": "bool",
+      "defaultValue": false,
+      "allowedValues": [
+          false,
+          true
+      ]
     }
   },
   "variables": {
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
     "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",    
-    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkInterfaces/nicdeploy.json')]"
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkInterfaces/nicdeploy.json')]",
+    "artifactsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]"
   },
   "resources": [
     {
@@ -223,6 +232,32 @@
         "protectedSettings": {
           "Password": "[parameters('DomainJoinPassword')]"
         }
+      }
+    },
+    {
+      "condition": "[equals(parameters('InstallClusteringFeature'), bool('true'))]",
+      "name": "[concat(parameters('vmName'), '/Install-Clustering-Feature')]",
+      "type":"Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2021-07-01",
+      "dependsOn":  [
+          "[parameters('vmName')]",
+          "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'joindomain')]"
+      ],
+      "properties": {
+          "publisher": "Microsoft.Powershell",
+          "type": "DSC",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "configuration": {
+                  "url": "[concat(variables('artifactsURI'), 'clustering.ps1.zip')]",
+                  "script": "clustering.ps1",
+                  "function": "clusternode"
+              },
+              "configurationArguments": {}
+          },
+          "protectedSettings": {}
       }
     }
   ],
