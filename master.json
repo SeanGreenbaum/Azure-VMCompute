@@ -33,7 +33,9 @@
                 "Standard_B2s",
                 "Standard_B2ms",
                 "Standard_E2as_v4",
-                "Standard_E2s_v4"
+                "Standard_E2s_v4",
+                "Standard_D2s_v4",
+                "Standard_D2as_v4"
             ]
         },
         "datadiskcount": {

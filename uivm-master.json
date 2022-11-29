@@ -128,6 +128,16 @@
                                                 "label": "Standard_E2s_v4",
                                                 "description": "4th Gen - 2 cores, Intel, 16 GB RAM",
                                                 "value": "Standard_E2s_v4"
+                                            },
+                                            {
+                                                "label": "Standard_D2as_v4",
+                                                "description": "4th Gen - 2 cores, AMD, 8 GB RAM",
+                                                "value": "Standard_D2as_v4"
+                                            },
+                                            {
+                                                "label": "Standard_D2s_v4",
+                                                "description": "4th Gen - 2 cores, Intel, 8 GB RAM",
+                                                "value": "Standard_D2s_v4"
                                             }
                                         ]
                                     },
