@@ -205,7 +205,7 @@
     "resources": [
         {
             "condition": "[equals(parameters('NeedsHA'), 'No')]",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2022-09-01",
             "name": "[concat('linked-vm-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -283,7 +283,7 @@
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2022-09-01",
             "name": "[concat('linked-vmaz-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -358,7 +358,7 @@
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2022-09-01",
             "name": "[concat('linked-vmavs-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -434,7 +434,7 @@
         },
         {
             "condition": "[equals(parameters('AVSetAction'), 'New')]",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2022-09-01",
             "name": "linked-avset",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -453,7 +453,7 @@
         },
         {
             "condition": "[equals(parameters('vNetNeworExisting'), 'new')]",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2022-09-01",
             "name": "linked-vnet",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -483,7 +483,7 @@
           "name": "[concat(parameters('vmName'), '/AD-Forest')]",
           "type":"Microsoft.Compute/virtualMachines/extensions",
           "location": "[resourceGroup().location]",
-          "apiVersion": "2021-07-01",
+          "apiVersion": "2022-11-01",
           "dependsOn":  [
             "[concat('linked-vm-', parameters('vmName'))]",
             "[concat('linked-vmavs-', parameters('vmName'))]",
