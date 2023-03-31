@@ -46,6 +46,10 @@
    	"subnetRef": {
   	  "type": "string"
   	},
+    "createPublicIPAddress": {
+      "type": "bool",
+      "defaultValue": false
+    },
     "acceleratedNetworking": {
 	    "type": "bool"
 	  },
@@ -105,12 +109,15 @@
     "osDiskName": "[concat(parameters('vmName'),'_OSDisk')]",
     "nicName": "[concat(parameters('vmName'), '_Nic')]",
     "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
-    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkInterfaces/nicdeploy.json')]",
+    "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/nicdeploy.json')]",
+    "nicpiptemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/nicpipdeploy.json')]",
+    "piptemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/pipdeploy.json')]",
     "avSetID": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]",
     "artifactsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]"
   },
   "resources": [
     {
+      "condition": "[equals(parameters('createPublicIPAddress'), bool('false'))]",
       "apiVersion": "2022-09-01",
       "name": "[concat('linked-nic-', parameters('vmName'))]",
       "type": "Microsoft.Resources/deployments",
@@ -130,6 +137,52 @@
               "acceleratedNetworking": {
                   "value": "[parameters('acceleratedNetworking')]"
               }
+          }
+      },
+      "dependsOn": []
+    },
+    {
+      "condition": "[equals(parameters('createPublicIPAddress'), bool('true'))]",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('linked-nicpip-', parameters('vmName'))]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+              "uri": "[variables('nicpiptemplateURI')]",
+              "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+              "nicName": {
+                "value": "[variables('nicName')]"
+              },
+              "subnetRef": {
+                "value": "[parameters('subnetRef')]"
+              },
+              "acceleratedNetworking": {
+                "value": "[parameters('acceleratedNetworking')]"
+              }
+          }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', concat('linked-pip-', parameters('vmName')))]"
+      ]
+    },
+    {
+      "condition": "[equals(parameters('createPublicIPAddress'), bool('true'))]",
+      "apiVersion": "2022-09-01",
+      "name": "[concat('linked-pip-', parameters('vmName'))]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+              "uri": "[variables('piptemplateURI')]",
+              "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+            "PIP-Name": {
+              "value": "[concat(parameters('vmName'), '-PIP')]"
+            }
           }
       },
       "dependsOn": []
