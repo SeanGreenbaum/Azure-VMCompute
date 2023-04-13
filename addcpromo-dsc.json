@@ -450,7 +450,9 @@
             "location": "[resourceGroup().location]",
             "apiVersion": "2022-11-01",
             "dependsOn":  [
-                "[concat('linked-vm-', parameters('vmName'))]"
+                "[concat('linked-vm-', parameters('vmName'))]",
+                "[concat('linked-vmaz-', parameters('vmName'))]",
+                "[concat('linked-vmavs-', parameters('vmName'))]"
             ],
             "properties": {
                 "publisher": "Microsoft.Powershell",
