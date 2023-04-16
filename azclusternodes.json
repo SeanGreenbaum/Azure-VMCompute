@@ -1,0 +1,512 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vm1Name": {
+            "type": "string"
+        },
+        "vm1AvailabilityZone": {
+            "type": "string",
+            "defaultValue": "1",
+            "allowedValues": [
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        "vm2Name": {
+            "type": "string"
+        },
+        "vm2AvailabilityZone": {
+            "type": "string",
+            "defaultValue": "2",
+            "allowedValues": [
+                "1",
+                "2",
+                "3"
+            ]
+        },
+        "vm3Name": {
+            "type": "string"
+        },
+        "vm3AvailabilityZone": {
+            "type": "string",
+            "defaultValue": "3",
+            "allowedValues": [
+                "1",
+                "2",
+                "3"
+            ]
+        },
+
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "sAdmin"
+        },
+        "adminPassword": {
+            "type": "securestring"
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2as_v5",
+            "allowedValues": [
+                "Standard_D2s_v5",
+                "Standard_D4s_v5",
+                "Standard_D2as_v5",
+                "Standard_D4as_v5",
+                "Standard_E2s_v5",
+                "Standard_E4s_v5",
+                "Standard_E8s_v5",
+                "Standard_E2as_v5",
+                "Standard_E4as_v5",
+                "Standard_E8as_v5",
+                "Standard_B2s",
+                "Standard_B2ms",
+                "Standard_E2as_v4",
+                "Standard_E2s_v4",
+                "Standard_D2s_v4",
+                "Standard_D2as_v4"
+            ]
+        },
+        "datadiskcount": {
+            "type": "int",
+            "defaultValue": 0
+        },
+        "datadiskcaching": {
+            "type": "string",
+            "defaultValue" : "None",
+            "allowedValues": [
+                "None",
+                "ReadWrite",
+                "ReadOnly"
+            ]
+        },
+        "datadisksize": {
+            "type": "int",
+            "defaultValue": 31
+        },
+        "vmOS": {
+            "type": "string",
+            "defaultValue": "2019-Datacenter-smalldisk-g2",
+            "allowedValues": [
+                "2012-R2-Datacenter-smalldisk-g2",
+                "2016-datacenter-smalldisk-g2",
+                "2016-Datacenter-Server-Core-smalldisk-g2",
+                "2019-Datacenter-smalldisk-g2",
+                "2019-Datacenter-Core-smalldisk-g2",
+                "2022-datacenter-smalldisk-g2",
+                "2022-datacenter-azure-edition-smalldisk"
+            ]
+        },
+        "vmOSversion": {
+            "type": "string",
+            "defaultValue": "latest"
+        },
+        "storageType": {
+            "type": "string",
+            "defaultValue": "StandardSSD_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "StandardSSD_LRS",
+                "Premium_LRS"
+            ]
+        },
+        "vNetName": {
+            "type": "string"
+        },
+        "VNetSubnetName": {
+            "type": "string",
+            "defaultValue": "Subnet1"
+        },
+        "vNetNeworExisting": {
+            "type": "string",
+            "defaultValue": "existing",
+            "allowedValues": [
+                "existing",
+                "new"
+            ]
+        },
+        "vNetAddressSpace": {
+            "type": "array"
+        },
+        "vNetSubnetAddressSpace": {
+            "type": "string"
+        },
+        "acceleratedNetworking": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
+        },
+        "autoShutdownTime": {
+            "type": "string",
+            "defaultValue": "2300",
+            "allowedValues": [
+                "None",
+                "1730",
+                "2200",
+                "2300",
+                "2330"
+            ]
+        },
+        "DomainJoin": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "No",
+                "Yes"
+            ]
+        },
+        "DomainToJoin": {
+            "type": "string",
+            "defaultValue": "None",
+            "metadata": {
+                "description": "Only needed if DomainJoin is Yes"
+            }
+        },
+        "DomainJoinUserName": {
+            "type": "string",
+            "defaultValue": "None",
+            "metadata": {
+                "description": "Only needed if DomainJoin is Yes"
+            }
+        },
+        "DomainJoinPassword": {
+            "type": "securestring",
+            "defaultValue": "None",
+            "metadata": {
+                "description": "Only needed if DomainJoin is Yes"
+            }
+        },
+        "CustomBranch": {
+            "type": "string",
+            "defaultValue": "master",
+            "metadata": {
+                "description": "Advanced option. Do not change unless intentional."
+            }
+        },
+        "InstallClusteringFeature": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
+        }
+    },
+    "variables": {
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('VNetSubnetName'))]",
+        "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
+        "templates": {
+            "azvmURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/VMs/vmazdeploy.json')]",
+            "vnetURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vNet/vnetdeploy.json')]"
+        },
+        "TimeZone": "Eastern Standard Time",
+        "vmPublisher": "MicrosoftWindowsServer",
+        "vmOffer": "WindowsServer",
+        "vmLicense": "Windows_Server",
+        "deploymentAPI": "2022-09-01"
+
+    },
+    "resources": [
+        {
+            "apiVersion": "[variables('deploymentAPI')]",
+            "name": "[concat('linked-vmaz-', parameters('vm1Name'))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').azvmURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vmName": {
+                        "value": "[parameters('vm1Name')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "vmSize": {
+                        "value": "[parameters('vmSize')]"
+                    },
+                    "datadiskcount": {
+                        "value": "[parameters('datadiskcount')]"
+                    },
+                    "datadiskcaching": {
+                        "value": "[parameters('datadiskcaching')]"
+                    },
+                    "datadisksize": {
+                        "value": "[parameters('datadisksize')]"
+                    },
+                    "vmOS": {
+                        "value": "[parameters('vmOS')]"
+                    },
+                    "vmOSversion": {
+                        "value": "[parameters('vmOSversion')]"
+                    },
+                    "vmPublisher": {
+                        "value": "[variables('vmPublisher')]"
+                    },
+                    "vmOffer": {
+                        "value": "[variables('vmOffer')]"
+                    },
+                    "subnetRef": {
+                        "value": "[variables('subnetRef')]"
+                    },
+                    "acceleratedNetworking": {
+                        "value": "[parameters('acceleratedNetworking')]"
+                    },
+                    "storageType": {
+                        "value": "[parameters('storageType')]"
+                    },
+                    "autoShutdownTime": {
+                        "value": "[parameters('autoShutdownTime')]"
+                    },
+                    "licensetype": {
+                        "value": "[variables('vmLicense')]"
+                    },
+                    "timeZone": {
+                        "value": "[variables('TimeZone')]"
+                    },
+                    "AzZone": {
+                        "value": "[parameters('vm1AvailabilityZone')]"
+                    },
+                    "DomainJoin": {
+                        "value": "[parameters('DomainJoin')]"
+                    },
+                    "DomainToJoin": {
+                        "value": "[parameters('DomainToJoin')]"
+                    },
+                    "DomainJoinUserName": {
+                        "value": "[parameters('DomainJoinUserName')]"
+                    },
+                    "DomainJoinPassword": {
+                        "value": "[parameters('DomainJoinPassword')]"
+                    },
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
+                    },
+                    "InstallClusteringFeature": {
+                        "value": "[parameters('InstallClusteringFeature')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
+            ]
+        },
+        {
+            "apiVersion": "[variables('deploymentAPI')]",
+            "name": "[concat('linked-vmaz-', parameters('vm2Name'))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').azvmURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vmName": {
+                        "value": "[parameters('vm2Name')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "vmSize": {
+                        "value": "[parameters('vmSize')]"
+                    },
+                    "datadiskcount": {
+                        "value": "[parameters('datadiskcount')]"
+                    },
+                    "datadiskcaching": {
+                        "value": "[parameters('datadiskcaching')]"
+                    },
+                    "datadisksize": {
+                        "value": "[parameters('datadisksize')]"
+                    },
+                    "vmOS": {
+                        "value": "[parameters('vmOS')]"
+                    },
+                    "vmOSversion": {
+                        "value": "[parameters('vmOSversion')]"
+                    },
+                    "vmPublisher": {
+                        "value": "[variables('vmPublisher')]"
+                    },
+                    "vmOffer": {
+                        "value": "[variables('vmOffer')]"
+                    },
+                    "subnetRef": {
+                        "value": "[variables('subnetRef')]"
+                    },
+                    "acceleratedNetworking": {
+                        "value": "[parameters('acceleratedNetworking')]"
+                    },
+                    "storageType": {
+                        "value": "[parameters('storageType')]"
+                    },
+                    "autoShutdownTime": {
+                        "value": "[parameters('autoShutdownTime')]"
+                    },
+                    "licensetype": {
+                        "value": "[variables('vmLicense')]"
+                    },
+                    "timeZone": {
+                        "value": "[variables('TimeZone')]"
+                    },
+                    "AzZone": {
+                        "value": "[parameters('vm2AvailabilityZone')]"
+                    },
+                    "DomainJoin": {
+                        "value": "[parameters('DomainJoin')]"
+                    },
+                    "DomainToJoin": {
+                        "value": "[parameters('DomainToJoin')]"
+                    },
+                    "DomainJoinUserName": {
+                        "value": "[parameters('DomainJoinUserName')]"
+                    },
+                    "DomainJoinPassword": {
+                        "value": "[parameters('DomainJoinPassword')]"
+                    },
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
+                    },
+                    "InstallClusteringFeature": {
+                        "value": "[parameters('InstallClusteringFeature')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
+            ]
+        },
+        {
+            "condition": "[not(equals(parameters('vm3Name'), 'None'))]",
+            "apiVersion": "[variables('deploymentAPI')]",
+            "name": "[concat('linked-vmaz-', parameters('vm3Name'))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').azvmURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vmName": {
+                        "value": "[parameters('vm3Name')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "vmSize": {
+                        "value": "[parameters('vmSize')]"
+                    },
+                    "datadiskcount": {
+                        "value": "[parameters('datadiskcount')]"
+                    },
+                    "datadiskcaching": {
+                        "value": "[parameters('datadiskcaching')]"
+                    },
+                    "datadisksize": {
+                        "value": "[parameters('datadisksize')]"
+                    },
+                    "vmOS": {
+                        "value": "[parameters('vmOS')]"
+                    },
+                    "vmOSversion": {
+                        "value": "[parameters('vmOSversion')]"
+                    },
+                    "vmPublisher": {
+                        "value": "[variables('vmPublisher')]"
+                    },
+                    "vmOffer": {
+                        "value": "[variables('vmOffer')]"
+                    },
+                    "subnetRef": {
+                        "value": "[variables('subnetRef')]"
+                    },
+                    "acceleratedNetworking": {
+                        "value": "[parameters('acceleratedNetworking')]"
+                    },
+                    "storageType": {
+                        "value": "[parameters('storageType')]"
+                    },
+                    "autoShutdownTime": {
+                        "value": "[parameters('autoShutdownTime')]"
+                    },
+                    "licensetype": {
+                        "value": "[variables('vmLicense')]"
+                    },
+                    "timeZone": {
+                        "value": "[variables('TimeZone')]"
+                    },
+                    "AzZone": {
+                        "value": "[parameters('vm3AvailabilityZone')]"
+                    },
+                    "DomainJoin": {
+                        "value": "[parameters('DomainJoin')]"
+                    },
+                    "DomainToJoin": {
+                        "value": "[parameters('DomainToJoin')]"
+                    },
+                    "DomainJoinUserName": {
+                        "value": "[parameters('DomainJoinUserName')]"
+                    },
+                    "DomainJoinPassword": {
+                        "value": "[parameters('DomainJoinPassword')]"
+                    },
+                    "CustomBranch": {
+                        "value": "[parameters('CustomBranch')]"
+                    },
+                    "InstallClusteringFeature": {
+                        "value": "[parameters('InstallClusteringFeature')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'linked-vnet')]"
+            ]
+        },
+        {
+            "condition": "[equals(parameters('vNetNeworExisting'), 'new')]",
+            "apiVersion": "[variables('deploymentAPI')]",
+            "name": "linked-vnet",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[parameters('vNetName')]"
+                    },
+                    "addressSpaces": {
+                        "value": "[parameters('vNetAddressSpace')]"
+                    },
+                    "subnet1_name": {
+                        "value": "[parameters('VNetSubnetName')]"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[parameters('vNetSubnetAddressSpace')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        }
+    ],
+    "outputs": {}
+}

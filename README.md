@@ -7,6 +7,7 @@ The deployment links for all are conveniently stored here at the top. Before dep
 | Type | Deploy | Instructions | 
 |:-------|:-------|:-------| 
 | Deploy a VM | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fmaster.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuivm-master.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-a-vm) |  
+| Deploy AZ Cluster nodes | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fazclusternodes.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fui%2Fui-azclusternodes.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-az-cluster-nodes) |  
 | Deploy an AD Forest | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fadforest-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiad-forest.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#deploy-an-ad-forest) | 
 | Deploy an additional DC | [![Deploy To Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Faddcpromo-dsc.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FSeanGreenbaum%2FAzure-VMCompute%2Fmaster%2Fuiad-dcpromo.json) |  [Deployment Instructions](https://github.com/SeanGreenbaum/Azure-VMCompute/tree/master#Deploy-an-additional-AD-Domain-Controller) | 
 
@@ -81,6 +82,75 @@ This section is for dev purposes. Default is No. Leave it at No unless instructe
 Here, review the settings and deploy the VM(s) as configured. Enjoy!  
 
 ---  
+
+# Deploy AZ Cluster Nodes
+Primary deploy template files: azclusternodes.json, ui/ui-azclusternodes.json  
+These JSON templates use linked templates to create multiple resources. It assumes you already have a vNet and a Subnet created in the Azure Resource Group. All objects are being located in the same Resource Group.  
+- This is using managed disks.
+- The licenses are all using Azure Hybrid Benefit licensing. This **requires you to license your OS per your existing Enterprise Agreement**.  
+
+When running the deployment by clicking the Deploy button above, you will be prompted to answer several questions. The button uses the ui/ui-azureclusternodes.json file for a custom UI in the Azure Portal. The parameters are then passed to azclusternodes.json for actual build. azclusternodes.json depends on several of the other json files present in this repo to complete its tasks.  
+
+## In the Basics section:  
+- Subscription: This is the subscription you will deploy to.  
+- Resource Group: This is the resource group the resources will be deployed to. The vNet and Subnet must already exist in this Resource Group  
+### In the Instance Details subsection  
+- Region: This is the deploy to location in Azure. The vNet and Subnet must already exist in that location  
+- VM1 Name: This is the name of VM1, both inside the OS and in the Azure Portal  
+- VM1 Availability Zone: This is the Availability Zone for VM1. (AZs must be available in the Region you selected above)  
+- VM2 Name: This is the name of VM2, both inside the OS and in the Azure Portal  
+- VM2 Availability Zone: This is the Availability Zone for VM2. (AZs must be available in the Region you selected above)  
+- Do you want 2 or 3 VMs in this deployment. Simple selector for 2 or 3 VMs. If 3 is selected, then options for a 3rd VM are displayed.  
+    - VM3 Name: This is the name of VM3, both inside the OS and in the Azure Portal  
+    - VM3 Availability Zone: This is the Availability Zone for VM3. (AZs must be available in the Region you selected above)  
+
+### VM Hardware subsection
+All VMs being built will use these values  
+- VM SKU: Select the SKU of the VMs from the drop down  
+- Storage Type: StandardHDD, StandardSSD, PremiumSSD  
+- Do you wish to configure data disks: Yes/No
+    - If selecting No, then no additional questions. VM will not have any additional data disk attached at creation.
+    - If selecting Yes, then additional questions are asked:
+        - Number of Data Disks: Enter the number of data disks to be added to the VM
+        - Data Disk host Caching: None/ReadOnly/ReadWrite
+        - Size of data disks: Enter the size (in GB). All disks will be created of the same size.
+
+### VM Networking subsection
+All VMs being built will use these values  
+- Virtual Network Name: Select the Virtual Network from the drop down menu. Click Create New if creating a new Virtual Network.
+    - If creating a new Virtual network it will be added to the Resource Group of the deployment.
+- VNet Subnet Name: Select the Subnet from the drop down menu.
+- Accelerated Networking: Enable if VM sku supports. Disabled by default  
+
+
+### VM Software subsection
+All VMs being built will use these values  
+- Admin Username: This is the username of the built in admin account  
+- Admin Password: This is the password of the built in admin account. This must be complex.  
+- VM OS: Select the VM OS  
+- VM OS Build: Use "latest" by default. If need a prior version, use PowerShell to determine the correct build value based on available options in Azure  
+`Get-AzVMImage -Location <location> -PublisherName <PublisherName> -Offer <OfferName> -Skus <sku>`  
+`Get-AzVMImage -Location EastUS -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2022-datacenter-smalldisk-g2`  
+- Auto Shutdown Time: Based on an Azure Automation account which must already exist. Creates a Tag on the VM object with specfied value  
+    - Accepted values: 1700, 2200, 2300, 2330, None  
+- Install Failover Cluster Feature. Enable this checkbox to install the FailoverCluster feature and RSAT tools to the server  
+
+## Domain Join Options
+This section covers running a post build extension which will cause the VMs to join the specified Active Directory domain. This domain must already exist, domain controllers must be accessible, and the DNS on the virtual network must already be configured to allow the new VM(s) to discover the domain.  
+- Domain Join: Default is No. If changed to Yes, the additional prompts will be displayed  
+
+    - Domain to Join: This is the FQDN of the AD domain to join
+    - Domain Join Username: This is the username to be used to complete the domain join. Username must be in the format **domain\username** or **username@domainFQDN**
+    - Domain Join Password: This is the password for the above user account  
+
+## Advanced Options
+This section is for dev purposes. Default is No. Leave it at No unless instructed to use seperate configurations. Items present here may change based on any dev work I'm doing with the templates. Advanced options may not be production ready features yet, therefore should not be used.
+
+## Review + Create
+Here, review the settings and deploy the VM(s) as configured. Enjoy!  
+
+---  
+
 
 # Deploy an AD Forest
 Primary deploy template files: adforest-dsc.json, uiad-forest.json  
