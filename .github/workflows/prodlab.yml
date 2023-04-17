@@ -20,12 +20,12 @@ jobs:
             subscription-id: ${{ secrets.Azure_Prodlab_Subscription_ID }} 
             enable-AzPSSession: true
 
-        - name: 'Update main templatespec'
+        - name: 'Update VMBuilder templatespec'
           uses: azure/powershell@v1
           with:
              inlineScript: |
               $rgname = "E2-Infra"
-              $tempspecName = "main"
+              $tempspecName = "VMBuilder"
               $region = "EastUS2"
               $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/ui/ui-vmbuild.json
               $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/vmbuild.json
