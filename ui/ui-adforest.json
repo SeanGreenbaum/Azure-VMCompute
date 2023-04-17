@@ -3,7 +3,7 @@
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "Seans VM Deployment template",
+            "title": "Seans AD Forest Deployment template",
             "steps": [
                 {
                     "name": "basics",
@@ -38,23 +38,10 @@
                             "visible": true,
                             "elements": [
                                 {
-                                    "name": "vmCount",
-                                    "type": "Microsoft.Common.TextBox",                            
-                                    "label": "Qty",
-                                    "defaultValue": "1",
-                                    "toolTip": "",
-                                    "constraints": {
-                                        "required": false,
-                                        "regex": "",
-                                        "validationMessage": ""
-                                    },
-                                    "visible": true
-                                },
-                                {
                                     "name": "vmSize",
                                     "type": "Microsoft.Common.DropDown",
                                     "label": "VM SKU",
-                                    "defaultValue": "Standard_D2as_v5",
+                                    "defaultValue": "Standard_E2as_v5",
                                     "toolTip": "",
                                     "multiLine": true,
                                     "constraints": {
@@ -128,16 +115,6 @@
                                                 "label": "Standard_E2s_v4",
                                                 "description": "4th Gen - 2 cores, Intel, 16 GB RAM",
                                                 "value": "Standard_E2s_v4"
-                                            },
-                                            {
-                                                "label": "Standard_D2as_v4",
-                                                "description": "4th Gen - 2 cores, AMD, 8 GB RAM",
-                                                "value": "Standard_D2as_v4"
-                                            },
-                                            {
-                                                "label": "Standard_D2s_v4",
-                                                "description": "4th Gen - 2 cores, Intel, 8 GB RAM",
-                                                "value": "Standard_D2s_v4"
                                             }
                                         ]
                                     },
@@ -167,66 +144,6 @@
                                         ]
                                     },
                                     "visible": true
-                                },
-                                {
-                                    "name": "dataDiskOption",
-                                    "type": "Microsoft.Common.OptionsGroup",
-                                    "label": "Do you wish to configure data disks",
-                                    "visible": true,
-                                    "defaultValue": "No",
-                                    "constraints": {
-                                        "allowedValues": [
-                                            {
-                                                "label": "No",
-                                                "value": "No"
-                                            },
-                                            {
-                                                "label": "Yes",
-                                                "value": "Yes"
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "name": "datadiskcount",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "label": "Number of data disks",
-                                    "defaultValue": "0",
-                                    "toolTip": "",
-                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
-                                },
-                                {
-                                    "name": "datadiskcaching",
-                                    "type": "Microsoft.Common.DropDown",
-                                    "label": "Data Disk host caching",
-                                    "defaultValue": "None",
-                                    "toolTip": "",
-                                    "constraints": {
-                                        "required": false,
-                                        "allowedValues": [
-                                            {
-                                                "label": "None",
-                                                "value": "None"
-                                            },
-                                            {
-                                                "label": "Read/Write",
-                                                "value": "ReadWrite"
-                                            },
-                                            {
-                                                "label": "Read Only",
-                                                "value": "ReadOnly"
-                                            }
-                                        ]
-                                    },
-                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
-                                },
-                                {
-                                    "name": "datadisksize",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "label": "Size of data disks",
-                                    "defaultValue": "0",
-                                    "toolTip": "",
-                                    "visible": "[equals(steps('basics').vmHardwareSelection.dataDiskOption, 'Yes')]"
                                 }
                             ]
                         },
@@ -264,6 +181,19 @@
                                         }
                                       }
                                     }
+                                },
+                                {
+                                    "name": "DCIPAddress",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Static IP Address of the DC",
+                                    "defaultValue": "",
+                                    "toolTip": "This IP address should be within the above entered Virtual Network and Subnet. Ex: 192.168.200.4",
+                                    "constraints": {
+                                        "required": false,
+                                        "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$",
+                                        "validationMessage": "Enter a valid IP address"
+                                    },
+                                    "visible": true
                                 },
                                 {
                                     "name": "acceleratedNetworking",
@@ -347,28 +277,12 @@
                                                 "value": "2019-Datacenter-smalldisk-g2"
                                             },
                                             {
-                                                "label": "Server 2019 Datacenter",
-                                                "value": "2019-Datacenter-smalldisk"
-                                            },
-                                            {
                                                 "label": "Server 2016 Datacenter Gen2",
                                                 "value": "2016-datacenter-smalldisk-g2"
                                             },
                                             {
-                                                "label": "Server 2016 Datacenter",
-                                                "value": "2016-Datacenter-smalldisk"
-                                            },
-                                            {
                                                 "label": "Server 2012 R2 Datacenter Gen2",
                                                 "value": "2012-R2-Datacenter-smalldisk-g2"
-                                            },
-                                            {
-                                                "label": "Server 2012 Datacenter",
-                                                "value": "2012-Datacenter-smalldisk"
-                                            },
-                                            {
-                                                "label": "Server 2008 R2 SP1",
-                                                "value": "2008-R2-SP1-smalldisk"
                                             },
                                             {
                                                 "label": "Server 2019 Datacenter CORE Gen2",
@@ -377,50 +291,6 @@
                                             {
                                                 "label": "Server 2016 Datacenter CORE Gen2",
                                                 "value": "2016-Datacenter-Server-Core-smalldisk-g2"
-                                            },
-                                            {
-                                                "label": "Windows 11 v22h2",
-                                                "value": "win11-22h2-ent"
-                                            },
-                                            {
-                                                "label": "Windows 11 v22h2 Pro",
-                                                "value": "win11-22h2-pro"
-                                            },
-                                            {
-                                                "label": "Windows 10 v22h2",
-                                                "value": "win10-22h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v22h2 Pro",
-                                                "value": "win10-22h2-pro-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v21h2",
-                                                "value": "win10-21h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v21h2 Pro",
-                                                "value": "win10-21h2-pro-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v20h2",
-                                                "value": "20h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v19h2",
-                                                "value": "19h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v1809",
-                                                "value": "rs5-enterprise-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v1709",
-                                                "value": "rs3-pro"
-                                            },
-                                            {
-                                                "label": "Windows 7 Enterprise",
-                                                "value": "win7-enterprise"
                                             }
                                         ]
                                     },
@@ -471,11 +341,6 @@
                                         ]
                                     },
                                     "visible": true
-                                },
-                                {
-                                    "name": "InstallClustering",
-                                    "type": "Microsoft.Common.CheckBox",
-                                    "label": "Install Failover Clustering Feature"
                                 }
                             ]
                         }
@@ -570,73 +435,24 @@
                     ]
                 },
                 {
-                    "name": "uiDomainJoin",
-                    "label": "Domain Join Options",
+                    "name": "uiADForestDomainJoin",
+                    "label": "New AD Forest Options",
                     "elements": [
                         {
-                            "name": "DomainJoin",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "Domain Join",
-                            "defaultValue": "No",
-                            "toolTip": "",
-                            "constraints": {
-                                "required": false,
-                                "allowedValues": [
-                                    {
-                                        "label": "No",
-                                        "value": "No"
-                                    },
-                                    {
-                                        "label": "Yes",
-                                        "value": "Yes"
-                                    }
-                                ]
-                            },
+                            "name": "DomainDNSName",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "FQDN of new Forest",
+                            "defaultValue": "contoso.com",
+                            "toolTip": "This is the fqdn of the new forest. Ex: corp.contoso.com",
                             "visible": true
                         },
                         {
-                            "name": "DomainToJoin",
+                            "name": "DomainNetBIOSName",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "Domain To Join",
-                            "defaultValue": "None",
-                            "toolTip": "Only needed if DomainJoin is Yes",
-                            "constraints": {
-                                "required": false,
-                                "regex": "",
-                                "validationMessage": ""
-                            },
-                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
-                        },
-                        {
-                            "name": "DomainJoinUserName",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Domain Join User Name",
-                            "defaultValue": "None",
-                            "toolTip": "Only needed if DomainJoin is Yes",
-                            "constraints": {
-                                "required": false,
-                                "regex": "",
-                                "validationMessage": ""
-                            },
-                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
-                        },
-                        {
-                            "name": "DomainJoinPassword",
-                            "type": "Microsoft.Common.PasswordBox",
-                            "label": {
-                                "password": "Domain Join Password",
-                                "confirmPassword": "Confirm password"
-                            },
-                            "toolTip": "Only needed if DomainJoin is Yes",
-                            "constraints": {
-                                "required": false,
-                                "regex": "",
-                                "validationMessage": ""
-                            },
-                            "options": {
-                                "hideConfirmation": true
-                            },
-                            "visible": "[equals(steps('uiDomainJoin').DomainJoin, 'Yes')]"
+                            "label": "NetBIOS Name of domain",
+                            "defaultValue": "contoso",
+                            "toolTip": "This is the NetBIOS name of the domain. Ex: corp\\",
+                            "visible": true
                         }
                     ]
                 },
@@ -683,7 +499,7 @@
                                     "visible": true,
                                     "options": {
                                         "icon": "Warning",
-                                        "text": "Only use this option when changing from the master/main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
+                                        "text": "Only use this option when changing from the main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
                                         "uri": "https://github.com/SeanGreenbaum/Azure-VMCompute"
                                     }
                                 },
@@ -692,7 +508,19 @@
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Custom Branch",
                                     "toolTip": "Must be Case Sensitive",
-                                    "defaultValue": "master"
+                                    "defaultValue": "main"
+                                },
+                                {
+                                    "name": "ADScriptName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "AD Script Name",
+                                    "defaultValue": "dc-build.ps1"
+                                },
+                                {
+                                    "name": "ADScriptNameZIP",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "ZIP file holding the above AD Script",
+                                    "defaultValue": "dc-build.ps1.zip"
                                 }
                             ]
                         }
@@ -703,33 +531,29 @@
         "outputs": {
             "parameters": {
                 "vmName": "[steps('basics').vmName]",
-                "vmCount": "[int(steps('basics').vmHardwareSelection.vmCount)]",
                 "adminUsername": "[steps('basics').vmSoftwareSelection.adminUsername]",
                 "adminPassword": "[steps('basics').vmSoftwareSelection.adminPassword]",
                 "vmSize": "[steps('basics').vmHardwareSelection.vmSize]",
                 "vmOS": "[steps('basics').vmSoftwareSelection.vmOSOptions]",
                 "vmOSversion": "[steps('basics').vmSoftwareSelection.vmOSversion]",
                 "storageType": "[steps('basics').vmHardwareSelection.storageType]",
-                "datadiskcount": "[if(equals(steps('basics').vmHardwareSelection.dataDiskOption, 'No'), 0, int(steps('basics').vmHardwareSelection.datadiskcount))]",
-                "datadisksize": "[if(equals(steps('basics').vmHardwareSelection.dataDiskOption, 'No'), 0, int(steps('basics').vmHardwareSelection.datadisksize))]",
-                "datadiskcaching": "[steps('basics').vmHardwareSelection.datadiskcaching]",
                 "vNetNeworExisting": "[steps('basics').vmNetworkingSelection.vnet.newOrExisting]",
                 "vNetName": "[steps('basics').vmNetworkingSelection.vnet.name]",
                 "vNetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.addressPrefixes]",
                 "VNetSubnetName": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.name]",
                 "vNetSubnetAddressSpace": "[steps('basics').vmNetworkingSelection.vnet.subnets.subnet1.addressPrefix]",
                 "acceleratedNetworking": "[steps('basics').vmNetworkingSelection.acceleratedNetworking]",
+                "DCIPAddress": "[steps('basics').vmNetworkingSelection.DCIPAddress]",
                 "autoShutdownTime": "[steps('basics').vmSoftwareSelection.autoShutdownTime]",
                 "NeedsHA": "[steps('uiAvailability').NeedsHA]",
                 "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
                 "AVSetName": "[steps('uiAvailability').AvSetName]",
                 "AVSetAction": "[steps('uiAvailability').AvSetAction]",
-                "DomainJoin": "[steps('uiDomainJoin').DomainJoin]",
-                "DomainToJoin": "[steps('uiDomainJoin').DomainToJoin]",
-                "DomainJoinUserName": "[steps('uiDomainJoin').DomainJoinUserName]",
-                "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]",
+                "DomainDNSName": "[steps('uiADForestDomainJoin').DomainDNSName]",
+                "DomainNetBIOSName": "[steps('uiADForestDomainJoin').DomainNetBIOSName]",
                 "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
-                "InstallClusteringFeature": "[steps('basics').vmSoftwareSelection.InstallClustering]"
+                "ADScriptName": "[steps('uiAdvanced').customBranchSection.ADScriptName]",
+                "ADScriptNameZip": "[steps('uiAdvanced').customBranchSection.ADScriptNameZIP]"
             },
             "kind": "ResourceGroup",
             "location": "[steps('basics').resourceScope.location.name]",

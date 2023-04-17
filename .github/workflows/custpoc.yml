@@ -20,15 +20,15 @@ jobs:
             subscription-id: ${{ secrets.Azure_CustPOC_Subscription_ID }} 
             enable-AzPSSession: true
 
-        - name: 'Update Master templatespec'
+        - name: 'Update main templatespec'
           uses: azure/powershell@v1
           with:
              inlineScript: |
               $rgname = "E2-Infra"
-              $tempspecName = "Master"
+              $tempspecName = "main"
               $region = "EastUS2"
-              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/ui/uivm-master.json
-              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/master.json
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/ui/ui-vmbuild.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/vmbuild.json
               $date = Get-Date -Format "MMddyy-HHmmss"
               New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"
@@ -40,8 +40,8 @@ jobs:
               $rgname = "E2-Infra"
               $tempspecName = "ADForest-DSC"
               $region = "EastUS2"
-              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/ui/uiad-forest.json
-              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/adforest-dsc.json
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/ui/ui-adforest.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/adforest-dsc.json
               $date = Get-Date -Format "MMddyy-HHmmss"
               New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"
@@ -53,8 +53,8 @@ jobs:
               $rgname = "E2-Infra"
               $tempspecName = "ADForest-script"
               $region = "EastUS2"
-              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/ui/uiad-forest.json
-              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/adforest.json
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/ui/ui-adforest.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/adforest.json
               $date = Get-Date -Format "MMddyy-HHmmss"
               New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"
@@ -66,8 +66,8 @@ jobs:
               $rgname = "E2-Infra"
               $tempspecName = "ADDCPromo-DSC"
               $region = "EastUS2"
-              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/ui/uiad-dcpromo.json
-              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/master/addcpromo-dsc.json
+              $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/ui/ui-addcpromo.json
+              $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/addcpromo-dsc.json
               $date = Get-Date -Format "MMddyy-HHmmss"
               New-AzTemplateSpec -ResourceGroupName $rgname -Name $tempspecName -Version "Refreshed-$date" -Location $region -TemplateJson $templatefile.Content -UIFormDefinitionString $uifile.Content
              azPSVersion: "latest"

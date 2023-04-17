@@ -109,7 +109,7 @@
     },
     "CustomBranch": {
       "type": "string",
-      "defaultValue": "master",
+      "defaultValue": "main",
       "metadata": {
         "description": "Advanced option. Do not change unless intentional."
       }

@@ -643,7 +643,7 @@
                                     "visible": true,
                                     "options": {
                                         "icon": "Warning",
-                                        "text": "Only use this option when changing from the master/main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
+                                        "text": "Only use this option when changing from the main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
                                         "uri": "https://github.com/SeanGreenbaum/Azure-VMCompute"
                                     }
                                 },
@@ -652,7 +652,7 @@
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Custom Branch",
                                     "toolTip": "Must be Case Sensitive",
-                                    "defaultValue": "master"
+                                    "defaultValue": "main"
                                 }
                             ]
                         }

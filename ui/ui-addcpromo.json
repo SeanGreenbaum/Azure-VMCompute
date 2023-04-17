@@ -3,7 +3,7 @@
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "Seans AD Forest Deployment template",
+            "title": "Seans AD Domain Controller Deployment template",
             "steps": [
                 {
                     "name": "basics",
@@ -435,23 +435,41 @@
                     ]
                 },
                 {
-                    "name": "uiADForestDomainJoin",
-                    "label": "New AD Forest Options",
+                    "name": "uiADDomainPromo",
+                    "label": "Existing AD Domain Config",
                     "elements": [
                         {
                             "name": "DomainDNSName",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "FQDN of new Forest",
+                            "label": "FQDN of AD Domain",
                             "defaultValue": "contoso.com",
-                            "toolTip": "This is the fqdn of the new forest. Ex: corp.contoso.com",
+                            "toolTip": "This is the fqdn of the domain. Ex: corp.contoso.com",
                             "visible": true
                         },
                         {
-                            "name": "DomainNetBIOSName",
+                            "name": "DomainUsername",
                             "type": "Microsoft.Common.TextBox",
-                            "label": "NetBIOS Name of domain",
-                            "defaultValue": "contoso",
-                            "toolTip": "This is the NetBIOS name of the domain. Ex: corp\\",
+                            "label": "Domain Admin user name (UPN)",
+                            "defaultValue": "admin@contoso.com",
+                            "toolTip": "This is the username of an existing Domain Admin. Must be in UPN format. Ex: admin@contoso.com",
+                            "visible": true
+                        },
+                        {
+                            "name": "DomainPassword",
+                            "type": "Microsoft.Common.PasswordBox",
+                            "label": {
+                                "password": "Admin Password",
+                                "confirmPassword": "Confirm password"
+                            },
+                            "toolTip": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": ""
+                            },
+                            "options": {
+                                "hideConfirmation": true
+                            },
                             "visible": true
                         }
                     ]
@@ -499,7 +517,7 @@
                                     "visible": true,
                                     "options": {
                                         "icon": "Warning",
-                                        "text": "Only use this option when changing from the master/main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
+                                        "text": "Only use this option when changing from the main branch to a different branch in the github repro located at https://github.com/SeanGreenbaum/Azure-VMCompute. This would change the raw source to look like: https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/<branch>/<deploymenttemplate>.json",
                                         "uri": "https://github.com/SeanGreenbaum/Azure-VMCompute"
                                     }
                                 },
@@ -508,19 +526,19 @@
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Custom Branch",
                                     "toolTip": "Must be Case Sensitive",
-                                    "defaultValue": "master"
+                                    "defaultValue": "main"
                                 },
                                 {
                                     "name": "ADScriptName",
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "AD Script Name",
-                                    "defaultValue": "dc-build.ps1"
+                                    "defaultValue": "dc-promo.ps1"
                                 },
                                 {
                                     "name": "ADScriptNameZIP",
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "ZIP file holding the above AD Script",
-                                    "defaultValue": "dc-build.ps1.zip"
+                                    "defaultValue": "dc-promo.ps1.zip"
                                 }
                             ]
                         }
@@ -549,8 +567,9 @@
                 "AvailabilityZone": "[steps('uiAvailability').AvailabilityZone]",
                 "AVSetName": "[steps('uiAvailability').AvSetName]",
                 "AVSetAction": "[steps('uiAvailability').AvSetAction]",
-                "DomainDNSName": "[steps('uiADForestDomainJoin').DomainDNSName]",
-                "DomainNetBIOSName": "[steps('uiADForestDomainJoin').DomainNetBIOSName]",
+                "DomainDNSName": "[steps('uiADDomainPromo').DomainDNSName]",
+                "DomainUsername": "[steps('uiADDomainPromo').DomainUsername]",
+                "DomainPassword": "[steps('uiADDomainPromo').DomainPassword]",
                 "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
                 "ADScriptName": "[steps('uiAdvanced').customBranchSection.ADScriptName]",
                 "ADScriptNameZip": "[steps('uiAdvanced').customBranchSection.ADScriptNameZIP]"
