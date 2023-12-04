@@ -244,7 +244,8 @@
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
             "patchSettings": {
-              "patchMode": "AutomaticByOS"
+              "patchMode": "AutomaticByOS",
+              "enableHotpatching": false
             }
           }
         },
