@@ -379,6 +379,15 @@
                                                 "value": "2016-Datacenter-Server-Core-smalldisk-g2"
                                             },
                                             {
+                                                "label": "Windows 11 v23h2",
+                                                "value": "win11-23h2-ent"
+                                            },
+                                            {
+                                                "label": "Windows 11 v23h2 Pro",
+                                                "value": "win11-23h2-pro"
+                                            },
+
+                                            {
                                                 "label": "Windows 11 v22h2",
                                                 "value": "win11-22h2-ent"
                                             },

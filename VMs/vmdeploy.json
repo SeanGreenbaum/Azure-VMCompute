@@ -244,10 +244,8 @@
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
             "patchSettings": {
-              "patchMode": "AutomaticByPlatform",
-              "automaticByPlatformSettings": {
-                "bypassPlatformSafetyChecksOnUserSchedule": false
-              }
+              "patchMode": "AutomaticByOS",
+              "enableHotpatching": false
             }
           }
         },
