@@ -70,6 +70,8 @@
                 "2019-Datacenter-Core-smalldisk-g2",
                 "2022-datacenter-smalldisk-g2",
                 "2022-datacenter-azure-edition-smalldisk",
+                "win11-23h2-ent",
+                "win11-23h2-pro",
                 "win11-22h2-ent",
                 "win11-22h2-pro",
                 "win10-22h2-ent-g2",
