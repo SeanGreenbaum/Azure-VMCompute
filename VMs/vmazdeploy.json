@@ -213,8 +213,7 @@
             "enableAutomaticUpdates": true,
             "patchSettings": {
               "patchMode": "AutomaticByOS",
-              "enableHotpatching": false,
-              "enableVMAgentPlatformUpdates": true
+              "enableHotpatching": false
             }
           }
         },
