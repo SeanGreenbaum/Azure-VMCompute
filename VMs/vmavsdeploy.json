@@ -190,7 +190,7 @@
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2023-03-01",
+      "apiVersion": "2023-09-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -198,6 +198,9 @@
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('linked-nic-', parameters('vmName')))]"
       ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "properties": {
         "licenseType": "[parameters('licensetype')]",
         "osProfile": {
@@ -210,7 +213,8 @@
             "enableAutomaticUpdates": true,
             "patchSettings": {
               "patchMode": "AutomaticByOS",
-              "enableHotpatching": false
+              "enableHotpatching": false,
+              "enableVMAgentPlatformUpdates": true
             }
           }
         },
@@ -267,8 +271,24 @@
       }
     },
     {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2023-03-01",
+      "name": "[concat(parameters('vmName'),'/AzureMonitorWindowsAgent')]",
+      "location": "[resourceGroup().location]",      
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Azure.Monitor",
+        "type": "AzureMonitorWindowsAgent",
+        "typeHandlerVersion": "1.0",
+        "autoUpgradeMinorVersion": true,
+        "enableAutomaticUpgrade": true
+      }
+    },
+    {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
-      "apiVersion": "2022-11-01",
+      "apiVersion": "2023-03-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
       "location": "[resourceGroup().location]",      
@@ -296,7 +316,7 @@
       "name": "[concat(parameters('vmName'), '/Install-Clustering-Feature')]",
       "type":"Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2022-11-01",
+      "apiVersion": "2023-03-01",
       "dependsOn":  [
           "[parameters('vmName')]",
           "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'joindomain')]"
