@@ -110,14 +110,14 @@
                                                 "value": "Standard_E8as_v5"
                                             },
                                             {
-                                                "label": "Standard_B2s",
-                                                "description": "2 burstable cores, Intel, 4 GB RAM",
-                                                "value": "Standard_B2s"
+                                                "label": "Standard_B2as_v2",
+                                                "description": "2 burstable cores, AMD, 8 GB RAM",
+                                                "value": "Standard_B2as_v2"
                                             },
                                             {
-                                                "label": "Standard_B2ms",
+                                                "label": "Standard_B2s_v2",
                                                 "description": "2 burstable cores, Intel, 8 GB RAM",
-                                                "value": "Standard_B2ms"
+                                                "value": "Standard_B2s_v2"
                                             },
                                             {
                                                 "label": "Standard_E2as_v4",
