@@ -211,6 +211,14 @@
                 false,
                 true
             ]
+        },
+        "aadLoginExtension": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
         }
     },
     "variables": {
@@ -433,6 +441,9 @@
                     },
                     "InstallClusteringFeature": {
                         "value": "[parameters('InstallClusteringFeature')]"
+                    },
+                    "aadLoginExtension": {
+                        "value": "[parameters('aadLoginExtension')]"
                     }
                 }
             },
@@ -527,6 +538,9 @@
                     },
                     "InstallClusteringFeature": {
                         "value": "[parameters('InstallClusteringFeature')]"
+                    },
+                    "aadLoginExtension": {
+                        "value": "[parameters('aadLoginExtension')]"
                     }
                 }
             },
@@ -621,6 +635,9 @@
                     },
                     "InstallClusteringFeature": {
                         "value": "[parameters('InstallClusteringFeature')]"
+                    },
+                    "aadLoginExtension": {
+                        "value": "[parameters('aadLoginExtension')]"
                     }
                 }
             },
