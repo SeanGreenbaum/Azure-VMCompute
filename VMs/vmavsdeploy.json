@@ -346,7 +346,7 @@
     },
     {
       "condition": "[equals(parameters('aadLoginExtension'), bool('true'))]",
-      "name": "[concat(parameters('vmName'), '/aadLoginExtensionName')]",
+      "name": "[concat(parameters('vmName'), '/aadLoginExtension')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2023-03-01",
       "location": "[resourceGroup().location]",
