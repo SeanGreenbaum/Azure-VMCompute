@@ -121,6 +121,14 @@
           false,
           true
       ]
+    },
+    "aadLoginExtension": {
+      "type": "bool",
+      "defaultValue": false,
+      "allowedValues": [
+        false,
+        true
+      ]
     }
   },
   "variables": {
@@ -367,6 +375,25 @@
           },
           "protectedSettings": {}
       }
+    },
+    {
+      "condition": "[equals(parameters('aadLoginExtension'), bool('true'))]",
+      "name": "[concat(parameters('vmName'), '/aadLoginExtension')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2023-03-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+          "publisher": "Microsoft.Azure.ActiveDirectory",
+          "type": "AADLoginForWindows",
+          "typeHandlerVersion": "1.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "mdmId": ""
+          }
+      },
+      "dependsOn": [
+          "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+      ]
     }
   ],
   "outputs": {}
