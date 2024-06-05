@@ -146,7 +146,14 @@
     "nictemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/nicdeploy.json')]",
     "nicpiptemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/nicpipdeploy.json')]",
     "piptemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/pipdeploy.json')]",
-    "artifactsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]"
+    "artifactsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
+    "securityProfile": {
+      "uefiSettings": {
+        "secureBootEnabled": true,
+        "vTpmEnabled": true
+      },
+      "securityType": "TrustedLaunch"
+    }
   },
   "resources": [
     {
@@ -268,12 +275,7 @@
             }
           }
         },
-        "securityProfile": {
-          "uefiSettings": {
-            "secureBootEnabled": "[if(equals(parameters('EnableSecureBoot'), bool('true')), bool('true'), bool('false'))]",
-            "vTpmEnabled": "[if(equals(parameters('EnableSecureBoot'), bool('true')), bool('true'), bool('false'))]"
-          }
-        },
+        "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
