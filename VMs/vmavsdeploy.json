@@ -104,6 +104,14 @@
           true
       ]
     },
+    "EnableSecureBoot":{
+      "type": "bool",
+      "defaultValue": true,
+      "allowedValues": [
+        false,
+        true
+      ]
+    },
     "aadLoginExtension": {
       "type": "bool",
       "defaultValue": false,
@@ -121,7 +129,14 @@
     "nicpiptemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/nicpipdeploy.json')]",
     "piptemplateURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/NetworkObjects/pipdeploy.json')]",
     "avSetID": "[resourceId('Microsoft.Compute/availabilitySets', parameters('avSetName'))]",
-    "artifactsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]"
+    "artifactsURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/artifacts/')]",
+    "securityProfile": {
+      "uefiSettings": {
+        "secureBootEnabled": true,
+        "vTpmEnabled": true
+      },
+      "securityType": "TrustedLaunch"
+    }
   },
   "resources": [
     {
@@ -225,6 +240,7 @@
             }
           }
         },
+        "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },

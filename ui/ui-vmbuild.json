@@ -144,6 +144,26 @@
                                     "visible": true
                                 },
                                 {
+                                    "name": "enableSecureBoot",
+                                    "type": "Microsoft.Common.DropDown",
+                                    "label": "Enable Secure Boot",
+                                    "defaultValue": ["Enabled"],
+                                    "constraints": {
+                                        "required": false,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Enabled",
+                                                "value": "Enable Secure Boot and vTPM"
+                                            },
+                                            {
+                                                "label": "Disabled",
+                                                "value": "Disable Secure Boot and vTPM"
+                                            }
+                                        ]
+                                    },
+                                    "visible": true
+                                },
+                                {
                                     "name": "storageType",
                                     "type": "Microsoft.Common.DropDown",
                                     "label": "Storage Type",
@@ -744,7 +764,8 @@
                 "DomainJoinPassword": "[steps('uiDomainJoin').DomainJoinPassword]",
                 "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
                 "InstallClusteringFeature": "[steps('basics').vmSoftwareSelection.InstallClustering]",
-                "aadLoginExtension": "[steps('basics').vmSoftwareSelection.aadLoginExtension]"
+                "aadLoginExtension": "[steps('basics').vmSoftwareSelection.aadLoginExtension]",
+                "enableSecureBoot": "[steps('basics').vmHardwareSelection.enableSecureBoot]"
             },
             "kind": "ResourceGroup",
             "location": "[steps('basics').resourceScope.location.name]",
