@@ -260,6 +260,8 @@
             }
           }
         },
+        "securityProfile": {
+        },
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
