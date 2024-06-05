@@ -153,11 +153,11 @@
                                         "allowedValues": [
                                             {
                                                 "label": "Enabled",
-                                                "value": "Enable Secure Boot and vTPM"
+                                                "value": true
                                             },
                                             {
                                                 "label": "Disabled",
-                                                "value": "Disable Secure Boot and vTPM"
+                                                "value": false
                                             }
                                         ]
                                     },
