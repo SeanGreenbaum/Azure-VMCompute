@@ -122,6 +122,14 @@
           true
       ]
     },
+    "EnableSecureBoot":{
+      "type": "bool",
+      "defaultValue": true,
+      "allowedValues": [
+        false,
+        true
+      ]
+    },
     "aadLoginExtension": {
       "type": "bool",
       "defaultValue": false,
@@ -261,6 +269,10 @@
           }
         },
         "securityProfile": {
+          "uefiSettings": {
+            "secureBootEnabled": "[if(equals(parameters('EnableSecureBoot'), bool('true')), bool('true'), bool('false'))]",
+            "vTpmEnabled": "[if(equals(parameters('EnableSecureBoot'), bool('true')), bool('true'), bool('false'))]"
+          }
         },
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
