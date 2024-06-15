@@ -147,7 +147,7 @@
                                     "name": "enableSecureBoot",
                                     "type": "Microsoft.Common.DropDown",
                                     "label": "Enable Secure Boot",
-                                    "defaultValue": ["Enabled"],
+                                    "defaultValue": "Enabled",
                                     "constraints": {
                                         "required": false,
                                         "allowedValues": [
@@ -765,7 +765,7 @@
                 "CustomBranch": "[steps('uiAdvanced').customBranchSection.customBranch]",
                 "InstallClusteringFeature": "[steps('basics').vmSoftwareSelection.InstallClustering]",
                 "aadLoginExtension": "[steps('basics').vmSoftwareSelection.aadLoginExtension]",
-                "enableSecureBoot": "[steps('basics').vmHardwareSelection.enableSecureBoot]"
+                "EnableSecureBoot": "[steps('basics').vmHardwareSelection.enableSecureBoot]"
             },
             "kind": "ResourceGroup",
             "location": "[steps('basics').resourceScope.location.name]",
