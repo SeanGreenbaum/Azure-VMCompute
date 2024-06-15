@@ -212,6 +212,14 @@
                 true
             ]
         },
+        "EnableSecureBoot":{
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                false,
+                true
+            ]
+        },        
         "aadLoginExtension": {
             "type": "bool",
             "defaultValue": false,
@@ -442,6 +450,9 @@
                     "InstallClusteringFeature": {
                         "value": "[parameters('InstallClusteringFeature')]"
                     },
+                    "EnableSecureBoot": {
+                        "value": "[parameters('EnableSecureBoot')]"
+                    },
                     "aadLoginExtension": {
                         "value": "[parameters('aadLoginExtension')]"
                     }
@@ -539,6 +550,9 @@
                     "InstallClusteringFeature": {
                         "value": "[parameters('InstallClusteringFeature')]"
                     },
+                    "EnableSecureBoot": {
+                        "value": "[parameters('EnableSecureBoot')]"
+                    },
                     "aadLoginExtension": {
                         "value": "[parameters('aadLoginExtension')]"
                     }
@@ -635,6 +649,9 @@
                     },
                     "InstallClusteringFeature": {
                         "value": "[parameters('InstallClusteringFeature')]"
+                    },
+                    "EnableSecureBoot": {
+                        "value": "[parameters('EnableSecureBoot')]"
                     },
                     "aadLoginExtension": {
                         "value": "[parameters('aadLoginExtension')]"
