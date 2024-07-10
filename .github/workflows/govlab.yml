@@ -38,7 +38,7 @@ jobs:
              inlineScript: |
               $rgname = "CoreInfrastructure"
               $tempspecName = "AZ-ClusterNodes"
-              $region = "Eusgovvirginia"
+              $region = "usgovvirginia"
               $uifile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/ui/ui-azclusternodes.json
               $templatefile = Invoke-WebRequest -Uri https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/main/azclusternodes.json
               $date = Get-Date -Format "MMddyy-HHmmss"

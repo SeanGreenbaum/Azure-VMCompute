@@ -9,11 +9,11 @@ permissions:
       contents: read
       
 jobs: 
-  Windows-latest:
-      runs-on: windows-latest
+  Deploy-Templates:
+      runs-on: ubuntu-latest
       steps:
         - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
-          uses: azure/login@v1
+          uses: azure/login@v2
           with:
             client-id: ${{ secrets.Azure_SeanNet_Client_ID }}
             tenant-id: ${{ secrets.Azure_SeanNet_Tenant_ID }}
@@ -21,7 +21,7 @@ jobs:
             enable-AzPSSession: true
 
         - name: 'Update VMBuilder templatespec'
-          uses: azure/powershell@v1
+          uses: azure/powershell@v2
           with:
              inlineScript: |
               $rgname = "E1-Infra"
@@ -34,7 +34,7 @@ jobs:
              azPSVersion: "latest"
 
         - name: 'Update AZ-ClusterNodes templatespec'
-          uses: azure/powershell@v1
+          uses: azure/powershell@v2
           with:
              inlineScript: |
               $rgname = "E1-Infra"
@@ -47,7 +47,7 @@ jobs:
              azPSVersion: "latest"
 
         - name: 'Update ADForest-DSC templatespec'
-          uses: azure/powershell@v1
+          uses: azure/powershell@v2
           with:
              inlineScript: |
               $rgname = "E1-Infra"
@@ -60,7 +60,7 @@ jobs:
              azPSVersion: "latest"
    
         - name: 'Update ADForest-script templatespec'
-          uses: azure/powershell@v1
+          uses: azure/powershell@v2
           with:
              inlineScript: |
               $rgname = "E1-Infra"
@@ -73,7 +73,7 @@ jobs:
              azPSVersion: "latest"
 
         - name: 'Update ADDCPromo-DSC templatespec'
-          uses: azure/powershell@v1
+          uses: azure/powershell@v2
           with:
              inlineScript: |
               $rgname = "E1-Infra"
