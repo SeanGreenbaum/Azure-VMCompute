@@ -12,12 +12,10 @@ jobs:
   Deploy-Templates:
       runs-on: ubuntu-latest
       steps:
-        - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+        - name: Creds Login to Azure Gov Cloud with AzPowershell (enableAzPSSession true)
           uses: azure/login@v2
           with:
-            client-id: ${{ secrets.Azure_GOVLAB_Client_ID }}
-            tenant-id: ${{ secrets.Azure_GOVLAB_Tenant_ID }}
-            subscription-id: ${{ secrets.Azure_GOVLAB_Subscription_ID }} 
+            creds: ${{ secrets.Azure_GOVLAB_Creds }} 
             environment: 'AzureUSGovernment'
             enable-AzPSSession: true
 
