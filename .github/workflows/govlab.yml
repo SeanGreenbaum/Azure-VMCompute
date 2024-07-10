@@ -1,6 +1,6 @@
 # File: .github/workflows/OIDC_workflow.yml
 
-name: Update AZLab Subscription with TemplateSpec
+name: Update GovLab Subscription with TemplateSpec
 on:
   workflow_dispatch:
 
