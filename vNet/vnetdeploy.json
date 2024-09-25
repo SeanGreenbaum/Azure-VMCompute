@@ -20,7 +20,7 @@
         {
             "name": "[parameters('virtualNetworkName')]",
             "type": "Microsoft.Network/VirtualNetworks",
-            "apiVersion": "2022-07-01",
+            "apiVersion": "2024-01-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [],
             "tags": {},
@@ -28,11 +28,18 @@
                 "addressSpace": {
                     "addressPrefixes": "[parameters('addressSpaces')]"
                 },
+                "encryption": {
+                    "enabled": false,
+                    "enforcement": "AllowUnencrypted"
+                },
                 "subnets": [
                     {
                         "name": "[parameters('subnet1_name')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subnet1_addressRange')]"
+                            "addressPrefix": "[parameters('subnet1_addressRange')]",
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Disabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
                         }
                     }
                 ],

@@ -1,0 +1,158 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {
+        "rg1Name": "uk-infra",
+        "region1": {
+            "rgLocation": "uksouth",
+            "nsgName": "[concat(variables('rg1Name'), '-BaseNSG')]",
+            "vnetName": "[concat(variables('rg1Name'), '-net')]",
+            "vnetAddressSpace": "10.20.30.0/24",
+            "Subnet1AddressSpace": "10.20.30.0/27"
+        },
+        "rg2Name": "in-Testing1",
+        "region2": {
+            "rgLocation": "italynorth",
+            "nsgName": "[concat(variables('rg2Name'), '-BaseNSG')]",
+            "vnetName": "[concat(variables('rg2Name'), '-net')]",
+            "vnetAddressSpace": "10.20.30.0/24",
+            "Subnet1AddressSpace": "10.20.30.0/27"
+        },
+        "rg3Name": "nwe-Testing1",
+        "region3": {
+            "rgLocation": "norwayeast",
+            "nsgName": "[concat(variables('rg3Name'), '-BaseNSG')]",
+            "vnetName": "[concat(variables('rg3Name'), '-net')]",
+            "vnetAddressSpace": "10.20.30.0/24",
+            "Subnet1AddressSpace": "10.20.30.0/27"
+        },
+        "rg4Name": "pc-Testing1",
+        "region4": {
+            "rgLocation": "polandcentral",
+            "nsgName": "[concat(variables('rg4Name'), '-BaseNSG')]",
+            "vnetName": "[concat(variables('rg4Name'), '-net')]",
+            "vnetAddressSpace": "10.20.30.0/24",
+            "Subnet1AddressSpace": "10.20.30.0/27"
+        },
+        "rg5Name": "sp-Testing1",
+        "region5": {
+            "rgLocation": "spaincentral",
+            "nsgName": "[concat(variables('rg5Name'), '-BaseNSG')]",
+            "vnetName": "[concat(variables('rg5Name'), '-net')]",
+            "vnetAddressSpace": "10.20.30.0/24",
+            "Subnet1AddressSpace": "10.20.30.0/27"
+        }
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('rg1Name')]",
+        "location": "[variables('region1').rgLocation]",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('rg2Name')]",
+        "location": "[variables('region2').rgLocation]",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('rg3Name')]",
+        "location": "[variables('region3').rgLocation]",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('rg4Name')]",
+        "location": "[variables('region4').rgLocation]",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Resources/resourceGroups",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('rg5Name')]",
+        "location": "[variables('region5').rgLocation]",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2022-09-01",
+        "name": "[concat(variables('rg1Name'), '-createResources')]",
+        "resourceGroup": "[variables('rg1Name')]",
+        "properties": {
+            "mode": "Incremental",
+            "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "resources": [
+                    {
+                        "type": "Microsoft.Network/networkSecurityGroups",
+                        "apiVersion": "2024-01-01",
+                        "name": "[variables('region1').nsgName]",
+                        "location": "[variables('region1').rgLocation]",
+                        "properties": {
+                            "securityRules": []
+                        }
+                    },
+
+                    {
+                        "type": "Microsoft.Network/virtualNetworks",
+                        "apiVersion": "2024-01-01",
+                        "name": "[variables('region1').vnetName]",
+                        "location": "[variables('region1').rgLocation]",
+                        "dependsOn": [
+                            "[variables('region1').nsgName]"
+                        ],
+                        "properties": {
+                            "addressSpace": {
+                                "addressPrefixes": [
+                                    "[variables('region1').vnetAddressSpace]"
+                                ]
+                            },
+                            "encryption": {
+                                "enabled": false,
+                                "enforcement": "AllowUnencrypted"
+                            },
+                            "subnets": [
+                                {
+                                    "name": "Subnet1",
+                                    "type": "Microsoft.Network/virtualNetworks/subnets",
+                                    "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('region1').vnetName, 'Subnet1')]",
+                                    "properties": {
+                                        "addressPrefix": "[variables('region1').Subnet1AddressSpace]",
+                                        "networkSecurityGroup": {
+                                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('region1').nsgName)]"
+                                        },
+                                        "delegations": [],
+                                        "privateEndpointNetworkPolicies": "Disabled",
+                                        "privateLinkServiceNetworkPolicies": "Enabled"
+                                    }
+                                }
+                            ],
+                            "virtualNetworkPeerings": [],
+                            "enableDdosProtection": false
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+                ]
+            }
+        }
+      }
+    ],
+    "outputs": {}
+  }
