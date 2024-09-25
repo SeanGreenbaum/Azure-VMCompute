@@ -5,8 +5,8 @@
     "variables": {
         "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
         "templates": {
-            "vnetURI": "[concat(variables('githubURL'), '/main/vNet/vnetdeploy.json')]",
-            "nsgURI": "[concat(variables('githubURL'), '/main/NetworkSecurityGroup/basensgdeploy.json')]"
+            "vnetURI": "[concat(variables('githubURL'), 'main/vNet/vnetdeploy.json')]",
+            "nsgURI": "[concat(variables('githubURL'), 'main/NetworkSecurityGroup/basensgdeploy.json')]"
         },
         "rg1Name": "test-infra",
         "region1": {
