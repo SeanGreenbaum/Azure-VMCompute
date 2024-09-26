@@ -14,7 +14,7 @@
         "subnet1_addressRange": {
             "type": "string"
         },
-        "nsgID": {
+        "nsgName": {
             "type": "string"
         }
     },
@@ -41,7 +41,7 @@
                         "properties": {
                             "addressPrefix": "[parameters('subnet1_addressRange')]",
                             "networkSecurityGroup": {
-                                "id": "[parameters('nsgID')]"
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
                             },
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Disabled",

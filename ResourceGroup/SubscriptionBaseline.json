@@ -130,8 +130,8 @@
                     "subnet1_addressRange": {
                         "value": "[variables('region1').Subnet1AddressSpace]"
                     },
-                    "nsgID": {
-                        "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('region1').nsgName)]"
+                    "nsgName": {
+                        "value": "[variables('region1').nsgName]"
                     }
                 }
             },
@@ -184,6 +184,9 @@
                     },
                     "subnet1_addressRange": {
                         "value": "[variables('region2').Subnet1AddressSpace]"
+                    },
+                    "nsgName": {
+                        "value": "[variables('region2').nsgName]"
                     }
                 }
             },
@@ -235,6 +238,9 @@
                     },
                     "subnet1_addressRange": {
                         "value": "[variables('region3').Subnet1AddressSpace]"
+                    },
+                    "nsgName": {
+                        "value": "[variables('region3').nsgName]"
                     }
                 }
             },
@@ -286,6 +292,9 @@
                     },
                     "subnet1_addressRange": {
                         "value": "[variables('region4').Subnet1AddressSpace]"
+                    },
+                    "nsgName": {
+                        "value": "[variables('region4').nsgName]"
                     }
                 }
             },
@@ -337,6 +346,9 @@
                     },
                     "subnet1_addressRange": {
                         "value": "[variables('region5').Subnet1AddressSpace]"
+                    },
+                    "nsgID": {
+                        "value": "[variables('region5').nsgName]"
                     }
                 }
             },
