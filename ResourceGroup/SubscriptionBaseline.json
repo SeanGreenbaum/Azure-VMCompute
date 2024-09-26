@@ -5,15 +5,15 @@
     "variables": {
         "githubURL": "https://raw.githubusercontent.com/SeanGreenbaum/Azure-VMCompute/",
         "templates": {
-            "vnetURI": "[concat(variables('githubURL'), 'main/vNet/vnetdeploy.json')]",
-            "nsgURI": "[concat(variables('githubURL'), 'main/NetworkSecurityGroup/basensgdeploy.json')]"
+            "vnetURI": "[concat(variables('githubURL'), 'main/vNet/vnetnsgdeploy.json')]",
+            "nsgURI": "[concat(variables('githubURL'), 'main/NetworkObjects/basensg.json')]"
         },
         "rg1Name": "test-infra",
         "region1": {
             "rgLocation": "canadacentral",
             "nsgName": "[concat(variables('rg1Name'), '-BaseNSG')]",
             "vnetName": "[concat(variables('rg1Name'), '-net')]",
-            "vnetAddressSpace": "10.20.20.0/24",
+            "vnetAddressSpace": ["10.20.20.0/24"],
             "Subnet1AddressSpace": "10.20.20.0/27"
         },
         "rg2Name": "in-Testing1",
@@ -21,7 +21,7 @@
             "rgLocation": "italynorth",
             "nsgName": "[concat(variables('rg2Name'), '-BaseNSG')]",
             "vnetName": "[concat(variables('rg2Name'), '-net')]",
-            "vnetAddressSpace": "10.20.30.0/24",
+            "vnetAddressSpace": ["10.20.30.0/24"],
             "Subnet1AddressSpace": "10.20.30.0/27"
         },
         "rg3Name": "nwe-Testing1",
@@ -29,7 +29,7 @@
             "rgLocation": "norwayeast",
             "nsgName": "[concat(variables('rg3Name'), '-BaseNSG')]",
             "vnetName": "[concat(variables('rg3Name'), '-net')]",
-            "vnetAddressSpace": "10.20.40.0/24",
+            "vnetAddressSpace": ["10.20.40.0/24"],
             "Subnet1AddressSpace": "10.20.40.0/27"
         },
         "rg4Name": "pc-Testing1",
@@ -37,7 +37,7 @@
             "rgLocation": "polandcentral",
             "nsgName": "[concat(variables('rg4Name'), '-BaseNSG')]",
             "vnetName": "[concat(variables('rg4Name'), '-net')]",
-            "vnetAddressSpace": "10.20.50.0/24",
+            "vnetAddressSpace": ["10.20.50.0/24"],
             "Subnet1AddressSpace": "10.20.50.0/27"
         },
         "rg5Name": "sp-Testing1",
@@ -45,7 +45,7 @@
             "rgLocation": "spaincentral",
             "nsgName": "[concat(variables('rg5Name'), '-BaseNSG')]",
             "vnetName": "[concat(variables('rg5Name'), '-net')]",
-            "vnetAddressSpace": "10.20.60.0/24",
+            "vnetAddressSpace": ["10.20.60.0/24"],
             "Subnet1AddressSpace": "10.20.60.0/27"
         }
     },
@@ -105,7 +105,247 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg1Name'))]"
             ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg1Name'), '-createvNet')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg1Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[variables('region1').vnetName]"
+                    },
+                    "addressSpaces": {
+                        "value": "[variables('region1').vnetAddressSpace]"
+                    },
+                    "subnet1_name": {
+                        "value": "subnet1"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[variables('region1').Subnet1AddressSpace]"
+                    },
+                    "nsgID": {
+                        "value": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('region1').nsgName)]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg1Name'))]"
+            ]
+        },
+
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg2Name'), '-createBaseNSG')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg2Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').nsgURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "NSGName": {
+                        "value": "[variables('region2').nsgName]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg2Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg2Name'), '-createvNet')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg2Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[variables('region2').vnetName]"
+                    },
+                    "addressSpaces": {
+                        "value": "[variables('region2').vnetAddressSpace]"
+                    },
+                    "subnet1_name": {
+                        "value": "subnet1"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[variables('region2').Subnet1AddressSpace]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg2Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg3Name'), '-createBaseNSG')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg3Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').nsgURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "NSGName": {
+                        "value": "[variables('region3').nsgName]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg3Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg3Name'), '-createvNet')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg3Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[variables('region3').vnetName]"
+                    },
+                    "addressSpaces": {
+                        "value": "[variables('region3').vnetAddressSpace]"
+                    },
+                    "subnet1_name": {
+                        "value": "subnet1"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[variables('region3').Subnet1AddressSpace]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg3Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg4Name'), '-createBaseNSG')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg4Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').nsgURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "NSGName": {
+                        "value": "[variables('region4').nsgName]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg4Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg4Name'), '-createvNet')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg4Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[variables('region4').vnetName]"
+                    },
+                    "addressSpaces": {
+                        "value": "[variables('region4').vnetAddressSpace]"
+                    },
+                    "subnet1_name": {
+                        "value": "subnet1"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[variables('region4').Subnet1AddressSpace]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg4Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg5Name'), '-createBaseNSG')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg5Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').nsgURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "NSGName": {
+                        "value": "[variables('region5').nsgName]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg5Name'))]"
+            ]
+        },
+        {
+            "apiVersion": "2022-09-01",
+            "name": "[concat(variables('rg5Name'), '-createvNet')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('rg5Name')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('templates').vnetURI]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[variables('region5').vnetName]"
+                    },
+                    "addressSpaces": {
+                        "value": "[variables('region5').vnetAddressSpace]"
+                    },
+                    "subnet1_name": {
+                        "value": "subnet1"
+                    },
+                    "subnet1_addressRange": {
+                        "value": "[variables('region5').Subnet1AddressSpace]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', variables('rg5Name'))]"
+            ]
         }
+
+
     ],
     "outputs": {}
 }
