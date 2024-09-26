@@ -347,7 +347,7 @@
                     "subnet1_addressRange": {
                         "value": "[variables('region5').Subnet1AddressSpace]"
                     },
-                    "nsgID": {
+                    "nsgName": {
                         "value": "[variables('region5').nsgName]"
                     }
                 }
