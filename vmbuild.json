@@ -64,24 +64,22 @@
                 "2012-R2-Datacenter-smalldisk-g2",
                 "2016-Datacenter-smalldisk",
                 "2016-datacenter-smalldisk-g2",
-                "2016-Datacenter-Server-Core-smalldisk-g2",
                 "2019-Datacenter-smalldisk",
                 "2019-Datacenter-smalldisk-g2",
                 "2019-Datacenter-Core-smalldisk-g2",
                 "2022-datacenter-smalldisk-g2",
                 "2022-datacenter-azure-edition-smalldisk",
+                "2025-datacenter-smalldisk-g2",
+                "2025-datacenter-azure-edition-smalldisk",
                 "win11-23h2-ent",
                 "win11-23h2-pro",
-                "win11-22h2-ent",
-                "win11-22h2-pro",
+                "win11-24h2-ent",
+                "win11-24h2-pro",
                 "win10-22h2-ent-g2",
                 "win10-22h2-pro-g2",
                 "win10-21h2-ent-g2",
                 "win10-21h2-pro-g2",
                 "20h2-ent-g2",
-                "19h2-ent-g2",
-                "rs5-enterprise-g2",
-                "rs3-pro",
                 "win7-enterprise"
             ]
         },
@@ -267,11 +265,6 @@
                 "vmOffer": "WindowsServer",
                 "vmLicense": "Windows_Server"
             },
-            "2016-Datacenter-Server-Core-smalldisk-g2": {
-                "vmPublisher": "MicrosoftWindowsServer",
-                "vmOffer": "WindowsServer",
-                "vmLicense": "Windows_Server"
-            },
             "2019-Datacenter-smalldisk": {
                 "vmPublisher": "MicrosoftWindowsServer",
                 "vmOffer": "WindowsServer",
@@ -297,6 +290,16 @@
                 "vmOffer": "WindowsServer",
                 "vmLicense": "Windows_Server"
             },
+            "2025-datacenter-azure-edition-smalldisk": {
+                "vmPublisher": "MicrosoftWindowsServer",
+                "vmOffer": "WindowsServer",
+                "vmLicense": "Windows_Server"
+            },
+            "2025-datacenter-smalldisk-g2": {
+                "vmPublisher": "MicrosoftWindowsServer",
+                "vmOffer": "WindowsServer",
+                "vmLicense": "Windows_Server"
+            },
             "win11-23h2-ent": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-11",
@@ -307,12 +310,12 @@
                 "vmOffer": "Windows-11",
                 "vmLicense": "Windows_Client"
             },
-            "win11-22h2-ent": {
+            "win11-24h2-ent": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-11",
                 "vmLicense": "Windows_Client"
             },
-            "win11-22h2-pro": {
+            "win11-24h2-pro": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-11",
                 "vmLicense": "Windows_Client"
@@ -338,21 +341,6 @@
                 "vmLicense": "Windows_Client"
             },
             "20h2-ent-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "19h2-ent-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "rs5-enterprise-g2": {
-                "vmPublisher": "MicrosoftWindowsDesktop",
-                "vmOffer": "Windows-10",
-                "vmLicense": "Windows_Client"
-            },
-            "rs3-pro": {
                 "vmPublisher": "MicrosoftWindowsDesktop",
                 "vmOffer": "Windows-10",
                 "vmLicense": "Windows_Client"

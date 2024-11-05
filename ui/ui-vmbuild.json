@@ -349,11 +349,19 @@
                                     "name": "vmOSOptions",
                                     "type": "Microsoft.Common.DropDown",
                                     "label": "VM OS",
-                                    "defaultValue": "Server 2019 Datacenter Gen2",
+                                    "defaultValue": "Server 2022 Datacenter Gen2",
                                     "toolTip": "",
                                     "constraints": {
                                         "required": false,
                                         "allowedValues": [
+                                            {
+                                                "label": "Server 2025 Datacenter Azure Edition",
+                                                "value": "2025-datacenter-azure-edition-smalldisk"
+                                            },
+                                            {
+                                                "label": "Server 2025 Datacenter Gen2",
+                                                "value": "2025-datacenter-smalldisk-g2"
+                                            },
                                             {
                                                 "label": "Server 2022 Datacenter Azure Edition",
                                                 "value": "2022-datacenter-azure-edition-smalldisk"
@@ -395,11 +403,7 @@
                                                 "value": "2019-Datacenter-Core-smalldisk-g2"
                                             },
                                             {
-                                                "label": "Server 2016 Datacenter CORE Gen2",
-                                                "value": "2016-Datacenter-Server-Core-smalldisk-g2"
-                                            },
-                                            {
-                                                "label": "Windows 11 v23h2",
+                                                "label": "Windows 11 v23h2 Ent",
                                                 "value": "win11-23h2-ent"
                                             },
                                             {
@@ -408,15 +412,15 @@
                                             },
 
                                             {
-                                                "label": "Windows 11 v22h2",
-                                                "value": "win11-22h2-ent"
+                                                "label": "Windows 11 v24h2 Ent",
+                                                "value": "win11-24h2-ent"
                                             },
                                             {
-                                                "label": "Windows 11 v22h2 Pro",
-                                                "value": "win11-22h2-pro"
+                                                "label": "Windows 11 v24h2 Pro",
+                                                "value": "win11-24h2-pro"
                                             },
                                             {
-                                                "label": "Windows 10 v22h2",
+                                                "label": "Windows 10 v22h2 Ent",
                                                 "value": "win10-22h2-ent-g2"
                                             },
                                             {
@@ -424,7 +428,7 @@
                                                 "value": "win10-22h2-pro-g2"
                                             },
                                             {
-                                                "label": "Windows 10 v21h2",
+                                                "label": "Windows 10 v21h2 Ent",
                                                 "value": "win10-21h2-ent-g2"
                                             },
                                             {
@@ -432,20 +436,8 @@
                                                 "value": "win10-21h2-pro-g2"
                                             },
                                             {
-                                                "label": "Windows 10 v20h2",
+                                                "label": "Windows 10 v20h2 Ent",
                                                 "value": "20h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v19h2",
-                                                "value": "19h2-ent-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v1809",
-                                                "value": "rs5-enterprise-g2"
-                                            },
-                                            {
-                                                "label": "Windows 10 v1709",
-                                                "value": "rs3-pro"
                                             },
                                             {
                                                 "label": "Windows 7 Enterprise",
