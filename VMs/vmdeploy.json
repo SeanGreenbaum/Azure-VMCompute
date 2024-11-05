@@ -259,7 +259,7 @@
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2023-09-01",
+      "apiVersion": "2024-07-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -280,7 +280,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": "[if(contains(parameters('vmOS'), 'azure-edition'), variables('patchSettings-AzureEdition'), variables('patchSettings-NonAzureEdition'))]"
+            "patchSettings": "[if(equals(parameters('vmOS'), '2025-datacenter-azure-edition-smalldisk'), variables('patchSettings-AzureEdition'), variables('patchSettings-NonAzureEdition'))]"
           },
           "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
           "hardwareProfile": {

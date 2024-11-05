@@ -303,7 +303,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2023-03-01",
+      "apiVersion": "2024-07-01",
       "name": "[concat(parameters('vmName'),'/AzureMonitorWindowsAgent')]",
       "location": "[resourceGroup().location]",      
       "dependsOn": [
