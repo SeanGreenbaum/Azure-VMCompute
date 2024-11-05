@@ -136,7 +136,19 @@
         "vTpmEnabled": true
       },
       "securityType": "TrustedLaunch"
+    },
+    "patchSettings-AzureEdition": {
+      "enableHotpatching": true,
+      "patchMode": "AutomaticByPlatform",
+      "automaticByPlatformSettings": {
+        "rebootSetting": "IfRequired"
+      }
+    },
+    "patchSettings-NonAzureEdition": {
+      "enableHotpatching": false,
+      "patchMode": "AutomaticByOS"
     }
+
   },
   "resources": [
     {
@@ -234,11 +246,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": {
-              "patchMode": "[if(contains(parameters('vmOS'), 'azure-edition'), 'AutomaticByPlatform', 'AutomaticByOS')]",
-              "enableHotpatching": false
-            }
-          }
+            "patchSettings": "[if(contains(parameters('vmOS'), 'azure-edition'), variables('patchSettings-AzureEdition'), variables('patchSettings-NonAzureEdition'))]"          }
         },
         "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
         "hardwareProfile": {
