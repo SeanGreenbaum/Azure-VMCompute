@@ -280,7 +280,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": "[if(equals(parameters('vmOS'), '2025-datacenter-azure-edition-smalldisk'), variables('patchSettings-AzureEdition'), variables('patchSettings-NonAzureEdition'))]"
+            "patchSettings": "[variables('patchSettings-AzureEdition')]"
           },
           "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
           "hardwareProfile": {
