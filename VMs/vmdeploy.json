@@ -281,54 +281,55 @@
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
             "patchSettings": "[if(contains(parameters('vmOS'), 'azure-edition'), variables('patchSettings-AzureEdition'), variables('patchSettings-NonAzureEdition'))]"
-        },
-        "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
-        "hardwareProfile": {
-          "vmSize": "[parameters('vmSize')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[parameters('vmPublisher')]",
-            "offer": "[parameters('vmOffer')]",
-            "sku": "[parameters('vmOS')]",
-            "version": "[parameters('vmOSversion')]"
           },
-          "osDisk": {
-            "name": "[variables('osDiskName')]",
-            "caching": "ReadWrite",
-            "createOption": "FromImage",
-            "managedDisk": {
-              "storageAccountType": "[parameters('storageType')]"
-            }
+          "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
+          "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
           },
-          "copy": [
-            {
-              "name": "dataDisks",
-              "count": "[parameters('datadiskcount')]",
-              "input": {
-                "caching": "[parameters('datadiskcaching')]",
-                "diskSizeGB": "[parameters('datadisksize')]",
-                "lun": "[copyIndex('dataDisks')]",
-                "name": "[concat(parameters('vmName'), '_datadisk', copyIndex('dataDisks'))]",
-                "createOption": "Empty",
-                "managedDisk": {
-                  "storageAccountType": "[parameters('storageType')]"
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "[parameters('vmPublisher')]",
+              "offer": "[parameters('vmOffer')]",
+              "sku": "[parameters('vmOS')]",
+              "version": "[parameters('vmOSversion')]"
+            },
+            "osDisk": {
+              "name": "[variables('osDiskName')]",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "managedDisk": {
+                "storageAccountType": "[parameters('storageType')]"
+              }
+            },
+            "copy": [
+              {
+                "name": "dataDisks",
+                "count": "[parameters('datadiskcount')]",
+                "input": {
+                  "caching": "[parameters('datadiskcaching')]",
+                  "diskSizeGB": "[parameters('datadisksize')]",
+                  "lun": "[copyIndex('dataDisks')]",
+                  "name": "[concat(parameters('vmName'), '_datadisk', copyIndex('dataDisks'))]",
+                  "createOption": "Empty",
+                  "managedDisk": {
+                    "storageAccountType": "[parameters('storageType')]"
+                  }
                 }
               }
+            ]
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "enabled": true
             }
-          ]
-        },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-            "enabled": true
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+              }
+            ]
           }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
-            }
-          ]
         }
       }
     },
