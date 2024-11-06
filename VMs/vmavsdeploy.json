@@ -137,22 +137,26 @@
       },
       "securityType": "TrustedLaunch"
     },
-    "patchSettings-AzureEdition": {
+    "patchSettingsAzureEdition": {
+      "assessmentMode": "AutomaticByPlatform",      
       "enableHotpatching": true,
       "patchMode": "AutomaticByPlatform",
       "automaticByPlatformSettings": {
         "rebootSetting": "IfRequired"
       }
     },
-    "patchSettings-NonAzureEdition": {
+    "patchSettingsNonAzureEdition": {
+      "assessmentMode": "AutomaticByPlatform",      
       "enableHotpatching": false,
       "patchMode": "AutomaticByOS"
-    }
+    },
+    "deploymentAPI": "2024-03-01",
+    "extionsionAPI": "2024-07-01"
   },
   "resources": [
     {
       "condition": "[equals(parameters('createPublicIPAddress'), bool('false'))]",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "[variables('deploymentAPI')]",
       "name": "[concat('linked-nic-', parameters('vmName'))]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -177,7 +181,7 @@
     },
     {
       "condition": "[equals(parameters('createPublicIPAddress'), bool('true'))]",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "[variables('deploymentAPI')]",
       "name": "[concat('linked-nicpip-', parameters('vmName'))]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -204,7 +208,7 @@
     },
     {
       "condition": "[equals(parameters('createPublicIPAddress'), bool('true'))]",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "[variables('deploymentAPI')]",
       "name": "[concat('linked-pip-', parameters('vmName'))]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -224,7 +228,7 @@
     {
       "name": "[parameters('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2023-09-01",
+      "apiVersion": "2024-07-01",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutDownTime": "[parameters('autoShutdownTime')]"
@@ -245,7 +249,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": "[if(contains(parameters('vmOS'), 'azure-edition'), variables('patchSettings-AzureEdition'), variables('patchSettings-NonAzureEdition'))]"
+            "patchSettings": "[if(contains(parameters('vmOS'), '2025-datacenter-azure-edition'), variables('patchSettingsAzureEdition'), variables('patchSettingsNonAzureEdition'))]"
           }
         },
         "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
@@ -303,7 +307,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2024-07-01",
+      "apiVersion": "[variables('extionsionAPI')]",
       "name": "[concat(parameters('vmName'),'/AzureMonitorWindowsAgent')]",
       "location": "[resourceGroup().location]",      
       "dependsOn": [
@@ -319,7 +323,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2023-03-01",
+      "apiVersion": "[variables('extionsionAPI')]",
       "name": "[concat(parameters('vmName'),'/AzurePolicyforWindows')]",
       "location": "[resourceGroup().location]",      
       "dependsOn": [
@@ -335,7 +339,7 @@
     },
     {
       "condition": "[equals(parameters('DomainJoin'), 'Yes')]",
-      "apiVersion": "2023-03-01",
+      "apiVersion": "[variables('extionsionAPI')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('vmName'),'/joindomain')]",
       "location": "[resourceGroup().location]",      
@@ -363,7 +367,7 @@
       "name": "[concat(parameters('vmName'), '/Install-Clustering-Feature')]",
       "type":"Microsoft.Compute/virtualMachines/extensions",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2023-03-01",
+      "apiVersion": "[variables('extionsionAPI')]",
       "dependsOn":  [
           "[parameters('vmName')]",
           "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'joindomain')]"
@@ -388,7 +392,7 @@
       "condition": "[equals(parameters('aadLoginExtension'), bool('true'))]",
       "name": "[concat(parameters('vmName'), '/aadLoginExtension')]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2023-03-01",
+      "apiVersion": "[variables('extionsionAPI')]",
       "location": "[resourceGroup().location]",
       "properties": {
           "publisher": "Microsoft.Azure.ActiveDirectory",

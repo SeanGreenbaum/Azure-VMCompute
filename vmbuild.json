@@ -238,6 +238,7 @@
             "vnetURI": "[concat(variables('githubURL'), parameters('CustomBranch'), '/vNet/vnetdeploy.json')]"
         },
         "TimeZone": "Eastern Standard Time",
+        "deploymentAPI": "2024-03-01",
         "OperatingSystems":
         {
             "2008-R2-SP1-smalldisk": {
@@ -355,7 +356,7 @@
     "resources": [
         {
             "condition": "[equals(parameters('NeedsHA'), 'No')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vm-', parameters('vmName')), concat('linked-vm-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
@@ -452,7 +453,7 @@
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmaz-', parameters('vmName')), concat('linked-vmaz-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
@@ -552,7 +553,7 @@
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "[if(equals(parameters('vmCount'), 1), concat('linked-vmavs-', parameters('vmName')), concat('linked-vmavs-', parameters('vmName'), copyIndex(1)))]",
             "type": "Microsoft.Resources/deployments",
             "copy": {
@@ -653,7 +654,7 @@
         },
         {
             "condition": "[equals(parameters('AVSetAction'), 'New')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "linked-avset",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -672,7 +673,7 @@
         },
         {
             "condition": "[equals(parameters('vNetNeworExisting'), 'new')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "linked-vnet",
             "type": "Microsoft.Resources/deployments",
             "properties": {

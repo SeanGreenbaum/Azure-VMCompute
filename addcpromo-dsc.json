@@ -198,12 +198,14 @@
                 "vmLicense": "Windows_Server"
             }
         },
-        "DSCFunctionName": "AD"
+        "DSCFunctionName": "AD",
+        "deploymentAPI": "2024-03-01",
+        "extionsionAPI": "2024-07-01"
     },
     "resources": [
         {
             "condition": "[equals(parameters('NeedsHA'), 'No')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "[concat('linked-vm-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -279,7 +281,7 @@
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilityZone')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "[concat('linked-vmaz-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -352,7 +354,7 @@
         },
         {
             "condition": "[equals(parameters('NeedsHA'), 'AvailabilitySet')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "[concat('linked-vmavs-', parameters('vmName'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -427,7 +429,7 @@
         },
         {
             "condition": "[equals(parameters('AVSetAction'), 'New')]",
-            "apiVersion": "2022-09-01",
+            "apiVersion": "[variables('deploymentAPI')]",
             "name": "linked-avset",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -448,7 +450,7 @@
             "name": "[concat(parameters('vmName'), '/AD-DCPromo')]",
             "type":"Microsoft.Compute/virtualMachines/extensions",
             "location": "[resourceGroup().location]",
-            "apiVersion": "2022-11-01",
+            "apiVersion": "[variables('extionsionAPI')]",
             "dependsOn":  [
                 "[concat('linked-vm-', parameters('vmName'))]",
                 "[concat('linked-vmaz-', parameters('vmName'))]",

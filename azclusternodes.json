@@ -207,7 +207,7 @@
         "vmPublisher": "MicrosoftWindowsServer",
         "vmOffer": "WindowsServer",
         "vmLicense": "Windows_Server",
-        "deploymentAPI": "2022-09-01"
+        "deploymentAPI": "2024-03-01"
 
     },
     "resources": [
