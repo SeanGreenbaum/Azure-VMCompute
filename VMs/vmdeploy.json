@@ -280,13 +280,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": {
-      "enableHotpatching": true,
-      "patchMode": "AutomaticByPlatform",
-      "automaticByPlatformSettings": {
-        "rebootSetting": "IfRequired"
-      }
-    }
+            "patchSettings": "[variables('patchSettingsNonAzureEdition')]"
           },
           "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
           "hardwareProfile": {
