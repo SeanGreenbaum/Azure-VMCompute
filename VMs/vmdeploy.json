@@ -280,7 +280,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": "[if(contains(parameters('vmOS'), 'Windows'), variables('patchSettingsAzureEdition'), variables('patchSettingsNonAzureEdition'))]"
+            "patchSettings": "[if(contains(parameters('vmOS'), 'azure-edition'), variables('patchSettingsAzureEdition'), variables('patchSettingsNonAzureEdition'))]"
           }
         },
         "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
