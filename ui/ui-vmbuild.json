@@ -60,6 +60,42 @@
                                     "constraints": {
                                         "allowedValues": [
                                             {
+                                                "label": "Standard_D2as_v6",
+                                                "description": "2 cores, AMD, 8 GB RAM",
+                                                "value": "Standard_D2as_v6"
+                                            },
+                                            {
+                                                "label": "Standard_D4as_v6",
+                                                "description": "4 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_D4as_v6"
+                                            },
+                                            {
+                                                "label": "Standard_D8as_v6",
+                                                "description": "8 cores, AMD, 32 GB RAM",
+                                                "value": "Standard_D8as_v6"
+                                            },
+                                            {
+                                                "label": "Standard_E2as_v6",
+                                                "description": "2 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_E2as_v6"
+                                            },
+                                            {
+                                                "label": "Standard_E4as_v6",
+                                                "description": "4 cores, AMD, 32 GB RAM",
+                                                "value": "Standard_E4as_v6"
+                                            },
+                                            {
+                                                "label": "Standard_E8as_v6",
+                                                "description": "8 cores, AMD, 64 GB RAM",
+                                                "value": "Standard_E8as_v6"
+                                            },
+                                            {
+                                                "label": "Standard_D4as_v5",
+                                                "description": "4 cores, AMD, 16 GB RAM",
+                                                "value": "Standard_D4as_v5"
+                                            },
+
+                                            {
                                                 "label": "Standard_D2s_v5",
                                                 "description": "2 cores, Intel, 8 GB RAM",
                                                 "value": "Standard_D2s_v5"
@@ -118,26 +154,6 @@
                                                 "label": "Standard_B2s_v2",
                                                 "description": "2 burstable cores, Intel, 8 GB RAM",
                                                 "value": "Standard_B2s_v2"
-                                            },
-                                            {
-                                                "label": "Standard_E2as_v4",
-                                                "description": "4th Gen - 2 cores, AMD, 16 GB RAM",
-                                                "value": "Standard_E2as_v4"
-                                            },
-                                            {
-                                                "label": "Standard_E2s_v4",
-                                                "description": "4th Gen - 2 cores, Intel, 16 GB RAM",
-                                                "value": "Standard_E2s_v4"
-                                            },
-                                            {
-                                                "label": "Standard_D2as_v4",
-                                                "description": "4th Gen - 2 cores, AMD, 8 GB RAM",
-                                                "value": "Standard_D2as_v4"
-                                            },
-                                            {
-                                                "label": "Standard_D2s_v4",
-                                                "description": "4th Gen - 2 cores, Intel, 8 GB RAM",
-                                                "value": "Standard_D2s_v4"
                                             }
                                         ]
                                     },
