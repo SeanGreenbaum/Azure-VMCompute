@@ -4,25 +4,32 @@
     "parameters": {
         "PIP-Name": {
             "type": "string"
-        }
+        },
+        "IP-Version": {
+            "type": "string",
+            "defaultValue": "IPv4"
+        },
        },
     "variables": {
     },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
-            "apiVersion": "2022-07-01",
+            "apiVersion": "2024-03-01",
             "name": "[parameters('PIP-Name')]",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "Basic",
+                "name": "Standard",
                 "tier": "Regional"
             },
             "properties": {
-                 "publicIPAddressVersion": "IPv4",
-                  "publicIPAllocationMethod": "Dynamic",
+                 "publicIPAddressVersion": "[parameters('IP-Version')]",
+                  "publicIPAllocationMethod": "Static",
                    "idleTimeoutInMinutes": 4,
-                    "ipTags": []
+                    "ipTags": [],
+                    "ddosSettings": {
+                        "protectionEnabled": "Disabled"
+                    }
                  }
             
         }
