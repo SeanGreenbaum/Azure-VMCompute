@@ -27,9 +27,6 @@
                   "publicIPAllocationMethod": "Static",
                    "idleTimeoutInMinutes": 4,
                     "ipTags": [],
-                    "ddosSettings": {
-                        "protectionEnabled": false
-                    }
                  }
             
         }
