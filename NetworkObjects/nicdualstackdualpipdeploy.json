@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "nicName": {
+      "type": "string"
+    },
+    "subnetRef": {
+      "type": "string"
+    },
+    "publicIPv4AddressID": {
+      "type": "string"
+    },
+    "publicIPv6AddressID": {
+      "type": "string"
+    },
+    "acceleratedNetworking": {
+      "type": "bool",
+      "defaultValue": false
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "[parameters('nicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2024-03-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "kind": "Regular",
+      "properties": {
+	      "enableAcceleratedNetworking": "[parameters('acceleratedNetworking')]",
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1-ipv4",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[parameters('publicIPv4AddressID')]"
+              },
+              "subnet": {
+                "id": "[parameters('subnetRef')]"
+              },
+              "privateIpAddressVersion": "IPv4"
+            }
+          },
+          {
+            "name": "ipconfig1-ipv6",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[parameters('publicIPv6AddressID')]"
+              },
+              "subnet": {
+                "id": "[parameters('subnetRef')]"
+              },
+              "privateIpAddressVersion": "IPv6"
+            }
+          }
+
+        ],
+        "dnsSettings": {
+          "dnsServers": []
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

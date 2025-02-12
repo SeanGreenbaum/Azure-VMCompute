@@ -49,6 +49,7 @@
                         }
                     }
                 ],
+                "privateEndpointVNetPolicies": "Disabled",
                 "enableDdosProtection": false
             }
         }
