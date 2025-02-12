@@ -28,7 +28,7 @@
                    "idleTimeoutInMinutes": 4,
                     "ipTags": [],
                     "ddosSettings": {
-                        "protectionEnabled": "Disabled"
+                        "protectionEnabled": false
                     }
                  }
             
