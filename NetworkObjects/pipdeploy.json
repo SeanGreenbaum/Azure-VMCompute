@@ -26,9 +26,8 @@
                  "publicIPAddressVersion": "[parameters('IP-Version')]",
                   "publicIPAllocationMethod": "Static",
                    "idleTimeoutInMinutes": 4,
-                    "ipTags": [],
+                    "ipTags": []
                  }
-            
         }
     ]
 }
