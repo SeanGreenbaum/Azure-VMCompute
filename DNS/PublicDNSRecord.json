@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZoneName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the DNS zone."
+            }
+        },
+        "recordtype": {
+            "type": "string",
+            "metadata": {
+                "description": "The type of DNS record to create."
+            },
+            "allowedValues": [
+                "A",
+                "AAAA",
+                "CNAME",
+                "TXT"
+            ]
+        },
+        "recordName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the record."
+            }
+        },
+        "value": {
+            "type": "string",
+            "metadata": {
+                "description": "The value of the record."
+            }
+        }
+    },
+    "variables": {
+        "apiVersion": "2023-07-01-preview",
+        "TTL": 600
+    },
+    "resources": [
+        {
+            "condition": "[equals(parameters('recordtype'), 'A')]",
+            "type": "Microsoft.Network/dnsZones/A",
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[concat(parameters('dnsZoneName'), '/', parameters('recordName'))]",
+            "location": "global",
+            "properties": {
+                "TTL": "[variables('TTL')]",
+                "ARecords": [
+                    {
+                        "ipv4Address": "[parameters('value')]"
+                    }
+                ]
+            }
+        },
+        {
+            "condition": "[equals(parameters('recordtype'), 'AAAA')]",
+            "type": "Microsoft.Network/dnsZones/AAAA",
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[concat(parameters('dnsZoneName'), '/', parameters('recordName'))]",
+            "location": "global",
+            "properties": {
+                "TTL": "[variables('TTL')]",
+                "AAAARecords": [
+                    {
+                        "ipv6Address": "[parameters('value')]"
+                    }
+                ]
+            }
+        },
+        {
+            "condition": "[equals(parameters('recordtype'), 'CNAME')]",
+            "type": "Microsoft.Network/dnsZones/CNAME",
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[concat(parameters('dnsZoneName'), '/', parameters('recordName'))]",
+            "location": "global",
+            "properties": {
+                "TTL": "[variables('TTL')]",
+                "CNAMERecord": {
+                    "cname": "[parameters('value')]"
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('recordtype'), 'TXT')]",
+            "type": "Microsoft.Network/dnsZones/TXT",
+            "apiVersion": "[variables('apiVersion')]",
+            "name": "[concat(parameters('dnsZoneName'), '/', parameters('recordName'))]",
+            "location": "global",
+            "properties": {
+                "TTL": "[variables('TTL')]",
+                "TXTRecords": [
+                    {
+                        "value": [
+                            "[parameters('value')]"
+                        ]
+                    }
+                ]
+            }
+        }
+    ] 
+}
