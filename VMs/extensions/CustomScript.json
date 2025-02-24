@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmName": {
+            "type": "string"
+        },
+        "scriptfolderURL": {
+            "type": "string",
+            "metadata": {
+                "description": "URL of the folder containing the script: https://website.com/folder/"
+            }
+        },
+        "scriptFileName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the script file: script.ps1"
+            }
+        }
+    },
+    "variables": {
+        "extensionAPI": "2024-07-01"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "[variables('extensionAPI')]",
+            "name": "[concat(parameters('vmName'), '/CustomScriptExtension-', parameters('scriptFileName'))]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "enableAutomaticUpgrade": true,
+                "settings": {
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', parameters('scriptFileName'))]",
+                    "fileUris": [
+                        "[uri(parameters('scriptfolderURL'), parameters('scriptFileName'))]"
+                    ]
+                }
+            }
+        }
+    ]        
+}
