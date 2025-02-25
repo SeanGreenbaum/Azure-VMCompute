@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnet1Name": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the first virtual network"
+            }
+        },
+        "vNet1HostsGateway": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Does the first virtual network have a gateway?"
+            }
+        },
+        "vNet1UsesRemoteGateway": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Does the first virtual network use the remote gateway?"
+            }
+        },
+        "vnet2Name": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the second virtual network"
+            }
+        },
+        "vnet2ResourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource group of the second virtual network"
+            }
+        }
+    },
+    "variables": {
+        "vNetPeeringsAPI": "2024-03-01"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "[variables('vNetPeeringsAPI')]",
+            "name": "[concat(parameters('vnet1Name'), '/', parameters('vnet2Name'))]",
+            "properties": {
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId(parameters('vnet2ResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnet2Name'))]"
+                },
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": "[parameters('vNet1HostsGateway')]",
+                "useRemoteGateways": "[parameters('vNet1UsesRemoteGateway')]"
+            }
+        }
+    ]
+}
