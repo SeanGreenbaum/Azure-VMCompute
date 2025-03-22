@@ -1,0 +1,143 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "FirewallName": {
+            "type": "string"
+            },
+        "location": {
+            "type": "string"
+        },
+        "vnetName": {
+            "type": "string"
+        },
+        "vnetAddressSpace": {
+            "type": "string",
+            "defaultValue": "10.100.100.0/24"
+        },
+        "AzFWSubnetAddressSpace": {
+            "type": "string",
+            "defaultValue": "10.100.100.0/26"
+        },
+        "AzFWMgmtAddressSpace": {
+            "type": "string",
+            "defaultValue": "10.100.100.64/26"
+        },
+        "firewallPolicyId": {
+            "type": "string",
+            "metadata": {
+                "description": "The resource ID of the firewall policy to associate with the Azure Firewall."
+            }
+        }
+    },
+    "variables": {
+        "pipapiVersion": "2024-05-01",
+        "vnetapiVersion": "2024-05-01",
+        "azfwapiversion": "2024-05-01"
+    },
+    "resources":[
+        {
+            "apiVersion": "[variables('pipapiVersion')]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "name": "[concat(parameters('FirewallName'), '-pip')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard"
+            },
+            "zones": ["1", "2", "3"],
+            "properties": {
+                "publicIPAllocationMethod": "Static"
+            },
+            "tags": {}
+        },
+        {
+            "apiVersion": "[variables('pipapiVersion')]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "name": "[concat(parameters('FirewallName'), '-mgmt-pip')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard"
+            },
+            "zones": ["1", "2", "3"],
+            "properties": {
+                "publicIPAllocationMethod": "Static",
+                "publicIPAddressVersion": "IPv4"
+            },
+            "tags": {}
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('vnetName')]",
+            "location": "[parameters('location')]",
+            "apiVersion": "[variables('vnetapiVersion')]",
+            "dependsOn": [],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('vnetAddressSpace')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "AzureFirewallSubnet",
+                        "properties": {
+                            "addressPrefix": "[parameters('AzFWSubnetAddressSpace')]"
+                        }
+                    },
+                    {
+                        "name": "AzureFirewallManagementSubnet",
+                        "properties": {
+                            "addressPrefix": "[parameters('AzFWMgmtAddressSpace')]"
+                        }
+                    }
+                ]
+            },
+            "tags": {}
+        },
+        {
+            "apiVersion": "[variables('azfwapiversion')]",
+            "type": "Microsoft.Network/azureFirewalls",
+            "name": "[parameters('FirewallName')]",
+            "location": "[parameters('location')]",
+            "zones": ["1", "2"],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIpAddresses', concat(parameters('FirewallName'), '-mgmt-pip'))]",
+                "[resourceId('Microsoft.Network/publicIpAddresses', concat(parameters('FirewallName'), '-pip'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "[concat(parameters('FirewallName'), '-pip')]",
+                        "properties": {
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'AzureFirewallSubnet')]"
+                            },
+                            "publicIpAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('FirewallName'), '-pip'))]"
+                            }
+                        }
+                    }
+                ],
+                "sku": {
+                    "tier": "Basic"
+                },
+                "managementIpConfiguration": {
+                    "name": "[concat(parameters('FirewallName'), '-mgmt-pip')]",
+                    "properties": {
+                        "subnet": {
+                            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'AzureFirewallManagementSubnet')]"
+                        },
+                        "publicIPAddress": {
+                            "id": "[resourceId('Microsoft.Network/publicIpAddresses', concat(parameters('FirewallName'), '-mgmt-pip'))]"
+                        }
+                    }
+                },
+                "firewallPolicy": {
+                    "id": "[parameters('firewallPolicyId')]"
+                }
+            },
+            "tags": {}
+        }
+    ]
+}
