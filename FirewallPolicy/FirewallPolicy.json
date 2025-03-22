@@ -2,17 +2,20 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "PolicyName": {
-            "type": "String"
+        "FWPol_Name": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
         }
     },
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Network/firewallPolicies",
-            "apiVersion": "2024-01-01",
-            "name": "[parameters('PolicyName')]",
-            "location": "[resourceGroup().location]",
+            "apiVersion": "2024-05-01",
+            "name": "[parameters('FWPol_Name')]",
+            "location": "[parameters('location')]",
             "properties": {
                 "sku": {
                     "tier": "Basic"
@@ -26,19 +29,19 @@
         },
         {
             "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
-            "apiVersion": "2024-01-01",
-            "name": "[concat(parameters('PolicyName'), '/NetworkRules')]",
-            "location": "[resourceGroup().location]",
+            "apiVersion": "2024-05-01",
+            "name": "[concat(parameters('FWPol_Name'), '/NetworkRules')]",
+            "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/firewallPolicies', parameters('PolicyName'))]"
+                "[resourceId('Microsoft.Network/firewallPolicies', parameters('FWPol_Name'))]"
             ],
             "properties": {
-                "priority": 2000,
+                "priority": 1000,
                 "ruleCollections": [
                     {
-                        "name": "AzureServiceTags",
-                        "priority": 2010,
                         "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                        "name": "AzureServiceTags",
+                        "priority": 1010,
                         "action": {
                             "type": "Allow"
                         },
@@ -124,92 +127,85 @@
                                 ]
                             }
                         ]
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
-            "apiVersion": "2024-01-01",
-            "name": "[concat(parameters('PolicyName'), '/Websites')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/firewallPolicies', parameters('PolicyName'))]",
-                "[resourceId('Microsoft.Network/firewallPolicies/ruleCollectionGroups', parameters('PolicyName'), 'NetworkRules')]"
-            ],
-            "properties": {
-                "priority": 1000,
-                "ruleCollections": [
+                    },
                     {
                         "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
-                        "name": "Microsoft",
-                        "priority": 1020,
+                        "name": "AzKMS",
+                        "priority": 1011,
                         "action": {
                             "type": "Allow"
                         },
                         "rules": [
                             {
-                                "ruleType": "ApplicationRule",
-                                "name": "microsoft",
-                                "protocols": [
-                                    {
-                                        "protocolType": "Http",
-                                        "port": 80
-                                    },
-                                    {
-                                        "protocolType": "Https",
-                                        "port": 443
-                                    }
+                                "ruleType": "NetworkRule",
+                                "name": "azkms",
+                                "ipProtocols": [
+                                    "Any"
                                 ],
-                                "fqdnTags": [],
-                                "webCategories": [],
-                                "targetFqdns": [
-                                    "*microsoft.com",
-                                    "*windows.com",
-                                    "*windows.net"
-                                ],
-                                "targetUrls": [],
-                                "terminateTLS": false,
                                 "sourceAddresses": [
                                     "*"
                                 ],
-                                "destinationAddresses": [],
                                 "sourceIpGroups": [],
-                                "httpHeadersToInsert": []
-                            },
-                            {
-                                "ruleType": "ApplicationRule",
-                                "name": "WindowsUpdate",
-                                "protocols": [
-                                    {
-                                        "protocolType": "Http",
-                                        "port": 80
-                                    },
-                                    {
-                                        "protocolType": "Https",
-                                        "port": 443
-                                    }
+                                "destinationAddresses": [
+                                    "20.118.99.224",
+                                    "40.83.235.53"
                                 ],
-                                "fqdnTags": [
-                                    "WindowsUpdate"
-                                ],
-                                "webCategories": [],
-                                "targetFqdns": [],
-                                "targetUrls": [],
-                                "terminateTLS": false,
-                                "sourceAddresses": [
-                                    "*"
-                                ],
-                                "destinationAddresses": [],
-                                "sourceIpGroups": [],
-                                "httpHeadersToInsert": []
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "1688"
+                                ]
                             }
                         ]
                     },
                     {
                         "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                        "name": "AzureTime",
+                        "priority": 1012,
+                        "action": {
+                            "type": "Allow"
+                        },
+                        "rules": [
+                            {
+                                "ruleType": "NetworkRule",
+                                "name": "ntptime",
+                                "ipProtocols": [
+                                    "UDP"
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "sourceIpGroups": [],
+                                "destinationAddresses": [
+                                    "168.61.215.74"
+                                ],
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "123"
+                                ]
+                            }
+                        ]
+                    }
+
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
+            "apiVersion": "2024-05-01",
+            "name": "[concat(parameters('FWPol_Name'), '/Websites')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/firewallPolicies', parameters('FWPol_Name'))]"
+            ],
+            "properties": {
+                "priority": 2000,
+                "ruleCollections": [
+                    {
+                        "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
                         "name": "CRLs",
-                        "priority": 1030,
+                        "priority": 2010,
                         "action": {
                             "type": "Allow"
                         },
@@ -232,8 +228,8 @@
                                 "targetFqdns": [
                                     "crl3.digicert.com",
                                     "crl4.digicert.com",
-                                    "cacerts.digicert.com",
-                                    "ocsp.digicert.com"
+                                    "ocsp.digicert.com",
+                                    "cacerts.digicert.com"
                                 ],
                                 "targetUrls": [],
                                 "terminateTLS": false,
@@ -261,8 +257,8 @@
                                 "webCategories": [],
                                 "targetFqdns": [
                                     "cdp.geotrust.com",
-                                    "cacerts.geotrust.com",
-                                    "status.geotrust.com"
+                                    "status.geotrust.com",
+                                    "cacerts.geotrust.com"
                                 ],
                                 "targetUrls": [],
                                 "terminateTLS": false,
@@ -275,7 +271,7 @@
                             },
                             {
                                 "ruleType": "ApplicationRule",
-                                "name": "Microsoft",
+                                "name": "MS",
                                 "protocols": [
                                     {
                                         "protocolType": "Http",
@@ -289,10 +285,7 @@
                                 "fqdnTags": [],
                                 "webCategories": [],
                                 "targetFqdns": [
-                                    "ocsp.msocsp.com",
-                                    "ctldl.windowsupdate.com",
-                                    "crl.microsoft.com",
-                                    "oneocsp.microsoft.com"
+                                    "ocsp.msocsp.com"
                                 ],
                                 "targetUrls": [],
                                 "terminateTLS": false,
@@ -308,7 +301,7 @@
                     {
                         "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
                         "name": "MiscInternetSites",
-                        "priority": 1040,
+                        "priority": 2020,
                         "action": {
                             "type": "Allow"
                         },
@@ -364,8 +357,146 @@
                     },
                     {
                         "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                        "name": "Microsoft",
+                        "priority": 2012,
+                        "action": {
+                            "type": "Allow"
+                        },
+                        "rules": [
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "microsoft",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Http",
+                                        "port": 80
+                                    },
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "*microsoft.com"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "windows",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Http",
+                                        "port": 80
+                                    },
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "*windows.com",
+                                    "*.windows.net"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "WindowsUpdate",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Http",
+                                        "port": 80
+                                    },
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [
+                                    "WindowsUpdate"
+                                ],
+                                "webCategories": [],
+                                "targetFqdns": [],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "aka-ms",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "aka.ms"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "Bing",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "*bing.com"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            }
+                        ]
+                    },
+                    {
+                        "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
                         "name": "Azure",
-                        "priority": 1010,                        
+                        "priority": 2011,
                         "action": {
                             "type": "Allow"
                         },
@@ -431,6 +562,52 @@
                                 "webCategories": [],
                                 "targetFqdns": [
                                     "*monitor.azure.com"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "AzureEdge",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "*.azureedge.net"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "AzureGuestConfig",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "*guestconfiguration.azure.com"
                                 ],
                                 "targetUrls": [],
                                 "terminateTLS": false,
