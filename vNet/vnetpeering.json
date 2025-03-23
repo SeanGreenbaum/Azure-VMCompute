@@ -22,17 +22,8 @@
                 "description": "Does the first virtual network use the remote gateway?"
             }
         },
-        "vnet2Name": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the second virtual network"
-            }
-        },
-        "vnet2ResourceGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Resource group of the second virtual network"
-            }
+        "vnet2ResourceID": {
+            "type": "string"
         }
     },
     "variables": {
@@ -45,7 +36,7 @@
             "name": "[concat(parameters('vnet1Name'), '/', parameters('vnet2Name'))]",
             "properties": {
                 "remoteVirtualNetwork": {
-                    "id": "[resourceId(parameters('vnet2ResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('vnet2Name'))]"
+                    "id": "[parameters('vnet2ResourceID')]"
                 },
                 "allowVirtualNetworkAccess": true,
                 "allowForwardedTraffic": true,
