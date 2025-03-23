@@ -33,7 +33,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
             "apiVersion": "[variables('vNetPeeringsAPI')]",
-            "name": "[concat(parameters('vnet1Name'), '/', parameters('vnet2Name'))]",
+            "name": "[concat(parameters('vnet1Name'), '/', split(parameters('vnet2ResourceID'), '/')[8])]",
             "properties": {
                 "remoteVirtualNetwork": {
                     "id": "[parameters('vnet2ResourceID')]"
