@@ -84,5 +84,11 @@
                 "enableDdosProtection": false
             }
         }
-    ]
+    ],
+    "outputs": {
+        "vnetResourceID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+        }
+    }
 }
