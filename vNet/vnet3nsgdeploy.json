@@ -8,11 +8,23 @@
         "addressSpace": {
             "type": "string"
         },
+        "subnet1_name": {
+            "type": "string",
+            "defaultValue": "Subnet1"
+        },
         "subnet1_addressRange": {
             "type": "string"
         },
+        "subnet2_name": {
+            "type": "string",
+            "defaultValue": "Subnet2"
+        },
         "subnet2_addressRange": {
             "type": "string"
+        },
+        "subnet3_name": {
+            "type": "string",
+            "defaultValue": "Subnet3"
         },
         "subnet3_addressRange": {
             "type": "string"
@@ -44,7 +56,7 @@
                 },
                 "subnets": [
                     {
-                        "name": "Subnet1",
+                        "name": "[parameters('subnet1_name')]",
                         "properties": {
                             "addressPrefix": "[parameters('subnet1_addressRange')]",
                             "networkSecurityGroup": {
@@ -56,7 +68,7 @@
                         }
                     },
                     {
-                        "name": "Subnet2",
+                        "name": "[parameters('subnet2_name')]",
                         "properties": {
                             "addressPrefix": "[parameters('subnet2_addressRange')]",
                             "networkSecurityGroup": {
@@ -68,7 +80,7 @@
                         }
                     },
                     {
-                        "name": "Subnet3",
+                        "name": "[parameters('subnet3_name')]",
                         "properties": {
                             "addressPrefix": "[parameters('subnet3_addressRange')]",
                             "networkSecurityGroup": {
