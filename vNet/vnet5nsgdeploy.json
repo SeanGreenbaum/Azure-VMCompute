@@ -1,0 +1,130 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "addressSpace": {
+            "type": "string"
+        },
+        "subnet1_name": {
+            "type": "string"
+        },
+        "subnet1_addressRange": {
+            "type": "string"
+        },
+        "subnet2_name": {
+            "type": "string"
+        },
+        "subnet2_addressRange": {
+            "type": "string"
+        },
+        "subnet3_name": {
+            "type": "string"
+        },
+        "subnet3_addressRange": {
+            "type": "string"
+        },
+        "subnet4_name": {
+            "type": "string"
+        },
+        "subnet4_addressRange": {
+            "type": "string"
+        },
+        "subnet5_name": {
+            "type": "string"
+        },
+        "subnet5_addressRange": {
+            "type": "string"
+        },
+        "nsgName": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "vnetapiversion": "2024-03-01"
+    },
+    "resources": [
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/VirtualNetworks",
+            "apiVersion": "[variables('vnetapiversion')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [],
+            "tags": {},
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressSpace')]"
+                    ]
+                },
+                "encryption": {
+                    "enabled": false,
+                    "enforcement": "AllowUnencrypted"
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnet1_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet1_addressRange')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+                            },
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Disabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    },
+                    {
+                        "name": "[parameters('subnet2_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet2_addressRange')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+                            },
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Disabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    },
+                    {
+                        "name": "[parameters('subnet3_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet3_addressRange')]",
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Disabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    },
+                    {
+                        "name": "[parameters('subnet4_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet4_addressRange')]",
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Disabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    },
+                    {
+                        "name": "[parameters('subnet5_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet5_addressRange')]",
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Disabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    }
+                ],
+                "privateEndpointVNetPolicies": "Disabled",
+                "enableDdosProtection": false
+            }
+        }
+    ],
+    "outputs": {
+        "vnetResourceID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+        }
+    }
+}
