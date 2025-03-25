@@ -21,7 +21,8 @@
             "type": "Microsoft.Network/privateDnsZones",
             "apiVersion": "[variables('apiVersion')]",
             "name": "[parameters('dnsZoneName')]",
-            "location": "global"
+            "location": "global",
+            "properties": {}
         },
         {
             "condition": "[not(equals(parameters('vNetLink'), 'null'))]",
@@ -36,8 +37,7 @@
                 "virtualNetwork": {
                     "id": "[parameters('vNetLink')]"
                 },
-                "registrationEnabled": false,
-                "resolutionPolicy": "NxDomainRedirect"
+                "registrationEnabled": false
             }
         }
     ]
