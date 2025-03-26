@@ -9,19 +9,29 @@
             "type": "string",
             "defaultValue": "IPv4"
         },
+        "pip-sku": {
+            "type": "string",
+            "defaultValue": "Standard"
+        }
        },
     "variables": {
+        "apiVersion": "2024-03-01"
     },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
-            "apiVersion": "2024-03-01",
+            "apiVersion": "[variables('apiVersion')]",
             "name": "[parameters('PIP-Name')]",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "Standard",
+                "name": "[parameters('pip-sku')]",
                 "tier": "Regional"
             },
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
             "properties": {
                 "publicIPAddressVersion": "[parameters('IP-Version')]",
                 "publicIPAllocationMethod": "Static",
