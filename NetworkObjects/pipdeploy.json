@@ -12,6 +12,10 @@
         "pip-sku": {
             "type": "string",
             "defaultValue": "Standard"
+        },
+        "allocationmethod": {
+            "type": "string",
+            "defaultValue": "Static"
         }
        },
     "variables": {
@@ -27,19 +31,11 @@
                 "name": "[parameters('pip-sku')]",
                 "tier": "Regional"
             },
-            "zones": [
-                "1",
-                "2",
-                "3"
-            ],
             "properties": {
                 "publicIPAddressVersion": "[parameters('IP-Version')]",
-                "publicIPAllocationMethod": "Static",
+                "publicIPAllocationMethod": "[parameters('allocationmethod')]",
                 "idleTimeoutInMinutes": 4,
-                "ipTags": [],
-                "ddosSettings": {
-                    "protectionMode": "Disabled"
-                }
+                "ipTags": []
             }
         }
     ]
