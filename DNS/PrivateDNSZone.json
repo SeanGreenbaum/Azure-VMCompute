@@ -14,7 +14,20 @@
         }
     },
     "variables": {
-        "apiVersion": "2024-06-01"
+        "apiVersion": "2024-06-01",
+        "privatelink": {
+            "virtualNetwork": {
+                    "id": "[parameters('vNetLink')]"
+                },
+                "registrationEnabled": false,
+                "resolutionPolicy": "NxDomainRedirect"
+        },
+        "noprivatelink": {
+            "virtualNetwork": {
+                    "id": "[parameters('vNetLink')]"
+                },
+                "registrationEnabled": false
+        }
     },
     "resources":[
         {
@@ -33,12 +46,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Network/privateDnsZones', parameters('dnsZoneName'))]"
             ],
-            "properties": {
-                "virtualNetwork": {
-                    "id": "[parameters('vNetLink')]"
-                },
-                "registrationEnabled": false
-            }
+            "properties": "[if(contains(parameters('dnsZoneName'), 'privatelink'), variables('privatelink'), variables('noprivatelink'))]"
         }
     ]
 }
