@@ -4,9 +4,6 @@
     "parameters": {
         "FWPol_Name": {
             "type": "string"
-        },
-        "location": {
-            "type": "string"
         }
     },
     "variables": {},
@@ -15,7 +12,7 @@
             "type": "Microsoft.Network/firewallPolicies",
             "apiVersion": "2024-05-01",
             "name": "[parameters('FWPol_Name')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "sku": {
                     "tier": "Basic"
@@ -31,7 +28,7 @@
             "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
             "apiVersion": "2024-05-01",
             "name": "[concat(parameters('FWPol_Name'), '/NetworkRules')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/firewallPolicies', parameters('FWPol_Name'))]"
             ],
@@ -195,9 +192,10 @@
             "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
             "apiVersion": "2024-05-01",
             "name": "[concat(parameters('FWPol_Name'), '/Websites')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/firewallPolicies', parameters('FWPol_Name'))]"
+                "[resourceId('Microsoft.Network/firewallPolicies', parameters('FWPol_Name'))]",
+                "[concat(parameters('FWPol_Name'), '/NetworkRules')]"
             ],
             "properties": {
                 "priority": 2000,
