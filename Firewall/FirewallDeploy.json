@@ -8,11 +8,8 @@
         "vnetName": {
             "type": "string"
         },
-        "firewallPolicyId": {
-            "type": "string",
-            "metadata": {
-                "description": "The resource ID of the firewall policy to associate with the Azure Firewall."
-            }
+        "firewallPolicyName": {
+            "type": "string"
         }
     },
     "variables": {
@@ -88,7 +85,7 @@
                     }
                 },
                 "firewallPolicy": {
-                    "id": "[parameters('firewallPolicyId')]"
+                    "id": "[resourceId('Microsoft.Network/firewallPolicies', parameters('firewallPolicyName'))]"
                 }
             },
             "tags": {}
