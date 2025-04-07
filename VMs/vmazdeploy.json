@@ -150,6 +150,11 @@
       "enableHotpatching": false,
       "patchMode": "AutomaticByOS"
     },
+    "patchSettingsWindowsClient": {
+      "assessmentMode": "ImageDefault",
+      "enableHotpatching": false,
+      "patchMode": "AutomaticByOS"
+    },
     "deploymentAPI": "2024-03-01",
     "extionsionAPI": "2024-07-01"
   },
@@ -249,7 +254,7 @@
             "provisionVmAgent": true,
             "timeZone": "[parameters('timeZone')]",
             "enableAutomaticUpdates": true,
-            "patchSettings": "[if(contains(parameters('vmOS'), '2025-datacenter-azure-edition'), variables('patchSettingsAzureEdition'), variables('patchSettingsNonAzureEdition'))]"
+            "patchSettings": "[if(contains(parameters('vmOS'), '2025-datacenter-azure-edition'), variables('patchSettingsAzureEdition'), if(contains(parameters('vmOffer'), 'WindowsServer'), variables('patchSettingsNonAzureEdition'), variables('patchSettingsWindowsClient')))]"
           }
         },
         "securityProfile": "[if(equals(parameters('EnableSecureBoot'), bool('true')), variables('securityProfile'), json('null'))]",
