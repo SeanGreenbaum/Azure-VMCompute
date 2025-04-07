@@ -21,7 +21,7 @@
             "apiVersion": "[variables('pipapiVersion')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "name": "[concat(parameters('FirewallName'), '-pip')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
             },
@@ -35,7 +35,7 @@
             "apiVersion": "[variables('pipapiVersion')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "name": "[concat(parameters('FirewallName'), '-mgmt-pip')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
             },
@@ -50,7 +50,7 @@
             "apiVersion": "[variables('azfwapiversion')]",
             "type": "Microsoft.Network/azureFirewalls",
             "name": "[parameters('FirewallName')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "zones": ["1", "2"],
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIpAddresses', concat(parameters('FirewallName'), '-mgmt-pip'))]",
