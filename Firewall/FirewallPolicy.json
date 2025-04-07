@@ -6,11 +6,13 @@
             "type": "string"
         }
     },
-    "variables": {},
+    "variables": {
+        "apiVersion": "2024-03-01"
+    },
     "resources": [
         {
             "type": "Microsoft.Network/firewallPolicies",
-            "apiVersion": "2024-05-01",
+            "apiVersion": "[variables('apiVersion')]",
             "name": "[parameters('FWPol_Name')]",
             "location": "[resourceGroup().location]",
             "properties": {
@@ -26,7 +28,7 @@
         },
         {
             "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
-            "apiVersion": "2024-05-01",
+            "apiVersion": "[variables('apiVersion')]",
             "name": "[concat(parameters('FWPol_Name'), '/NetworkRules')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
@@ -190,12 +192,12 @@
         },
         {
             "type": "Microsoft.Network/firewallPolicies/ruleCollectionGroups",
-            "apiVersion": "2024-05-01",
+            "apiVersion": "[variables('apiVersion')]",
             "name": "[concat(parameters('FWPol_Name'), '/Websites')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/firewallPolicies', parameters('FWPol_Name'))]",
-                "[concat(parameters('FWPol_Name'), '/NetworkRules')]"
+                "[resourceId('Microsoft.Network/firewallPolicies/ruleCollectionGroups', parameters('FWPol_Name'), 'NetworkRules')]"
             ],
             "properties": {
                 "priority": 2000,
