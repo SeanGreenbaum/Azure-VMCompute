@@ -124,6 +124,27 @@
                                 "destinationPorts": [
                                     "443"
                                 ]
+                            },
+                            {
+                                "ruleType": "NetworkRule",
+                                "name": "AzureFrontDoor",
+                                "ipProtocols": [
+                                    "UDP",
+                                    "TCP"
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "sourceIpGroups": [],
+                                "destinationAddresses": [
+                                    "AzureFrontDoor.FirstParty",
+                                    "AzureFrontDoor.Frontend"
+                                ],
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "443"
+                                ]
                             }
                         ]
                     },
