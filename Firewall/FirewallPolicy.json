@@ -67,6 +67,25 @@
                             },
                             {
                                 "ruleType": "NetworkRule",
+                                "name": "EventHub",
+                                "ipProtocols": [
+                                    "TCP"
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "sourceIpGroups": [],
+                                "destinationAddresses": [
+                                    "EventHub"
+                                ],
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "5671"
+                                ]
+                            },
+                            {
+                                "ruleType": "NetworkRule",
                                 "name": "AzurePortal",
                                 "ipProtocols": [
                                     "TCP",
@@ -206,8 +225,88 @@
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                        "name": "DNS",
+                        "priority": 1013,
+                        "action": {
+                            "type": "Allow"
+                        },
+                        "rules": [
+                            {
+                                "ruleType": "NetworkRule",
+                                "name": "RootDNSServers",
+                                "ipProtocols": [
+                                    "Any"
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "sourceIpGroups": [],
+                                "destinationAddresses": [
+                                    "198.41.0.4",
+                                    "170.247.170.2",
+                                    "192.33.4.12",
+                                    "199.7.91.13",
+                                    "192.203.230.10",
+                                    "192.5.5.241",
+                                    "192.112.36.4",
+                                    "198.97.190.53",
+                                    "192.36.148.17",
+                                    "192.58.128.30",
+                                    "193.0.14.129",
+                                    "199.7.83.42",
+                                    "202.12.27.33"
+                                ],
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "53"
+                                ]
+                            },
+                            {
+                                "ruleType": "NetworkRule",
+                                "name": "GoogleDNSServers",
+                                "ipProtocols": [
+                                    "Any"
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "sourceIpGroups": [],
+                                "destinationAddresses": [
+                                    "8.8.8.8",
+                                    "8.8.4.4"
+                                ],
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "53"
+                                ]
+                            },
+                            {
+                                "ruleType": "NetworkRule",
+                                "name": "CloudflareDNSServers",
+                                "ipProtocols": [
+                                    "Any"
+                                ],
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "sourceIpGroups": [],
+                                "destinationAddresses": [
+                                    "1.1.1.1",
+                                    "1.0.0.1"
+                                ],
+                                "destinationIpGroups": [],
+                                "destinationFqdns": [],
+                                "destinationPorts": [
+                                    "53"
+                                ]
+                            }
+                        ]
                     }
-
                 ]
             }
         },
@@ -479,6 +578,29 @@
                                 "webCategories": [],
                                 "targetFqdns": [
                                     "aka.ms"
+                                ],
+                                "targetUrls": [],
+                                "terminateTLS": false,
+                                "sourceAddresses": [
+                                    "*"
+                                ],
+                                "destinationAddresses": [],
+                                "sourceIpGroups": [],
+                                "httpHeadersToInsert": []
+                            },
+                            {
+                                "ruleType": "ApplicationRule",
+                                "name": "AppProxy",
+                                "protocols": [
+                                    {
+                                        "protocolType": "Https",
+                                        "port": 443
+                                    }
+                                ],
+                                "fqdnTags": [],
+                                "webCategories": [],
+                                "targetFqdns": [
+                                    "*autoupdate.msappproxy.net"
                                 ],
                                 "targetUrls": [],
                                 "terminateTLS": false,
